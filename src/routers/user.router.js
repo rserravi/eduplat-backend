@@ -41,7 +41,7 @@ router.get("/", userAuthorization, async (req,res)=>{
 
 //Create new User
 router.post("/", newUserValidation, async(req, res) => {
-   const {firstname, lastname, email, password } = req.body;
+   const {username, firstname, lastname, publicName, email, password } = req.body;
 
    try {
             
@@ -52,9 +52,10 @@ router.post("/", newUserValidation, async(req, res) => {
       const verificationLink = verificationURL + "/" + randomUrl + "/" + email
 
       const newUserObj = {
-            username: email.substring(0, email.indexOf("@")),
+            username,
             firstname,
             lastname,
+            publicName,
             emails: [{emailUrl: email, emailDescription:"Home"}],
             phones: [{phoneNumber: "", phoneDescription:"Home"}],
             social: [{media: "Facebook", user:"@"}],

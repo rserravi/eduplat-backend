@@ -6,6 +6,7 @@ Content-Type: application/json
    "username": "rserravi",
    "firstname": "Ruben",
    "lastname": "Serra",
+   "publicName": true,
    "email": "e@2.com",
    "password": "password1234"
 }

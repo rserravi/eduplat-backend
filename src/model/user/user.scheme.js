@@ -17,7 +17,7 @@ const UserScheme = mongoose.Schema ({
     },
     publicName: {
         type: Boolean,
-        required: true
+        required: false
     },
     picture: {
         fileName: {

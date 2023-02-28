@@ -1,4 +1,4 @@
-const { string } = require("joi");
+const { string, boolean, bool } = require("joi");
 const Joi = require("joi");
  
 const email= Joi.string()
@@ -39,8 +39,10 @@ const updatePassValidation = (req, res, next) =>{
 
 const newUserValidation = (req, res, next) =>{
        const schema = Joi.object().keys({
+              username: shortString.required(),
               firstname: shortString.required(),
               lastname: shortString.required(),
+              publicName: Joi.bool(),
               email: email,
               password: newPassword,
               submit: shortString
