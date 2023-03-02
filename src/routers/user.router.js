@@ -94,7 +94,8 @@ router.patch("/", async(req, res)=>{
         const {_id} = req.body;
         console.log("IN USER PATCH, updating", req.body)
         if (_id){
-            await updateUser(_id, req.body).then((data)=>
+            await updateUser(_id, req.body)
+                .then((data)=>
                 {
                     console.log("Result of UpdateUser return in Patch userRouter", data)
                     return res.json({status: "success", message:"User Updated"});

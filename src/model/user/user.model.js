@@ -166,7 +166,6 @@ const updateUser = (_id, userObj) =>{
  }
  
  
- 
 module.exports = {
    insertUser,
    getUserbyEmail,

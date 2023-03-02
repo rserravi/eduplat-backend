@@ -60,8 +60,8 @@ All the user API router follows '/v1/comment/'
 
 | #     | Routers                          | Verbs  | Progress | Is Private | Description                                      |
 | ----- | -------------------------------- | ------ | -------- | ---------- | ------------------------------------------------ |
-| 1     | '/v1/comment'                    | POST   | TODO     | No         | Create and post a comment, with fromId, toId, comment, date, etc        |
-| 2     | '/v1/comment'                    | GET    | TODO     | No         | Get all comments from specified userId        |
+| 1     | '/v1/comment'                    | POST   | DONE     | No         | Create and post a comment, with senderId, receiverId, comment, date, etc        |
+| 2     | '/v1/comment'                    | GET    | DONE     | No         | Get all comments from specified userId        |
 | 3     | '/v1/comment/{id}'               | GET    | TODO     | No         | Get an specific comment from its Id        |
 | 4     | '/v1/comment/{id}                | PATCH  | TODO     | No         | Update a comment from its Id if logged user or superuser        |
 | 5     | '/v1/comment/{id}                | DELETE | TODO     | No         | Delete a comment from its Id if logged user or superuser        |
