@@ -27,8 +27,11 @@ All the user API router follows '/v1/user/'
 | 6     | '/v1/user/logout'                | DELETE | DONE     | Yes        | Delete user accessJWT.  From "authorization" in headers and "_id" in body              |
 | 7     | '/v1/user/'                      | PATCH  | DONE     | Yes        | Patch user by Id.                           |
 | 8     | '/v1/user/'                      | GET    | DONE     | Yes        | Get user info. Gets Id from middleware                                   |
-| 9     | '/v1/user/'                      | POST   | DONE     | No         | Create an user (firstname, lastname, email, password)                                    |
-| 10    | '/v1/user/verify'                | PATCH  | DONE     | No         | Check verification link, from "email", "randomUrl")                                    |
+| 9     | '/v1/user/{id}'                  | GET    | DONE     | No        | Get user info by Id                                |
+| 10     | '/v1/user/'                      | POST   | DONE     | No         | Create an user (firstname, lastname, email, password)                                    |
+| 11    | '/v1/user/verify'                | PATCH  | DONE     | No         | Check verification link, from "email", "randomUrl"                                    |
+| 12    | '/v1/user/fetchuserbyusername?username={id}'   | GET    | DONE     | No         | Get user info from username                                    |
+| 13    | '/v1/user/fetchUser?userId={id}'   | GET    | DONE     | No         | Get user info from username        
 
 ### EduSources Api Resources
 
@@ -36,7 +39,7 @@ All the edusources API follows '/v1/edusource'
 
 | #     | Routers                          | Verbs  | Progress | Is Private | Description                                      |
 | ----- | -------------------------------- | ------ | -------- | ---------- | ------------------------------------------------ |
-| 1     | '/v1/edusource '                 | POST   | TODO     | No         | Create and edusource (json)        |
+| 1     | '/v1/edusource '                 | POST   | DONE     | No         | Create and edusource (json)        |
 | 2     | '/v1/edusource/'                 | GET    | TODO     | No         | Get all the resources of logged user        |
 | 3     | '/v1/edusource/{id}              | GET    | TODO     | No         | Get a single edusouce by id        |
 | 4     | '/v1/edusource/{id}'             | PATCH  | TODO     | No         | Edit a edusource if pertains to user or superuser |
@@ -52,6 +55,10 @@ All the edusources API follows '/v1/edusource'
 | 14     | '/v1/edusource/category         | PATCH  | TODO     | No         | Update a category                                       |
 | 15     | '/v1/edusource/category         | DELETE | TODO     | No         | Delete a category                                       |
 | 16     | '/v1/edusource/find             | GET    | TODO     | No         | Finds all edusources from a comma separated search terms json.
+| 17     | '/v1/edusource/bylink           | GET    | DONE     | No         | Returns a single edusource by resourceURL.            |
+| 18     | '/v1/edusource/byPromoter/{id}   | GET    | DONE     | No         | Returns a single edusource by promoterId.            |
+| 19     | '/v1/edusource/valoration       | POST   | DONE     | No         | Create a valoration in a edusource            |
+
 
 
 ### Comment API Resources

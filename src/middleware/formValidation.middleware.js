@@ -3,7 +3,7 @@ const Joi = require("joi");
  
 const email= Joi.string()
        .email({ minDomainSegments: 2,
-       tlds: { allow: ['com', 'net', 'edu', 'cat', 'es', 'org'] }
+       tlds: { allow: ['com', 'net', 'edu', 'cat', 'es', 'org', 'it', 'fr', 'gr'] }
                })
 
 const pin= Joi.number().min(100000).max(999999).required();
@@ -57,16 +57,9 @@ const newUserValidation = (req, res, next) =>{
       
 }
 
-const newClubValidation = (req, res, next) =>{
-       const schema = Joi.object().keys({
-              clubname: shortString.required(),
-       })
-}
-
  
 module.exports = {
        resetPassReqValidation,
        updatePassValidation,
        newUserValidation,
-       newClubValidation,
 }

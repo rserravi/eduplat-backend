@@ -15,9 +15,27 @@ const UserScheme = mongoose.Schema ({
         maxlenght: 50,
         required: true
     },
-    publicName: {
-        type: Boolean,
-        required: false
+    publicData: {
+        name: {type: Boolean, default:true},
+        emails: {type: Boolean, default:true},
+        address: {type: Boolean, default:true},
+        phones: {type: Boolean, default:true},
+        social: {type: Boolean, default:true},
+        lastLogin: {type: Boolean, default:true}
+    },
+    password: {
+        type: String,
+        minlenght: 8,
+        maxlenght: 100
+    },
+    editingLevel: {
+        type: String,
+        maxLenght: 50,
+        default: "newbie"
+    },
+    karma:{
+        type: Number,
+        default: 0,
     },
     picture: {
         fileName: {
@@ -37,11 +55,47 @@ const UserScheme = mongoose.Schema ({
             maxLenght: 20
         }
     },
-    password: {
-        type: String,
-        minlenght: 8,
-        maxlenght: 100
+    pictureHeader: {
+        fileName: {
+            type: String,
+            required: false,
+            default: "https://images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
+        },
+        file: {
+            data: Buffer,
+            contentType: String,
+        },
+        uploadTime: {
+            type: Date,
+            default: Date.now,
+        },
+        type: {
+            type: String,
+            maxLenght: 20,
+            default: "link"
+        }
     },
+    primaryColor: {
+        type: String,
+        maxLenght: 10,
+        default: "#231e39"
+    },
+    secondaryColor: {
+        type: String,
+        maxLenght: 10,
+        default: "#b3b8cd"
+    },
+    job: {
+        position: {
+            type: String,
+            default: "enter position"
+        },
+        workplace: {
+            type: String,
+            default: "enter workplace"
+        }
+    },
+    
     refreshJWT: {
             token:{
                 type: String,
@@ -57,7 +111,7 @@ const UserScheme = mongoose.Schema ({
     isVerified: {
         type: Boolean,
         required: true,
-        default: true
+        default: false,
     },
     signInOrigin: {
         type: String,
@@ -85,8 +139,15 @@ const UserScheme = mongoose.Schema ({
     isLogged:{
         type: Boolean,
         default:false
-    }
-
+    },
+    valorations :[{
+        value:{
+            type: Number
+        },
+        comment:{
+            type: String
+        }
+    }]
 });
  
 module.exports ={

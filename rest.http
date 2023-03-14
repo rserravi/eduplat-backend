@@ -6,8 +6,19 @@ Content-Type: application/json
    "username": "rserravi",
    "firstname": "Ruben",
    "lastname": "Serra",
-   "publicName": true,
    "email": "e@2.com",
+   "password": "password1234"
+}
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "profematico",
+   "firstname": "Raul",
+   "lastname": "Somoza",
+   "email": "e@3.com",
    "password": "password1234"
 }
 
@@ -37,3 +48,120 @@ Content-Type:  application/json
    "commentText": "Maravilloso todo. Gran profe, aunque habla raro",
    "date": "22/02/2023"
 }
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Descubriendo la gravedad con imanes",
+   "resourceURL": "descubriendo-la-gravedad-con-imanes",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"MamiExperimentos",
+      "autorSocial":{
+         "media":"instagram",
+         "user": "@mami_experimentos"
+      },
+      {
+         "media":"twitter",
+         "user": "@mami_experimentos"
+      }
+   },
+   "discipline": "science",
+   "theme": ["Physics", "Newton"],
+   "type": "Website",
+   "link": "https://mamiexperimentos.com/experimentos-cientificos/primaria/descubriendo-la-gravedad-con-imanes/",
+   "linktype": "Webpage",
+   "description": "Con este experimento científico, disfrutarán de la ciencia mediante una demostración fácil de gravedad y magnetismo, que impresionará a niños y niñas de todas las edades, dónde, como si de un truco de magia se tratara, el clip quedará suspendido en el aire.",
+   "picture":{
+      "fileName":"https://mamiexperimentos.com/wp-content/uploads/experimento-fuerza-gravedad-clip-cohete-atraido-por-iman.jpg",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Introducción a matPlotLib",
+   "resourceURL": "introduccion-a-matplotlib",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"instagram",
+         "user": "@rubotic"
+      }
+   },
+   "discipline": "it",
+   "theme": ["Informática", "Python", "MatPlotLib"],
+   "type": "Youtube",
+   "link": "https://youtu.be/oNUJpzhqeDQ",
+   "linktype": "Youtube",
+   "description": "Introducción a la herramienta MatPlot Lib, perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i9.ytimg.com/vi_webp/oNUJpzhqeDQ/mq1.webp?sqp=CNTBk6AG-oaymwEmCMACELQB8quKqQMa8AEB-AHUBoAC4AOKAgwIABABGH8gEygbMA8=&rs=AOn4CLA-Qr45d7qs4oPfnhpQ35MfvNoHJQ",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Embodiment Workshop - UE4 VR IK-RigNot Yet Rated",
+   "resourceURL": "enbodiment-workshop-ue4",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"instagram",
+         "user": "@rubotic"
+      }
+   },
+   "discipline": "it",
+   "theme": ["ue4", "videogames"],
+   "type": "Vimeo",
+   "link": "https://player.vimeo.com/video/397065951?h=97a71ce9b6",
+   "linktype": "Vimeo",
+   "description": "This is part of a Student led workshop on embodiment in VR where I describe how to implement a simple IK-Rig for a full body VR character in UE4",
+   "picture":{
+      "fileName":"https://i.vimeocdn.com/video/864101953-0853a7a8f16570ff7230ff513ae1702bd5b184f28df0e304d77fac69bbb3a02e-d_295x166",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC"
+}
+
+### Get a Edusource by link
+GET http://localhost:3001/v1/edusource/bylink?link=descubriendo-la-gravedad-con-imanes
+
+### Get a User by id
+GET http://localhost:3001/v1/user/fetchUser?userId=63fdb9e80daaa0ce85983c3a
+
+### Fetch user by username
+GET http://localhost:3001/v1/user/fetchuserbyusername?username=rserravi
+
+### Insert a valoration in eduSource
+POST http://localhost:3001/v1/edusource/valoration/
+Content-Type: application/json
+
+{
+   "edusourceId": "64039ba5736c71f7a09058c7",
+   "senderId": "64039ba573as71f7a09058c7",
+   "comment": "Un gran aporte, gracias",
+   "value": 2
+}
+
+### Get a Edusource by promoterId
+GET http://localhost:3001/v1/edusource/bypromoter?promoterId=63fdb9e80daaa0ce85983c3a

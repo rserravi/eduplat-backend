@@ -26,11 +26,11 @@ app.use(bodyParser.json());
 
 //Load Routers
 const userRouter = require("./src/routers/user.router");
-const commentRouter = require("./src/routers/comment.router")
+const edusourceRouter = require("./src/routers/edusource.router")
 
 //USE ROUTERS
 app.use("/v1/user", userRouter);
-app.use("/v1/comment", commentRouter)
+app.use("/v1/edusource", edusourceRouter);
 
 
 //Error handler

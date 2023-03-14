@@ -59,6 +59,30 @@ const insertUser = userObj => {
         }
     });
  };
+
+const getUserbyUserName = username =>{
+    console.log("GET USER BY USERNAME ", username)
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        if((!username)) return false;
+        try{
+            console.log("TRYING")
+            User.findOne({"username": username}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            resolve(data);
+            }
+        ).clone();
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
  
  
 
@@ -164,14 +188,41 @@ const updateUser = (_id, userObj) =>{
         }
     })
  }
+
+ const checkUser = (username) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        if((!username)) return false;
+        try{
+            User.findOne({"username": username}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            else{
+                console.log(data);
+                resolve(data);
+            }
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
  
  
 module.exports = {
    insertUser,
    getUserbyEmail,
    getUserbyId,
+   getUserbyUserName,
    storeUserRefreshJWT,
    updatePassword,
    verifyUser,
-   updateUser
+   updateUser,
+   checkUser
 };

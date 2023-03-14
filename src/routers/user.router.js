@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -39,9 +39,10 @@ router.get("/", userAuthorization, async (req,res)=>{
  
   })
 
+
 //Create new User
 router.post("/", newUserValidation, async(req, res) => {
-   const {username, firstname, lastname, publicName, email, password } = req.body;
+   const {username, firstname, lastname, email, password } = req.body;
 
    try {
             
@@ -55,7 +56,12 @@ router.post("/", newUserValidation, async(req, res) => {
             username,
             firstname,
             lastname,
-            publicName,
+            password:hashedPass,
+            picture:{
+                fileName: "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+                type: "link"
+            },
+            isVerified: false,
             emails: [{emailUrl: email, emailDescription:"Home"}],
             phones: [{phoneNumber: "", phoneDescription:"Home"}],
             social: [{media: "Facebook", user:"@"}],
@@ -64,9 +70,10 @@ router.post("/", newUserValidation, async(req, res) => {
                     state: "",
                     postalCode: "",
                     country: ""},
-            password:hashedPass,
-            isVerified: false,
-            randomURL: randomUrl
+            
+            
+            randomURL: randomUrl,
+           
 
       }
 
@@ -334,5 +341,72 @@ router.patch("/verify", async(req,res)=>{
   
     }
   })
+
+router.get("/checkUser", async(req, res)=>{
+    try {
+        console.log(req.query.username);
+        const user = await checkUser(req.query.username);
+        if (user && user.username===req.query.username){
+            console.log("USER ", req.query.username, " exists")
+            return res.json({status: "success", message: "exists"})
+        }
+        res.json({status:"error", message:"User don't exists"});
+        console.log("USER ", req.query.username, " dont exists")
+    } catch (error) {
+        console.log(error);
+        return res.json({status: "error", message: error.message})
+    }
+})
+
+
+
+//Get user by Id
+
+router.get("/fetchUser", async(req, res)=>{
+    const userId = req.query.userId
+    //console.log("BY ID", req.query)
+    try {
+        const result = await getUserbyId(userId);
+        if (result){
+            console.log(result)
+            const userToReturn = {
+                "username" : result.username,
+                "firstname": result.firstname,
+                "lastname" : result.lastname,
+                "picture": result.picture,
+                "emails": result.emails,
+                "phones": result.phones,
+                "social": result.social,
+                "editingLevel": result.editingLevel,
+                "karma": result.karma,
+                "valorations": result.valorations
+            }
+            res.json ({user: userToReturn});
+        }
+        else {
+            res.json({status: "error", message:"USERid doesnt exist"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.get("/fetchuserbyusername", async(req, res)=>{
+    const userName = req.query.username
+    console.log("BY UNAME", req.query)
+    try {
+        const result = await getUserbyUserName(userName);
+        if (result){
+            console.log(result)
+            res.json ({status:"success", user: result});
+        }
+        else {
+            res.json({status: "error", message:"USERname doesnt exist"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
 
 module.exports = router;
