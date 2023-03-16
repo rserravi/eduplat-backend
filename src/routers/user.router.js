@@ -70,17 +70,13 @@ router.post("/", newUserValidation, async(req, res) => {
                     state: "",
                     postalCode: "",
                     country: ""},
-            
-            
-            randomURL: randomUrl,
-           
-
+            randomURL: randomUrl,          
       }
 
        const result = await insertUser(newUserObj);
        console.log("Insert User Result",result);
        //Send confirmation email
-       await emailProcessor(email, "", "new user confirmation",verificationLink);
+      // await emailProcessor(email, "", "new user confirmation",verificationLink);
        res.json({status: "success", message: "New user created. Check your email for a verification link", result});
 
    } catch(err){
@@ -98,7 +94,7 @@ router.patch("/", async(req, res)=>{
     
     try {
         
-        const {_id} = req.body;
+        const {_id} = req.body
         console.log("IN USER PATCH, updating", req.body)
         if (_id){
             await updateUser(_id, req.body)
@@ -123,7 +119,7 @@ router.patch("/", async(req, res)=>{
 router.post("/login", async (req,res) =>{
 
     const {email, password} = req.body;
-    
+    console.log("EN LOGIN", email, password)
     if (!email || !password){
         res.json({status: "error", message:"invalid form submission"});
   
@@ -132,7 +128,7 @@ router.post("/login", async (req,res) =>{
     //get user with email from db
     try {
         const user = await getUserbyEmail(email);
-        //console.log("LOGIN POST: GET USER BY EMAIL: ", user);
+        console.log("LOGIN POST: GET USER BY EMAIL: ", user);
         const passFromDb = user && user.id ? user.password : null;
        
         if(!passFromDb)
@@ -379,6 +375,7 @@ router.get("/fetchUser", async(req, res)=>{
                 "social": result.social,
                 "editingLevel": result.editingLevel,
                 "karma": result.karma,
+                "tagline": result.tagline,
                 "valorations": result.valorations
             }
             res.json ({user: userToReturn});

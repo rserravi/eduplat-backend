@@ -1,0 +1,68 @@
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "javiraw",
+   "firstname": "Javier",
+   "lastname": "Ramirez",
+   "email": "javiraw@loquesea.com",
+   "password": "password1234"
+}
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6412d4234ce1c44d14418aca",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Profesor de matemáticas en paro. Aficionado a las motos, y a compartir el conocimiento con todo el mundo",
+    "karma":300,
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2020/06/robert-godwin-cdksyTqEXzo-300x300.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Profesor de Mates",
+        "workplace":"en paro"
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34722000000",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "javiraw"
+        },
+        {
+            "media":"Twitter",
+            "user": "javiraw"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Madrid",
+        "state":"",
+        "postalCode":"",
+        "country": "Spain"
+    }  
+}

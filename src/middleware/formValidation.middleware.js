@@ -42,7 +42,6 @@ const newUserValidation = (req, res, next) =>{
               username: shortString.required(),
               firstname: shortString.required(),
               lastname: shortString.required(),
-              publicName: Joi.bool(),
               email: email,
               password: newPassword,
               submit: shortString

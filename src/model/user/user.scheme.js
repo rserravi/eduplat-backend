@@ -28,6 +28,11 @@ const UserScheme = mongoose.Schema ({
         minlenght: 8,
         maxlenght: 100
     },
+    tagline: {
+        type: String,
+        maxlenght: 340,
+        default: ""
+    },
     editingLevel: {
         type: String,
         maxLenght: 50,
