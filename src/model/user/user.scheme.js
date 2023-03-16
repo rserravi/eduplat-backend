@@ -141,6 +141,11 @@ const UserScheme = mongoose.Schema ({
         type: Date,
         default: Date.now
     },
+    language:{
+        type: String,
+        maxLenght: 6,
+        default:"ES"
+    },
     isLogged:{
         type: Boolean,
         default:false

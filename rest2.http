@@ -26,6 +26,7 @@ Content-Type: application/json
     },
     "tagline":"Profesor de matemáticas en paro. Aficionado a las motos, y a compartir el conocimiento con todo el mundo",
     "karma":300,
+    "language":"ES",
     "picture":{
         "fileName":"https://userstock.io/data/wp-content/uploads/2020/06/robert-godwin-cdksyTqEXzo-300x300.jpg",
         "file":"",
