@@ -167,4 +167,4 @@ Content-Type: application/json
 GET http://localhost:3001/v1/edusource/bypromoter?promoterId=63fdb9e80daaa0ce85983c3a
 
 ### Search for users
-GET http://localhost:3001/v1/user/search?terms=biolog&lang=ca
+GET http://localhost:3001/v1/user/search?terms=rub&lang=any

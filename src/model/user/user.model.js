@@ -1,3 +1,4 @@
+const { getEdusourceByPromoterId } = require("../edusource/edusource.model.js");
 const {UserScheme} = require("./user.scheme.js");
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
@@ -214,6 +215,48 @@ const updateUser = (_id, userObj) =>{
     })
  }
 
+ const includeAccents= terms => {
+
+    var newString = "";
+    for (let i = 0; i< terms.length; i++) {
+      const character = terms[i].toLowerCase();
+      var newChar= character
+      if (character==="a" || character ==="à" || character==='á' || character === 'ä'){
+        newChar = '[aàáä]'
+      }
+
+      if (character==="e" || character ==="è" || character==='é' || character === 'ë'){
+        newChar = '[eèéë]'
+      }
+
+      if (character==="i" || character ==="ì" || character==='í' || character === 'ï'){
+        newChar = '[iìíï]'
+      }
+
+      if (character==="o" || character ==="ò" || character==='ó' || character === 'ö'){
+        newChar = '[oòóö]'
+      }
+
+      if (character==="u" || character ==="ù" || character==='ú' || character === 'ü'){
+        newChar = '[uùúü]'
+      }
+
+      if (character==="n" || character ==="ñ"){
+        newChar = '[nñ]'
+      }
+
+      if (character==="c" || character ==="ç"){
+        newChar = '[cç]'
+      }
+
+      newString+=newChar;
+    }
+
+    console.log(newString)
+
+    return newString;
+}
+
  const searchUsers = (terms, lang) =>{
     return new Promise(async (resolve,reject)=>{
 
@@ -221,34 +264,89 @@ const updateUser = (_id, userObj) =>{
         const db = await dbConnection.useDb(mainDataBaseName)
         const User = await db.model("user",UserScheme)
        
+        var searchString="";
+
         if((!terms)) return false;
 
-        const regx = {$regex: terms, $options: 'i'}
+        const newTerms = includeAccents(terms);
+
+        const regx = {$regex: newTerms, $options: 'i'}
         console.log (regx);
-        const searchString = {
-            $and: [{language: lang}],
-            $and: [
-            {$or: [
-                {username: regx},
-                {firstname: regx},
-                {lastname: regx},
-                {tagline: regx},
-                {emails: { $elemMatch: { emailUrl: regx}}},
-                {social: { $elemMatch: { user: regx}}},
-                {job: { $elemMatch: { position: regx}}},
-                {job: { $elemMatch: { workplace: regx}}}
-                ]}]
+        if (lang==="any" || lang==="ANY"){
+            searchString = {
+                $or: [
+                    {username: regx},
+                    {firstname: regx},
+                    {lastname: regx},
+                    {tagline: regx},
+                    {emails: { $elemMatch: { emailUrl: regx}}},
+                    {social: { $elemMatch: { user: regx}}},
+                    {job: { $elemMatch: { position: regx}}},
+                    {job: { $elemMatch: { workplace: regx}}}
+                    ]
             }
+        }
+        else {
+            searchString = {
+                language: lang.toUpperCase(),
+                $and: [
+                {$or: [
+                    {username: regx},
+                    {firstname: regx},
+                    {lastname: regx},
+                    {tagline: regx},
+                    {emails: { $elemMatch: { emailUrl: regx}}},
+                    {social: { $elemMatch: { user: regx}}},
+                    {job: { $elemMatch: { position: regx}}},
+                    {job: { $elemMatch: { workplace: regx}}}
+                    ]}]
+                }
+        }
         
         try{
             //User.find({$text: {$search: query}}, (error, data)=>{
-            User.find(searchString, (error, data)=>{
+            User.find(searchString, async (error, data)=>{
             if(error){
                 reject(error);
             }
             else{
-                console.log(data);
-                resolve(data);
+                var newArray = [];
+                for (let i = 0; i < data.length; i++) {
+                    var resourcesCount = 0;
+                    await getEdusourceByPromoterId(data[i]._id).then((res)=>{
+                        resourcesCount = res.length;
+                    }).catch(()=>{
+                        resourcesCount= 400
+                    })
+            
+                    const newUser = {
+                        _id:  data[i]._id,
+                        username: data[i].username,
+                        firstname: data[i].firstname,
+                        lastname: data[i].lastname,
+                        publicData: data[i].publicData,
+                        tagline: data[i].tagline,
+                        editingLevel: data[i].editingLevel,
+                        karma: data[i].karma,
+                        picture: data[i].picture,
+                        job: data[i].job,
+                        emails: data[i].emails,
+                        address: data[i].address,
+                        phones: data[i].phones,
+                        social: data[i].social,
+                        language: data[i].language,
+                        resourcesCount: resourcesCount,
+                        collectionsCount: 0,
+                        valorationsCount: data[i].valorations?data[i].valorations.length:0
+                    }
+                    newArray.push(newUser);
+
+                }
+
+                //OLD RETURN
+                //resolve(data);
+
+                resolve(newArray);
             }
             }
         ).lean().clone();
@@ -269,5 +367,6 @@ module.exports = {
    verifyUser,
    updateUser,
    checkUser,
-   searchUsers
+   searchUsers,
+   includeAccents
 };

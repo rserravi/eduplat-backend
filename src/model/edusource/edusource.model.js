@@ -89,6 +89,7 @@ const insertEdusource = edusourceObj => {
         const db = await dbConnection.useDb(mainDataBaseName)
         const EduSource = await db.model("edusource",EdusourceScheme)
  
+        //console.log("EN GET RESOURCES", promoterId)
         if((!promoterId)) return false;
         try{
             EduSource.find({"promoterId": promoterId}, (error, data)=>{
