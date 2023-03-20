@@ -198,7 +198,51 @@ const updateUser = (_id, userObj) =>{
 
         if((!username)) return false;
         try{
-            User.findOne({"username": username}, (error, data)=>{
+            User.find({"username": username}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            else{
+                console.log(data);
+                resolve(data);
+            }
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
+ const searchUsers = (terms, lang) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+       
+        if((!terms)) return false;
+
+        const regx = {$regex: terms, $options: 'i'}
+        console.log (regx);
+        const searchString = {
+            $and: [{language: lang}],
+            $and: [
+            {$or: [
+                {username: regx},
+                {firstname: regx},
+                {lastname: regx},
+                {tagline: regx},
+                {emails: { $elemMatch: { emailUrl: regx}}},
+                {social: { $elemMatch: { user: regx}}},
+                {job: { $elemMatch: { position: regx}}},
+                {job: { $elemMatch: { workplace: regx}}}
+                ]}]
+            }
+        
+        try{
+            //User.find({$text: {$search: query}}, (error, data)=>{
+            User.find(searchString, (error, data)=>{
             if(error){
                 reject(error);
             }
@@ -224,5 +268,6 @@ module.exports = {
    updatePassword,
    verifyUser,
    updateUser,
-   checkUser
+   checkUser,
+   searchUsers
 };

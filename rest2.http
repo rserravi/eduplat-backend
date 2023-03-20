@@ -67,3 +67,661 @@ Content-Type: application/json
         "country": "Spain"
     }  
 }
+
+# 2
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "ahurtadot",
+   "firstname": "Agustina",
+   "lastname": "Hurtado",
+   "email": "ahurtadot@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414adc379f2e5b422a09cb2",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Profesora de biología",
+    "karma":150,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2020/05/ethan-haddox-NTjSR3zYpsY-2-1024x1024.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Profesora de Biología",
+        "workplace":"Instituto San Nicolás"
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34722000000",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Agustina Hurtado"
+        },
+        {
+            "media":"Twitter",
+            "user": "ahurtadot"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Málaga",
+        "state":"",
+        "postalCode":"",
+        "country": "Spain"
+    }  
+}
+
+
+# 3
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "jperezg",
+   "firstname": "Juan",
+   "lastname": "Perez",
+   "email": "jperezg@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414ade979f2e5b422a09cb5",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Estudiante",
+    "karma":200,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk-1024x1024.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Estudiante de Informática. Me gusta la programación y en mi tiempo libre hago páginas web.",
+        "workplace":"UCM"
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34735898745",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Juan Perez"
+        },
+        {
+            "media":"Twitter",
+            "user": "jperez"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Madrid",
+        "state":"",
+        "postalCode":"",
+        "country": "Spain"
+    }  
+}
+
+# 4
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "cgarciat",
+   "firstname": "Carlos",
+   "lastname": "Garcia",
+   "email": "cgarciat@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414adfc79f2e5b422a09cb8",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Opositor",
+    "karma":121,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/09/yingchou-han-261533-1024x987.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Opositor de policia.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632563256",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Carlos Garcia"
+        },
+        {
+            "media":"Twitter",
+            "user": "cgarcia"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Barcelona",
+        "state":"",
+        "postalCode":"",
+        "country": "Spain"
+    }  
+}
+
+# 5
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "lmartinezz",
+   "firstname": "Laura",
+   "lastname": "Martinez",
+   "email": "lmartinezz@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414ae1079f2e5b422a09cbb",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Profesora de academias. También doy clases a domicilio.",
+    "karma":333,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/09/tamara-bellis-189613-1024x681.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Profesora.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632563116",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Laura Martinez"
+        },
+        {
+            "media":"Twitter",
+            "user": "lmartinezz"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Londres",
+        "state":"",
+        "postalCode":"",
+        "country": "Inglaterra"
+    }  
+}
+
+# 6
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "plopezx",
+   "firstname": "Pablo",
+   "lastname": "Lopez",
+   "email": "plopezx@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414ae3179f2e5b422a09cbe",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Me gusta la astronomía. Publico información sobre las constelaciones.",
+    "karma":333,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/09/lesly-b-juarez-276953-1024x885.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Estudiante.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632563161",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Pablo Lopez"
+        },
+        {
+            "media":"Twitter",
+            "user": "plopezx"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"A Coruña",
+        "state":"",
+        "postalCode":"",
+        "country": "España"
+    }  
+}
+
+# 7
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "msanchezt",
+   "firstname": "Martina",
+   "lastname": "Sanchez",
+   "email": "msanchezt@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414ae4279f2e5b422a09cc1",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Profesora de primaria. Políglota.",
+    "karma":15,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/09/bewakoof-com-official-208957-980x1024.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Estudiante.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632478745",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Martina Sanchez"
+        },
+        {
+            "media":"Twitter",
+            "user": "msanchez"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Sevilla",
+        "state":"",
+        "postalCode":"",
+        "country": "España"
+    }  
+}
+
+# 8
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "drodriguezd",
+   "firstname": "David",
+   "lastname": "Rodriguez",
+   "email": "drodriguezd@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414ae5b79f2e5b422a09cc4",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Empresario. Tengo empresas en el sector de educación y enseñanza.",
+    "karma":15,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/09/bewakoof-com-official-205182.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Empresario.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632478744",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "David Rodriguez"
+        },
+        {
+            "media":"Twitter",
+            "user": "drodriguezd"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Toledo",
+        "state":"",
+        "postalCode":"",
+        "country": "España"
+    }  
+}
+
+# 9
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "lfernandezm",
+   "firstname": "Lucia",
+   "lastname": "Fernandez",
+   "email": "lfernandezm@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414ae7c79f2e5b422a09cc7",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Profesora de educación infantil.",
+    "karma":150,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/07/william-stitt-125245-1024x729.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Profesora.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632471478",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Lucia Fernandez"
+        },
+        {
+            "media":"Twitter",
+            "user": "lfernandezm"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Dublin",
+        "state":"",
+        "postalCode":"",
+        "country": "Irlanda"
+    }  
+}
+
+# 10
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "druizv",
+   "firstname": "Daniel",
+   "lastname": "Ruiz",
+   "email": "druizv@recursos.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "6414ae9179f2e5b422a09cca",
+    "publicData":{
+        "name": true,
+        "emails":true,
+        "address":true,
+        "phones":true,
+        "social":true,
+        "lastLogin":true
+    },
+    "tagline":"Estudiante Universitario. También trabajo de diseñador gráfico por cuenta propia.",
+    "karma":45,
+    "language":"ES",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/07/pexels-photo-26939-1-1024x1024.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https:/images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Profesora.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632471470",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "Daniel Ruiz"
+        },
+        {
+            "media":"Twitter",
+            "user": "druizv"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Valencia",
+        "state":"",
+        "postalCode":"",
+        "country": "España"
+    }  
+}

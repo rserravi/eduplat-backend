@@ -159,7 +159,8 @@ const UserScheme = mongoose.Schema ({
         }
     }]
 });
- 
+
+UserScheme.index({'$**': 'text'}); 
 module.exports ={
    UserScheme
 }

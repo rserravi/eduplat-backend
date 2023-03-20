@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -399,6 +399,24 @@ router.get("/fetchuserbyusername", async(req, res)=>{
         }
         else {
             res.json({status: "error", message:"USERname doesnt exist"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.get("/search", async(req, res)=>{
+    const terms = req.query.terms;
+    const lang = req.query.lang;
+    console.log(req.query);
+    try {
+        const result = await searchUsers(terms, lang);
+        if (result){
+            console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
         }
     } catch (error) {
         res.json({status:"error", error});
