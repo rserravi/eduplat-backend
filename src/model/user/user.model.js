@@ -1,5 +1,6 @@
 const { getEdusourceByPromoterId } = require("../edusource/edusource.model.js");
 const {UserScheme} = require("./user.scheme.js");
+const mongoose = require("mongoose")
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
 const insertUser = userObj => { 
@@ -214,6 +215,47 @@ const updateUser = (_id, userObj) =>{
         }
     })
  }
+ //BODY:  userId, senderId, comment, value, date, accepted.
+ const insertUserValoration = valObj => {
+    return new Promise(async (resolve, reject)=>{ 
+        
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        console.log("OBJETO EN INSERTUSERVALORATION",valObj);
+
+        if((!valObj.userId)) return false;
+        try{
+            User.findByIdAndUpdate(
+                valObj.userId,
+                { $push: {
+                    "valorations" :{
+                        "_id": new mongoose.Types.ObjectId(),
+                        "senderId": valObj.senderId,
+                        "comment": valObj.comment,
+                        "value": valObj.value,
+                        "date:": valObj.date,
+                        "accepted:": valObj.accepted
+                    }
+                }},
+                {new: true},
+                (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                console.log(data);
+                resolve(data);
+            }
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
 
  const includeAccents= terms => {
 
@@ -247,6 +289,10 @@ const updateUser = (_id, userObj) =>{
 
       if (character==="c" || character ==="ç"){
         newChar = '[cç]'
+      }
+
+      if (character ==="b" || character ==="v"){
+        newChar = '[vb]'
       }
 
       newString+=newChar;
@@ -368,5 +414,6 @@ module.exports = {
    updateUser,
    checkUser,
    searchUsers,
-   includeAccents
+   includeAccents, 
+   insertUserValoration
 };

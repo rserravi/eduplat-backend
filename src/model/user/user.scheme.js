@@ -151,11 +151,24 @@ const UserScheme = mongoose.Schema ({
         default:false
     },
     valorations :[{
+        senderId: {
+            type: String,
+            maxLenght: 500
+        },
         value:{
             type: Number
         },
         comment:{
-            type: String
+            type: String,
+            maxLenght: 500,
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        accepted: {
+            type: Boolean,
+            default: false
         }
     }]
 });

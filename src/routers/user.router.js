@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -370,6 +370,7 @@ router.get("/fetchUser", async(req, res)=>{
                 "firstname": result.firstname,
                 "lastname" : result.lastname,
                 "picture": result.picture,
+                "publicData": result.publicData,
                 "emails": result.emails,
                 "phones": result.phones,
                 "social": result.social,
@@ -422,6 +423,29 @@ router.get("/search", async(req, res)=>{
         res.json({status:"error", error});
     }   
 })
+
+router.post("/valoration", async(req, res)=>{
+    const {userId, senderId, comment, value} = req.body;
+    const valObj = {
+        userId: userId,
+        senderId: senderId,
+        comment: comment,
+        value: value,
+        date: Date.now(),
+        accepted: false
+    }
+    try {
+        const result = await insertUserValoration(valObj);
+        console.log("Insert User Valoration",result);
+        res.json({status: "success", message: "New Valoration added", result});
+ 
+    } catch(err){
+        console.log(err)
+        let message = "Unable to create Valoration at the moment. Pleaset contact administrator"
+        res.json({status:"error", message});
+    }
+
+ })
 
 
 module.exports = router;

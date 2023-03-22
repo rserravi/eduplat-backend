@@ -725,3 +725,14 @@ Content-Type: application/json
         "country": "España"
     }  
 }
+
+### Insert User Valoration
+POST http://localhost:3001/v1/user/valoration
+Content-Type: application/json
+
+{
+   "userId": "64133fa635c7ff0df2a385a6",
+   "senderId": "6414ade979f2e5b422a09cb5",
+   "comment": "No tiene ninguna contribución. Solo coge cosas",
+   "value": 0
+}

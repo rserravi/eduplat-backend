@@ -31,7 +31,8 @@ All the user API router follows '/v1/user/'
 | 10     | '/v1/user/'                      | POST   | DONE     | No         | Create an user (firstname, lastname, email, password)                                    |
 | 11    | '/v1/user/verify'                | PATCH  | DONE     | No         | Check verification link, from "email", "randomUrl"                                    |
 | 12    | '/v1/user/fetchuserbyusername?username={id}'   | GET    | DONE     | No         | Get user info from username                                    |
-| 13    | '/v1/user/fetchUser?userId={id}'   | GET    | DONE     | No         | Get user info from username        
+| 13    | '/v1/user/fetchUser?userId={id}'   | GET    | DONE     | No         | Get user info from username        |
+| 14     | '/v1/user/valoration       | POST   | DONE     | No         | Create a valoration in a user         
 
 ### EduSources Api Resources
 
