@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -117,6 +117,20 @@ router.post("/", async(req, res) => {
         res.json({status:"error", message});
     }
 
+ })
+
+ router.get("/last", async(req, res)=>{
+    try {
+        const result = await getLastResources();
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }
  })
 
 

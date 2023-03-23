@@ -1,5 +1,6 @@
 const {EdusourceScheme} = require("./edusource.scheme");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { getUserbyId } = require("../user/user.model");
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
 const insertEdusource = edusourceObj => { 
@@ -109,10 +110,53 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const promoterDataFromResource = (edusource)=>{
+    return new Promise(async (resolve, reject)=>{
+        try {
+            const promoter = await getUserbyId(edusource.promoterId).then((prom)=>{
+                const promoterData = {
+                    promoterName: prom.username,
+                    promoterAvatar: prop.picture.fileName
+                }
+            })
+        } catch (error) {
+            reject(error);
+        }
+
+    })
+    
+ }
+
+ const getLastResources = ()=>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+         
+        try{
+            EduSource.find({}, async (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                //console.log(data);
+                resolve(data);
+            }
+            }
+        ).lean().clone().sort({_id: -1 }).limit(10)
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
 
  module.exports = {
     insertEdusource,
     insertEduValoration,
     getEdusourceByLink,
-    getEdusourceByPromoterId
+    getEdusourceByPromoterId,
+    getLastResources
  }

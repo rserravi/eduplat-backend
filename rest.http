@@ -168,3 +168,6 @@ GET http://localhost:3001/v1/edusource/bypromoter?promoterId=63fdb9e80daaa0ce859
 
 ### Search for users
 GET http://localhost:3001/v1/user/search?terms=rub&lang=any
+
+### Find last 10 resources
+GET http://localhost:3001/v1/edusource/last

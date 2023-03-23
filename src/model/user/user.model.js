@@ -30,6 +30,7 @@ const insertUser = userObj => {
             if(error){
                 resolve(error);
             }
+
             resolve(data);
             })
         } catch (error) {
@@ -49,18 +50,59 @@ const insertUser = userObj => {
         if((!userId)) return false;
         try{
             console.log("TRYING")
-            User.findOne({"_id": userId}, (error, data)=>{
+            User.findOne({"_id": userId}, async (error, data)=>{
             if(error){
                 reject(error);
             }
-            resolve(data);
+            const alerts = await getAlerts(data);
+            const user = {...data, alerts}
+            resolve(user)
             }
-        ).clone();
+        ).clone().lean();
         } catch (error) {
             reject(error);
         }
     });
  };
+
+const getAlerts = user =>{
+    return new Promise(async (resolve, reject)=>{
+        var userValorations = 0;
+        console.log("GET ALERTS USER.VALORATIONS", user.valorations);
+        if (user.valorations.length > 0){
+            for (let val = 0; val < user.valorations.length; val++) {
+                if (!user.valorations[val].accepted) {
+                    userValorations = userValorations+1
+                }
+            }
+        }
+
+        var resourceValorations = 0;
+        try {
+            const edusources = await getEdusourceByPromoterId(user._id);
+            for (let edu = 0; edu < edusources.length; edu++) {
+                for (let val = 0; val < edusources[edu].valorations.length; val++) {
+                    if (!edusources[edu].valorations[val].accepted){
+                        resourceValorations = resourceValorations+1;
+                    }
+                }
+            }
+
+        } catch (error) {
+            reject(error);
+        }
+        const alerts = {
+            user: userValorations,
+            resource: resourceValorations,
+            message: 0,
+            promo: 0,
+            recomendation: 0,
+            total: userValorations + resourceValorations
+        }
+       
+        resolve(alerts);
+    });
+};
 
 const getUserbyUserName = username =>{
     console.log("GET USER BY USERNAME ", username)
@@ -72,11 +114,11 @@ const getUserbyUserName = username =>{
 
         if((!username)) return false;
         try{
-            console.log("TRYING")
             User.findOne({"username": username}, (error, data)=>{
             if(error){
                 reject(error);
             }
+            
             resolve(data);
             }
         ).clone();
@@ -257,6 +299,23 @@ const updateUser = (_id, userObj) =>{
     })
  }
 
+ const acceptedValorations = (user)=>{
+    var count = 0;
+    console.log ("USER recibida en ACCEPTEDVALORATIONS", user)
+    if (user.valorations && user.valorations!==undefined && user.valorations!==null){
+        for (let val = 0; val < user.valorations.length; val++) {
+            console.log("VALORACION DE USUARIO", user.valorations[val])
+            if (user.valorations[val].accepted){
+                count++;
+            }
+        }
+    }
+    else{
+        console.log("SIN VALORACIONES");
+    }
+    return count;
+}
+
  const includeAccents= terms => {
 
     var newString = "";
@@ -383,8 +442,10 @@ const updateUser = (_id, userObj) =>{
                         language: data[i].language,
                         resourcesCount: resourcesCount,
                         collectionsCount: 0,
-                        valorationsCount: data[i].valorations?data[i].valorations.length:0
+                        valorationsCount: acceptedValorations(data[i])
                     }
+
+                    console.log("USUARIO EN NEWUSER", data[i])
                     newArray.push(newUser);
 
                 }

@@ -59,6 +59,7 @@ All the edusources API follows '/v1/edusource'
 | 17     | '/v1/edusource/bylink           | GET    | DONE     | No         | Returns a single edusource by resourceURL.            |
 | 18     | '/v1/edusource/byPromoter/{id}   | GET    | DONE     | No         | Returns a single edusource by promoterId.            |
 | 19     | '/v1/edusource/valoration       | POST   | DONE     | No         | Create a valoration in a edusource            |
+| 20     | '/v1/edusource/last       | POST   | DONE     | No         | Get 10 last resources            |
 
 
 

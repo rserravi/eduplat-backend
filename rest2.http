@@ -731,8 +731,19 @@ POST http://localhost:3001/v1/user/valoration
 Content-Type: application/json
 
 {
-   "userId": "64133fa635c7ff0df2a385a6",
+   "userId": "63fdb9e80daaa0ce85983c3a",
    "senderId": "6414ade979f2e5b422a09cb5",
-   "comment": "No tiene ninguna contribución. Solo coge cosas",
-   "value": 0
+   "comment": "Un excelente profesional dedicado a compartir su experiencia y forjador de nuevos talentos. Una sorprendente capacidad de estar actualizado para poder brindar un trabajo profesional al día y ritmo coyuntural.",
+   "value": 4
+}
+
+### Insert User Valoration
+POST http://localhost:3001/v1/user/valoration
+Content-Type: application/json
+
+{
+   "userId": "63fdb9e80daaa0ce85983c3a",
+   "senderId": "6414ae7c79f2e5b422a09cc7",
+   "comment": "Aporta muchas cosas, aunque no todas siven para algo.",
+   "value": 2
 }
