@@ -1,6 +1,7 @@
 const {EdusourceScheme} = require("./edusource.scheme");
 const mongoose = require("mongoose");
 const { getUserbyId } = require("../user/user.model");
+const { UserScheme } = require("../user/user.scheme");
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
 const insertEdusource = edusourceObj => { 
@@ -133,6 +134,7 @@ const insertEdusource = edusourceObj => {
         const dbConnection = await global.clientConnection
         const db = await dbConnection.useDb(mainDataBaseName)
         const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
          
         try{
             EduSource.find({}, async (error, data)=>{
@@ -141,11 +143,11 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
             else{
-                //console.log(data);
+                console.log("LAST RESOURCES",data);
                 resolve(data);
             }
             }
-        ).lean().clone().sort({_id: -1 }).limit(10)
+        ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 }).limit(10)
         } catch (error) {
             reject(error);
         }

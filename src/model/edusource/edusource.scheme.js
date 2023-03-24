@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const EdusourceScheme = mongoose.Schema ({
     title: {
         type: String,
@@ -11,9 +11,9 @@ const EdusourceScheme = mongoose.Schema ({
         required: true,
     },
     promoterId: {
-        type: String,
-        maxLenght: 50,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'user'
     },
     autors:[{
         autorName : {
