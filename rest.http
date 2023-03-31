@@ -171,3 +171,6 @@ GET http://localhost:3001/v1/user/search?terms=rub&lang=any
 
 ### Find last 10 resources
 GET http://localhost:3001/v1/edusource/last
+
+### Testing scrap
+GET http://localhost:3001/v1/scrap?url=https://www.youtube.com/watch?v=oNUJpzhqeDQ

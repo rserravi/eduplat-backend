@@ -74,3 +74,12 @@ All the user API router follows '/v1/comment/'
 | 3     | '/v1/comment/{id}'               | GET    | TODO     | No         | Get an specific comment from its Id        |
 | 4     | '/v1/comment/{id}                | PATCH  | TODO     | No         | Update a comment from its Id if logged user or superuser        |
 | 5     | '/v1/comment/{id}                | DELETE | TODO     | No         | Delete a comment from its Id if logged user or superuser        |
+
+### Scrap API Resources
+
+All the scrap API router follows '/v1/scrap/'
+
+| #     | Routers                          | Verbs  | Progress | Is Private | Description                                      |
+| ----- | -------------------------------- | ------ | -------- | ---------- | ------------------------------------------------ |
+| 1     | '/v1/scrap?url={url}'                    | GET   | DONE     | No         | Obtain headers from an url 
+

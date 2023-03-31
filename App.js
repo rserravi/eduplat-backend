@@ -18,8 +18,6 @@ app.use(cors());
 //LOGGER
 app.use(morgan("tiny"));   
 
-
-
 // SET BODY PARSER
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
@@ -27,10 +25,12 @@ app.use(bodyParser.json());
 //Load Routers
 const userRouter = require("./src/routers/user.router");
 const edusourceRouter = require("./src/routers/edusource.router")
+const scrapRouter = require("./src/routers/scrap.router")
 
 //USE ROUTERS
 app.use("/v1/user", userRouter);
 app.use("/v1/edusource", edusourceRouter);
+app.use("/v1/scrap", scrapRouter)
 
 
 //Error handler

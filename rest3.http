@@ -93,3 +93,71 @@ Content-Type: application/json
    },
    "licence": "CC"
 }
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "¿Cómo se usa el microscopio",
+   "resourceURL": "como-se-usa-el-microscopio",
+   "promoterId": "6414adc379f2e5b422a09cb2",
+   "autors":{
+      "autorName":"Mundo Microscopio",
+      "autorSocial":
+            {
+            "media":"Instagram",
+            "user": "@"
+            }
+      },
+   "discipline": " ",
+   "theme": ["Microscopio", "Biología"],
+   "type": "Website",
+   "link": "https://www.mundomicroscopio.com/como-usar-el-microscopio/",
+   "linktype": "Webpage",
+   "description": "En este artículo aprenderás cómo usar el microscopio correctamente, una habilidad básica para poder sacarle todo el provecho a este instrumento y para mantenerlo en buen estado.",
+   "picture":{
+      "fileName":"https://www.mundomicroscopio.com/wp-content/uploads/2019/09/como_usar_microscopio.jpg",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC"
+}
+
+# 2
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Tipos de hábitat",
+   "resourceURL": "tipos-de-habitat",
+   "promoterId": "6414adc379f2e5b422a09cb2", 
+   "autors":{
+      "autorName":"wited",
+      "autorSocial":[
+         {
+         "media":"Instagram",
+         "user": "@witedlat"
+         },
+         {
+         "media":"Youtube",
+         "user": "@wited"
+         }
+      ]
+   },
+   "discipline": " ",
+   "theme": ["animales", "naturaleza"],
+   "type": "Website",
+   "link": "https://www.portaleducativo.net/segundo-basico/800/tipos-de-habitat",
+   "linktype": "Webpage",
+   "description": "El hábitat es el lugar que reúne las condiciones adecuadas para que  todos los seres vivos logren vivir  y reproducirse.",
+   "picture":{
+      "fileName":"https://storage.googleapis.com/wited-com-public/img/Cursos/header/header-curses.png",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC"
+}

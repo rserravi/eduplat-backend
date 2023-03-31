@@ -19,7 +19,7 @@ router.post("/", async(req, res) => {
         promoterId: promoterId?promoterId:"",
         autors: autors?autors:{},
         discipline: discipline?discipline:"other",
-        languaje: languaje?languaje:"EN-en",
+        languaje: languaje?languaje:"EN",
         theme: theme?theme:{"label":"other"},
         type: type?type:"lesson",
         link: link,
