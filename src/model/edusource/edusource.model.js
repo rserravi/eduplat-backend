@@ -154,11 +154,89 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const getValoration = (userId, edusourceId) =>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+ 
+        try{
+            EduSource.findOne({
+                "_id": edusourceId,
+                "valorations.senderId": userId
+            }, (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                console.log(data); 
+                const val= data.valorations;
+                for (let index = 0; index < val.length; index++) {
+                    if (val[index].senderId===userId){
+                        console.log(val[index])
+                        resolve(val[index])
+                    }
+                    
+                }
+                resolve("ERROR en Model GetValoration");
+            }
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        } 
+    })
+ }
+
+ const updateValoration = (userId, edusourceId, value, comment)=>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+
+        //TODO: UPDATE VALORATION 
+ 
+       /*  try{
+            const filter = { "_id": edusourceId,
+                            "valorations.senderId": userId}
+            const update = {}
+            EduSource.findOneAndUpdate({
+                "_id": edusourceId,
+                "valorations.senderId": userId
+            }, (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                console.log(data); 
+                const val= data.valorations;
+                for (let index = 0; index < val.length; index++) {
+                    if (val[index].senderId===userId){
+                        console.log(val[index])
+                        resolve(val[index])
+                    }
+                    
+                }
+                resolve("ERROR en Model GetValoration");
+            }
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }  */
+    })
+ }
+
 
  module.exports = {
     insertEdusource,
     insertEduValoration,
     getEdusourceByLink,
     getEdusourceByPromoterId,
-    getLastResources
+    getLastResources,
+    getValoration
  }

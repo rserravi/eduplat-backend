@@ -447,5 +447,22 @@ router.post("/valoration", async(req, res)=>{
 
  })
 
+router.patch("/valoration", async(req, res)=>{
+    const {userId, senderId, value, comment } = req.body;
+
+    try {
+        const result = await updateUserValoration(userId, senderId, value, comment);
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     
+    } catch (error) {
+        res.json({status:"error", error});
+    }
+})
+
 
 module.exports = router;

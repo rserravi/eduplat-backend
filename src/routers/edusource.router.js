@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -47,6 +47,62 @@ router.post("/", async(req, res) => {
         res.json({status:"error", message});
     }
  });
+
+ router.post("/valoration", async(req, res)=>{
+    const {edusourceId, senderId, comment, value} = req.body;
+    console.log(req.body);
+    const valObj = {
+        edusourceId: edusourceId,
+        senderId: senderId,
+        comment: comment,
+        value: value,
+        date: Date.now(),
+        accepted: false
+    }
+    try {
+        const result = await insertEduValoration(valObj);
+        console.log("Insert Edusource Valoration",result);
+        res.json({status: "success", message: "New Valoration added", result});
+ 
+    } catch(err){
+        console.log(err)
+        let message = "Unable to create Valoration at the moment. Pleaset contact administrator"
+        res.json({status:"error", message});
+    }
+
+ })
+
+ router.get("/valoration", async(req, res)=>{
+    const {userId, edusourceId} = req.query;
+    try {
+        const result = await getValoration(userId, edusourceId);
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     
+    } catch (error) {
+        res.json({status:"error", error});
+    }
+ })
+
+ router.patch("/valoration", async(req, res)=>{
+    const {userId, edusourceId, value, comment } = req.body;
+    try {
+        const result = await updateValoration(userId, edusourceId, value, comment);
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     
+    } catch (error) {
+        res.json({status:"error", error});
+    }
+ })
 
  router.get("/bylink", async(req, res)=>{
     const resourceURL = req.query.link
@@ -96,28 +152,7 @@ router.post("/", async(req, res) => {
     }
  })
 
- router.post("/valoration", async(req, res)=>{
-    const {edusourceId, senderId, comment, value} = req.body;
-    const valObj = {
-        edusourceId: edusourceId,
-        senderId: senderId,
-        comment: comment,
-        value: value,
-        date: Date.now(),
-        accepted: false
-    }
-    try {
-        const result = await insertEduValoration(valObj);
-        console.log("Insert Edusource Valoration",result);
-        res.json({status: "success", message: "New Valoration added", result});
- 
-    } catch(err){
-        console.log(err)
-        let message = "Unable to create Valoration at the moment. Pleaset contact administrator"
-        res.json({status:"error", message});
-    }
 
- })
 
  router.get("/last", async(req, res)=>{
     try {

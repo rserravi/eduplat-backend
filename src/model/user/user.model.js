@@ -299,6 +299,10 @@ const updateUser = (_id, userObj) =>{
     })
  }
 
+ const updateUserValorartion = (userId, senderId, value, comment) =>{
+
+ }
+
  const acceptedValorations = (user)=>{
     var count = 0;
     console.log ("USER recibida en ACCEPTEDVALORATIONS", user)
@@ -476,5 +480,6 @@ module.exports = {
    checkUser,
    searchUsers,
    includeAccents, 
-   insertUserValoration
+   insertUserValoration,
+   updateUserValorartion
 };

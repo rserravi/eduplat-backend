@@ -33,11 +33,6 @@ const UserScheme = mongoose.Schema ({
         maxlenght: 340,
         default: ""
     },
-    editingLevel: {
-        type: String,
-        maxLenght: 50,
-        default: "newbie"
-    },
     karma:{
         type: Number,
         default: 0,
@@ -60,36 +55,54 @@ const UserScheme = mongoose.Schema ({
             maxLenght: 20
         }
     },
-    pictureHeader: {
-        fileName: {
+    palette:{
+        key: {
+            type: Number,
+            default: 0
+        },
+        pictureHeader: {
+            fileName: {
+                type: String,
+                required: false,
+                default: "https://images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
+            },
+            file: {
+                data: Buffer,
+                contentType: String,
+            },
+            uploadTime: {
+                type: Date,
+                default: Date.now,
+            },
+            type: {
+                type: String,
+                maxLenght: 20,
+                default: "link"
+            }
+        },
+        primaryColor: {
             type: String,
-            required: false,
-            default: "https://images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
+            maxLenght: 10,
+            default: "#231e39"
         },
-        file: {
-            data: Buffer,
-            contentType: String,
-        },
-        uploadTime: {
-            type: Date,
-            default: Date.now,
-        },
-        type: {
+        secondaryColor: {
             type: String,
-            maxLenght: 20,
-            default: "link"
-        }
+            maxLenght: 10,
+            default: "#b3b8cd"
+        },
+        primaryText: {
+            type: String,
+            maxLenght: 10,
+            default: "#b3b8cd"
+        },
+        secondaryText: {
+            type: String,
+            maxLenght: 10,
+            default: "#1f1a32"
+        },
+
     },
-    primaryColor: {
-        type: String,
-        maxLenght: 10,
-        default: "#231e39"
-    },
-    secondaryColor: {
-        type: String,
-        maxLenght: 10,
-        default: "#b3b8cd"
-    },
+    
     job: {
         position: {
             type: String,

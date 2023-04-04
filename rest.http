@@ -157,11 +157,14 @@ POST http://localhost:3001/v1/edusource/valoration/
 Content-Type: application/json
 
 {
-   "edusourceId": "64039ba5736c71f7a09058c7",
-   "senderId": "64039ba573as71f7a09058c7",
+   "edusourceId": "6425acd736017b5e13503974",
+   "senderId": "63fdb9e80daaa0ce85983c3a",
    "comment": "Un gran aporte, gracias",
-   "value": 2
+   "value": 5
 }
+
+### Get a valoration
+GET http://localhost:3001/v1/edusource/valoration?userId=63fdb9e80daaa0ce85983c3a&edusourceId=6425acd736017b5e13503974
 
 ### Get a Edusource by promoterId
 GET http://localhost:3001/v1/edusource/bypromoter?promoterId=63fdb9e80daaa0ce85983c3a
