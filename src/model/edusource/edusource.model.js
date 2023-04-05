@@ -190,44 +190,74 @@ const insertEdusource = edusourceObj => {
     })
  }
 
- const updateValoration = (userId, edusourceId, value, comment)=>{
-    return new Promise(async (resolve, reject)=>{ 
- 
+ const getEdusourcebyId = edusourceId =>{
+    console.log("GET EDUSOURCE BY ID ", edusourceId)
+    return new Promise(async (resolve,reject)=>{
+
         const dbConnection = await global.clientConnection
         const db = await dbConnection.useDb(mainDataBaseName)
         const EduSource = await db.model("edusource",EdusourceScheme)
 
-        //TODO: UPDATE VALORATION 
- 
-       /*  try{
-            const filter = { "_id": edusourceId,
-                            "valorations.senderId": userId}
-            const update = {}
-            EduSource.findOneAndUpdate({
-                "_id": edusourceId,
-                "valorations.senderId": userId
-            }, (error, data)=>{
+        if((!edusourceId)) return false;
+        try{
+            console.log("TRYING")
+            EduSource.findOne({"_id": edusourceId}, async (error, data)=>{
+            if(error){
+                reject(error);
+            }
+                resolve(data)
+            }
+        ).clone().lean();
+        } catch (error) {
+            reject(error);
+        }
+    });
+ };
+
+ const updateValoration = (senderId, edusourceId, value, comment)=>{
+    return new Promise(async (resolve, reject)=>{ 
+        
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        
+        //console.log("OBJETOs EN updateValoration",userId, senderId, value, comment);
+
+        if((!edusourceId)) return false;
+
+        const edusource = await getEdusourcebyId(edusourceId);
+        console.log(edusource)
+        const valorations = edusource.valorations;
+
+        for (let index = 0; index < valorations.length; index++) {
+            if (valorations[index].senderId === senderId){
+                valorations[index].value = value;
+                valorations[index].comment = comment;
+                break;
+            }
+            
+        }
+
+        try{
+            EduSource.findByIdAndUpdate(
+                edusourceId,
+                { 
+                    "valorations" : valorations
+                },
+                (error, data)=>{
             if(error){
                 console.log(error);
                 reject(error);
             }
             else{
-                console.log(data); 
-                const val= data.valorations;
-                for (let index = 0; index < val.length; index++) {
-                    if (val[index].senderId===userId){
-                        console.log(val[index])
-                        resolve(val[index])
-                    }
-                    
-                }
-                resolve("ERROR en Model GetValoration");
+                console.log(data);
+                resolve(data);
             }
             }
         ).lean().clone();
         } catch (error) {
             reject(error);
-        }  */
+        }
     })
  }
 
@@ -238,5 +268,6 @@ const insertEdusource = edusourceObj => {
     getEdusourceByLink,
     getEdusourceByPromoterId,
     getLastResources,
-    getValoration
+    getValoration,
+    updateValoration
  }

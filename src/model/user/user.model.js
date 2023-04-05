@@ -280,7 +280,9 @@ const updateUser = (_id, userObj) =>{
                         "date:": valObj.date,
                         "accepted:": valObj.accepted
                     }
-                }},
+                },
+                    $inc: {"karma": env.KARMA_FOR_USER_VALORATION}
+                },
                 {new: true},
                 (error, data)=>{
             if(error){
@@ -299,7 +301,50 @@ const updateUser = (_id, userObj) =>{
     })
  }
 
- const updateUserValorartion = (userId, senderId, value, comment) =>{
+ const updateUserValoration = (userId, senderId, value, comment) =>{
+    return new Promise(async (resolve, reject)=>{ 
+        
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+        
+        //console.log("OBJETOs EN updateUserValoration",userId, senderId, value, comment);
+
+        if((!userId)) return false;
+
+        const user = await getUserbyId(userId);
+        const valorations = user.valorations;
+
+        for (let index = 0; index < valorations.length; index++) {
+            if (valorations[index].senderId === senderId){
+                valorations[index].value = value;
+                valorations[index].comment = comment;
+                break;
+            }
+            
+        }
+
+        try{
+            User.findByIdAndUpdate(
+                userId,
+                { 
+                    "valorations" : valorations
+                },
+                (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                console.log(data);
+                resolve(data);
+            }
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
 
  }
 
@@ -481,5 +526,5 @@ module.exports = {
    searchUsers,
    includeAccents, 
    insertUserValoration,
-   updateUserValorartion
+   updateUserValoration
 };

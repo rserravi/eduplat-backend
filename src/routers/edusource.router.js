@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -89,9 +89,9 @@ router.post("/", async(req, res) => {
  })
 
  router.patch("/valoration", async(req, res)=>{
-    const {userId, edusourceId, value, comment } = req.body;
+    const {senderId, edusourceId, value, comment } = req.body;
     try {
-        const result = await updateValoration(userId, edusourceId, value, comment);
+        const result = await updateValoration(senderId, edusourceId, value, comment);
         if (result){
             res.json({status: "success", result});
         }
@@ -100,6 +100,7 @@ router.post("/", async(req, res) => {
         }
      
     } catch (error) {
+        console.log(error)
         res.json({status:"error", error});
     }
  })
