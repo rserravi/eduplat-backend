@@ -2,6 +2,7 @@ const {EdusourceScheme} = require("./edusource.scheme");
 const mongoose = require("mongoose");
 const { getUserbyId } = require("../user/user.model");
 const { UserScheme } = require("../user/user.scheme");
+const { addKarma } = require("../../utils/karmaHandler");
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
 const insertEdusource = edusourceObj => { 
@@ -41,12 +42,13 @@ const insertEdusource = edusourceObj => {
                     }
                 }},
                 {new: true},
-                (error, data)=>{
+                async (error, data)=>{
             if(error){
                 console.log(error);
                 reject(error);
             }
             else{
+                await addKarma(valObj.senderId, process.env.KARMA_FOR_EDUSOURCE_VALORATION)
                 console.log(data);
                 resolve(data);
             }
@@ -100,7 +102,7 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
             else{
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
             }
@@ -109,23 +111,6 @@ const insertEdusource = edusourceObj => {
             reject(error);
         }
     })
- }
-
- const promoterDataFromResource = (edusource)=>{
-    return new Promise(async (resolve, reject)=>{
-        try {
-            const promoter = await getUserbyId(edusource.promoterId).then((prom)=>{
-                const promoterData = {
-                    promoterName: prom.username,
-                    promoterAvatar: prop.picture.fileName
-                }
-            })
-        } catch (error) {
-            reject(error);
-        }
-
-    })
-    
  }
 
  const getLastResources = ()=>{
@@ -244,12 +229,13 @@ const insertEdusource = edusourceObj => {
                 { 
                     "valorations" : valorations
                 },
-                (error, data)=>{
+                async (error, data)=>{
             if(error){
                 console.log(error);
                 reject(error);
             }
             else{
+               // await addKarma(senderId, KARMA_FOR_EDUSOURCE_VALORATION)
                 console.log(data);
                 resolve(data);
             }

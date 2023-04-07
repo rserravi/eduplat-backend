@@ -1,3 +1,4 @@
+const { addKarma } = require("../../utils/karmaHandler.js");
 const { getEdusourceByPromoterId } = require("../edusource/edusource.model.js");
 const {UserScheme} = require("./user.scheme.js");
 const mongoose = require("mongoose")
@@ -257,6 +258,8 @@ const updateUser = (_id, userObj) =>{
         }
     })
  }
+
+
  //BODY:  userId, senderId, comment, value, date, accepted.
  const insertUserValoration = valObj => {
     return new Promise(async (resolve, reject)=>{ 
@@ -280,16 +283,16 @@ const updateUser = (_id, userObj) =>{
                         "date:": valObj.date,
                         "accepted:": valObj.accepted
                     }
-                },
-                    $inc: {"karma": env.KARMA_FOR_USER_VALORATION}
-                },
+                }},
+                  
                 {new: true},
-                (error, data)=>{
+                async (error, data)=>{
             if(error){
                 console.log(error);
                 reject(error);
             }
             else{
+                await addKarma(valObj.senderId, process.env.KARMA_FOR_USER_VALORATION)
                 console.log(data);
                 resolve(data);
             }
@@ -298,6 +301,8 @@ const updateUser = (_id, userObj) =>{
         } catch (error) {
             reject(error);
         }
+        
+        
     })
  }
 
@@ -526,5 +531,6 @@ module.exports = {
    searchUsers,
    includeAccents, 
    insertUserValoration,
-   updateUserValoration
+   updateUserValoration,
+   
 };

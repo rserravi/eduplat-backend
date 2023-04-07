@@ -137,6 +137,57 @@ router.post("/", async(req, res) => {
    
  })
 
+ router.get("/sortedbypromoterid", async(req, res)=>{
+    const promoterId = req.query.promoterId
+    console.log("SortedByPromoterId", promoterId)
+     try {
+        const result = await getEdusourceByPromoterId(promoterId);
+        if (result){
+            var accepted = []
+            var noAccepted = []
+            //RECORREMOS EDUSOURCES
+            for (let edu = 0; edu < result.length; edu++) {
+                console.log(result[edu].valorations)
+                 if (result[edu].valorations.length>0){
+
+                    for (let index = 0; index < result[edu].valorations.length; index++) {
+                        const user = await getUserbyId(result[edu].valorations[index].senderId)
+                        const newObj = {
+                            val_id: result[edu].valorations[index]._id,
+                            senderPicture: user.picture,
+                            senderUser: user.username,
+                            edu_id: result[edu]._id,
+                            eduTitle: result[edu].title,
+                            eduDescription: result[edu].description,
+                            eduPicture: result[edu].picture,
+                            comment: result[edu].valorations[index].comment,
+                            value: result[edu].valorations[index].value,
+                            date: Date(result[edu].valorations[index].date),
+                            accepted: Boolean(result[edu].valorations[index].accepted),
+                        }   
+                        if (result[edu].valorations[index].accepted)
+                            accepted.push(newObj); 
+                        else 
+                            noAccepted.push(newObj);
+                    }
+                } 
+            }
+            
+
+            res.json({status: "success", accepted, noAccepted});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     } catch (error) {
+        console.log(error)
+        res.json({status:"error", error});
+    } 
+   
+ })
+
+ 
+
  router.get("/bypromoter", async(req, res)=>{
     const promoterId = req.query.promoterId
     console.log("BY PROMOTER", promoterId)

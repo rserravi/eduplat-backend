@@ -177,3 +177,6 @@ GET http://localhost:3001/v1/edusource/last
 
 ### Testing scrap
 GET http://localhost:3001/v1/scrap?url=https://www.youtube.com/watch?v=oNUJpzhqeDQ
+
+### GET edusources separated
+GET http://localhost:3001/v1/edusource/sortedbypromoterid?promoterId=63fdb9e80daaa0ce85983c3a

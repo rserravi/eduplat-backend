@@ -10,6 +10,7 @@ const { resetPassReqValidation, newUserValidation } = require("../middleware/for
 const { deleteJWT } = require("../helpers/redis.helpers");
 const { randomCrypto } = require("../helpers/crypto.helpers");
 const { decode } = require("jsonwebtoken");
+const { addKarma } = require("../utils/karmaHandler");
 
 
 
@@ -144,6 +145,7 @@ router.post("/login", async (req,res) =>{
         const accessJWT = await createAccessJWT(user.email, `${user._id}`)
         //console.log("CREANDO ACCESSJWT DESDE LOGIN", accessJWT)
         const refreshJWT = await createRefreshJWT(user.email, `${user._id}`);
+        await addKarma(user._id, process.env.KARMA_FOR_LOGIN)
 
         return res.json({
             status:"success",
@@ -210,6 +212,7 @@ router.post("/google-login", async (req, res)=>{
                 const accessJWT = await createAccessJWT(user.email, `${user._id}`)
                 //console.log("CREANDO ACCESSJWT DESDE LOGIN", accessJWT)
                 const refreshJWT = await createRefreshJWT(user.email, `${user._id}`);
+                await addKarma(user._id, process.env.KARMA_FOR_LOGIN)
                 return res.json({
                     status:"success",
                     message: "Login Successful",
