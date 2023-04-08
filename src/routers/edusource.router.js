@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -48,6 +48,42 @@ router.post("/", async(req, res) => {
     }
  });
 
+ router.delete("/", async(req,res)=>{
+    const edusourceId = req.query.edusourceId;
+    console.log("BORRANDO ", edusourceId)
+    try {
+        const result = await deleteEduById(edusourceId)
+        if (result){
+            res.json({status: "success", message:"Resource deleted", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+        
+    } catch (error) {
+        res.json({status:"error", message:error.message});
+        
+    }
+ })
+
+ router.patch("/", async(req,res)=>{
+    const frmData = req.body;
+    try {
+       
+        const result = await updateResource(frmData);
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     
+    } catch (error) {
+        console.log(error)
+        res.json({status:"error", error});
+    }
+ })
+ 
  router.post("/valoration", async(req, res)=>{
     const {edusourceId, senderId, comment, value} = req.body;
     console.log(req.body);
@@ -190,7 +226,7 @@ router.post("/", async(req, res) => {
 
  router.get("/bypromoter", async(req, res)=>{
     const promoterId = req.query.promoterId
-    console.log("BY PROMOTER", promoterId)
+   // console.log("BY PROMOTER", promoterId)
     try {
         const result = await getEdusourceByPromoterId(promoterId);
         if (result){

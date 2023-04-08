@@ -19,6 +19,34 @@ const insertEdusource = edusourceObj => {
     })
  };
 
+ const updateResource = edusourceObj => {
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        try {
+            EduSource.findByIdAndUpdate(
+                edusourceObj._id,
+                edusourceObj, {new: true}, async (error, data)=>{
+                        if(error){
+                            console.log(error);
+                            reject(error);
+                        }
+                        else{
+                            resolve(data);
+                        }
+                    }
+            ).lean().clone();
+            
+        } catch (error) {
+            reject(error)
+        }
+        
+      
+    })
+ }
+
  const insertEduValoration = valObj => {
     return new Promise(async (resolve, reject)=>{ 
         
@@ -92,6 +120,7 @@ const insertEdusource = edusourceObj => {
         const dbConnection = await global.clientConnection
         const db = await dbConnection.useDb(mainDataBaseName)
         const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
  
         //console.log("EN GET RESOURCES", promoterId)
         if((!promoterId)) return false;
@@ -106,7 +135,7 @@ const insertEdusource = edusourceObj => {
                 resolve(data);
             }
             }
-        ).lean().clone();
+        ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 })
         } catch (error) {
             reject(error);
         }
@@ -247,6 +276,29 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const deleteEduById = (edusourceId)=>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+
+        if((!edusourceId)) return false;
+        try{
+            console.log("TRYING")
+            EduSource.deleteOne({"_id": edusourceId}, async (error, data)=>{
+            if(error){
+                reject(error);
+            }
+                resolve(data)
+            }
+        ).clone().lean();
+        } catch (error) {
+            reject(error);
+        }
+    });
+ }
+
 
  module.exports = {
     insertEdusource,
@@ -255,5 +307,7 @@ const insertEdusource = edusourceObj => {
     getEdusourceByPromoterId,
     getLastResources,
     getValoration,
-    updateValoration
+    updateValoration,
+    deleteEduById,
+    updateResource
  }

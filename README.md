@@ -44,7 +44,7 @@ All the edusources API follows '/v1/edusource'
 | 2     | '/v1/edusource/'                 | GET    | TODO     | No         | Get all the resources of logged user        |
 | 3     | '/v1/edusource/{id}              | GET    | TODO     | No         | Get a single edusouce by id        |
 | 4     | '/v1/edusource/{id}'             | PATCH  | TODO     | No         | Edit a edusource if pertains to user or superuser |
-| 5     | '/v1/edusource/{id}'             | DELETE | TODO     | No         | Delete a edusource if pertains to user or superuser |
+| 5     | '/v1/edusource/{id}'             | DELETE | DONE     | No         | Delete a edusource if pertains to user or superuser |
 | 6     | '/v1/edusource/tags              | GET    | TODO     | No         | Get all tags                                    |
 | 7     | '/v1/edusource/tags/{id}         | GET    | TODO     | No         | Get all edusources from this tag 
 | 8     | '/v1/edusource/tags              | POST   | TODO     | No         | Create a tag                                       |
