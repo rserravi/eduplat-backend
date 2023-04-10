@@ -51,11 +51,11 @@ All the edusources API follows '/v1/edusource'
 | 9     | '/v1/edusource/tags              | PATCH  | TODO     | No         | Update a tag                                       |
 | 10    | '/v1/edusource/tags              | DELETE | TODO     | No         | Delete a tag                                       |
 | 11     | '/v1/edusource/category         | GET    | TODO     | No         | Get all categories                                      |
-| 12     | '/v1/edusource/category/{id}    | GET    | TODO     | No         | Get all edusources from this category by id               |
+| 12     | '/v1/edusource/category/{id}    | GET    | DONE     | No         | Get all edusources from this category by id               |
 | 13     | '/v1/edusource/category         | POST   | TODO     | No         | Create a category                                       |
 | 14     | '/v1/edusource/category         | PATCH  | TODO     | No         | Update a category                                       |
 | 15     | '/v1/edusource/category         | DELETE | TODO     | No         | Delete a category                                       |
-| 16     | '/v1/edusource/find             | GET    | TODO     | No         | Finds all edusources from a comma separated search terms json.
+| 16     | '/v1/edusource/search?{terms}{lang}  | GET    | DONE     | No         | Finds all edusources from terms in an specific lang
 | 17     | '/v1/edusource/bylink           | GET    | DONE     | No         | Returns a single edusource by resourceURL.            |
 | 18     | '/v1/edusource/byPromoter/{id}   | GET    | DONE     | No         | Returns a single edusource by promoterId.            |
 | 19     | '/v1/edusource/valoration       | POST   | DONE     | No         | Create a valoration in a edusource            |

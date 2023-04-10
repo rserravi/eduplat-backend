@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -255,6 +255,44 @@ router.post("/", async(req, res) => {
         res.json({status:"error", error});
     }
  })
+
+ router.get("/search", async(req, res)=>{
+    const terms = req.query.terms;
+    const lang = req.query.lang;
+    const category = req.query.category;
+    const level = req.query.level;
+    const themes = req.query.themes;
+    console.log(req.query);
+    try {
+        const result = await searchEdusources(terms, lang, category, level, themes);
+        if (result){
+            console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.get("/category", async(req, res)=>{
+    const category = req.query.category;
+    console.log(req.query);
+    try {
+        const result = await searchCategories(category);
+        if (result){
+            console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
 
 
 module.exports = router;

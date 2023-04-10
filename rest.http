@@ -180,3 +180,9 @@ GET http://localhost:3001/v1/scrap?url=https://www.youtube.com/watch?v=oNUJpzhqe
 
 ### GET edusources separated
 GET http://localhost:3001/v1/edusource/sortedbypromoterid?promoterId=63fdb9e80daaa0ce85983c3a
+
+### SEEACH Edusources
+GET http://localhost:3001/v1/edusource/search?terms=todo_sobre_los_binomios&lang=ES
+
+### SEEACH Categories
+GET http://localhost:3001/v1/edusource/category?category=Math_and_Logic

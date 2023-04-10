@@ -3,7 +3,61 @@ const mongoose = require("mongoose");
 const { getUserbyId } = require("../user/user.model");
 const { UserScheme } = require("../user/user.scheme");
 const { addKarma } = require("../../utils/karmaHandler");
+
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
+
+const includeAccentsInRegx= terms => {
+
+    var newString = "";
+    for (let i = 0; i< terms.length; i++) {
+      const character = terms[i].toLowerCase();
+      var newChar= character
+      if (character==="a" || character ==="à" || character==='á' || character === 'ä'){
+        newChar = '[aàáä]'
+      }
+
+      if (character==="e" || character ==="è" || character==='é' || character === 'ë'){
+        newChar = '[eèéë]'
+      }
+
+      if (character==="i" || character ==="ì" || character==='í' || character === 'ï'){
+        newChar = '[iìíï]'
+      }
+
+      if (character==="o" || character ==="ò" || character==='ó' || character === 'ö'){
+        newChar = '[oòóö]'
+      }
+
+      if (character==="u" || character ==="ù" || character==='ú' || character === 'ü'){
+        newChar = '[uùúü]'
+      }
+
+      if (character==="n" || character ==="ñ"){
+        newChar = '[nñ]'
+      }
+
+      if (character==="c" || character ==="ç"){
+        newChar = '[cç]'
+      }
+
+      if (character ==="b" || character ==="v"){
+        newChar = '[vb]'
+      }
+
+      newString+=newChar;
+    }
+
+    console.log(newString)
+
+    return newString;
+}
+
+const replaceUnderscoresWithSpaces=(str)=> {
+    // replace underscores with spaces using a regular expression
+    const result = str.replace(/_/g, ' ');
+  
+    return result;
+  }
 
 const insertEdusource = edusourceObj => { 
     return new Promise(async (resolve, reject)=>{ 
@@ -299,6 +353,125 @@ const insertEdusource = edusourceObj => {
     });
  }
 
+ const searchEdusources = (terms, lang,  category, level, themes) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+       
+        var searchString="";
+
+        if((!terms)) return false;
+        
+        var newTerms = replaceUnderscoresWithSpaces(terms)
+        
+        newTerms = includeAccentsInRegx(newTerms);
+       
+
+        var language = lang;
+        if (lang === "ANY" || lang==="any") language="";
+
+        var catArray=""
+        if(category){
+        catArray = category.split(",");
+        }
+        var themeArray
+        if (themes){ 
+        themeArray = themes.split(",");
+        }
+
+        var searchTermsArray = newTerms.split(" ");
+        searchTermsArray = [... searchTermsArray, newTerms]
+        console.log("SEARCH TERMS ARRAY",searchTermsArray);
+
+        var data =[];
+        
+        for (let index = 0; index < searchTermsArray.length; index++) {
+            const regx = {$regex: searchTermsArray[index], $options: 'i'}
+            console.log (regx);
+            searchString = {
+                language:language?language.toUpperCase():{$regex:'[A-Za-z0-9]', $options:'i'},
+                discipline:category?{$in:catArray}:{$regex:'[A-Za-z0-9]', $options:'i'},
+                themes: themes?{ $in:themeArray}:{$regex:'[A-Za-z0-9]', $options:'i'},
+                $and: [
+                {$or: [
+                    {title: regx},
+                    {discipline: regx},
+                    {theme:{ $elemMatch:{regx}}},
+                    {autors:{ $elemMatch:{ autorName: regx}}},
+                    {description: regx},
+                    ]}]
+                }
+            try{
+                await EduSource.find(searchString, async (error, ndata)=>{
+                    if(error){
+                        console.log(error)
+                        reject(error);
+                    }
+                    else{
+                        //console.log("ESTO ES NDATA",ndata)
+                        data = [...data, ndata]
+                        console.log("ESTO ES DATA1", data);
+                       
+                    }
+                }
+                ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+            } catch (error) {
+                console.log("ERROR EN FIND",error)
+                reject(error);
+            }
+        }
+        console.log("ESTO ES DATA2", data);
+        resolve (data[0]);
+        
+    })
+ }
+
+ const searchCategories = (category) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+       
+        var searchString="";
+
+        if((!category)) return false;
+        
+        
+        const newTerms = replaceUnderscoresWithSpaces(category);
+        //const regx = {$regex: newTerms, $options: 'i'}
+        
+        
+        catArray = newTerms.split(",");
+        
+        searchString = {
+          
+            discipline:{$in:catArray}
+          
+            }
+        
+        console.log(searchString);
+        try{
+            EduSource.find(searchString, async (error, data)=>{
+                if(error){
+                    console.log(error)
+                    reject(error);
+                }
+                else{
+                    resolve(data);
+                }
+            }
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
 
  module.exports = {
     insertEdusource,
@@ -309,5 +482,9 @@ const insertEdusource = edusourceObj => {
     getValoration,
     updateValoration,
     deleteEduById,
-    updateResource
+    updateResource,
+    searchEdusources,
+    includeAccentsInRegx,
+    searchCategories,
+    replaceUnderscoresWithSpaces
  }
