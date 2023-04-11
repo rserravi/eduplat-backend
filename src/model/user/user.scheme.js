@@ -182,6 +182,10 @@ const UserScheme = mongoose.Schema ({
         accepted: {
             type: Boolean,
             default: false
+        },
+        rejected: {
+            type: Boolean,
+            default: false
         }
     }]
 });

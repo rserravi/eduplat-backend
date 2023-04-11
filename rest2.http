@@ -747,3 +747,87 @@ Content-Type: application/json
    "comment": "Aporta muchas cosas, aunque no todas siven para algo.",
    "value": 2
 }
+
+# 11
+
+### User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+   "username": "anibai",
+   "firstname": "Anita",
+   "lastname": "Baiäo",
+   "email": "aniba1221@gmail.com",
+   "password": "password1234"
+}
+
+
+### Update user to make complete profile
+PATCH http://localhost:3001/v1/user/
+Content-Type: application/json
+
+{
+    "_id": "64354e4c7f4181e39bbba935",
+    "publicData":{
+        "name": false,
+        "emails":false,
+        "address":false,
+        "phones":false,
+        "social":false,
+        "lastLogin":true
+    },
+    "tagline":"Escritora e mentora de autores na conta própria",
+    "karma":205,
+    "language":"PT",
+    "picture":{
+        "fileName":"https://userstock.io/data/wp-content/uploads/2017/07/pexels-photo-26939-1-1024x1024.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "pictureHeader":{
+        "fileName":"https://randomuser.me/api/portraits/women/63.jpg",
+        "file":"",
+        "type":"link"
+    },
+    "primaryColor":"#231e39",
+    "secondaryColor":"#b3b8cd",
+    "job":{
+        "position":"Profesora.",
+        "workplace":""
+    },
+    "isVerified": true,
+    "isCompleted": true,
+    "phones":{
+        "phoneNumber":"+34632471470",
+        "phoneDescription":"Home"
+    },
+    "social":[
+        {
+            "media":"Facebook",
+            "user": "anabaia"
+        },
+        {
+            "media":"Twitter",
+            "user": "anabaia"
+        }
+    ],
+    "address":{
+        "streetaddress":"",
+        "city":"Oporto",
+        "state":"",
+        "postalCode":"",
+        "country": "Portugal"
+    }  
+}
+
+### Insert User Valoration
+POST http://localhost:3001/v1/user/valoration
+Content-Type: application/json
+
+{
+   "userId": "63fdb9e80daaa0ce85983c3a",
+   "senderId": "6414ade979f2e5b422a09cb5",
+   "comment": "Un excelente profesional dedicado a compartir su experiencia y forjador de nuevos talentos. Una sorprendente capacidad de estar actualizado para poder brindar un trabajo profesional al día y ritmo coyuntural.",
+   "value": 4
+}

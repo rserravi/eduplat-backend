@@ -161,3 +161,143 @@ Content-Type: application/json
    },
    "licence": "CC"
 }
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Te explicamos la Tabla Periódica De Elementos en 5 minutos!",
+   "resourceURL": "te-explicamos-la-tabla-periodica-de-elementos-en-5-minutos",
+   "promoterId": "6414ade979f2e5b422a09cb5", 
+   "autors":{
+      "autorName":"Ticmas Educacion",
+      "autorSocial":[
+         {
+         "media":"Instagram",
+         "user": "@ticmasedu"
+         },
+         {
+         "media":"Youtube",
+         "user": "@TicmasEducacion"
+         },
+         {
+         "media":"Twitter",
+         "user": "@TICMAS_EDU"
+         }
+      ]
+   },
+   "discipline": "science",
+   "theme": ["quimica", "tabla periódica"],
+   "type": "Youtube",
+   "link": "https://www.youtube.com/watch?v=EXM3dTdm7Xk",
+   "linktype": "Youtube",
+   "description": "En este video aprenderemos cómo se compone la Tabla Periódica de los Elementos en 5 minutos",
+   "picture":{
+      "fileName":"https://imgs.search.brave.com/pqIEghSc7xX0-DBbCI44a-rtEOHxoBjJVpsk-saty9U/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5X/eWFfVHRtUWlsNWpV/cFkyblVLekRBSGFF/SyZwaWQ9QXBp",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC",
+   "language": "ES"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Metodo di studio veloce e tecniche di apprendimento efficaci",
+   "resourceURL": "metodo-di-studio-veloce-e-tecniche-di-apprendimento-efficaci",
+   "promoterId": "640f7469c7f043904ac56e98", 
+   "autors":{
+      "autorName":"Mateo Salvo",
+      "autorSocial":[
+         {
+         "media":"Facebook",
+         "user": "@corsidimemoria"
+         },
+         {
+         "media":"Youtube",
+         "user": "UC_WECTs6Zq0tALI6dkjCUGw"
+         }
+      ]
+   },
+   "discipline": "science",
+   "theme": ["metodo studio", "apprendimento"],
+   "type": "Website",
+   "link": "https://www.matteosalvo.com/metodo-studio/",
+   "linktype": "Youtube",
+   "description": "Non hai voglia di studiare? Prima di inziare a parlare dei Metodi di Studio è utile fare una precisazione: se non hai voglia di studiare la colpa non è tua ma dalla mancanza di un buon metodo di studio.",
+   "picture":{
+      "fileName":"https://www.matteosalvo.com/wp-content/uploads/2022/03/metodo-studio.jpeg",
+      "file":"",
+      "uploadTime": "01/11/22",
+      "type":"link"
+   },
+   "licence": "CC",
+   "language": "IT"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Verbos irregulares en inglés",
+   "resourceURL": "verbos-irregulares-en-ingles",
+   "promoterId": "6414ae4279f2e5b422a09cc1",
+   "autors":{
+      "autorName":"Brisish Council México",
+      "autorSocial":[{
+         "media":"Twitter",
+         "user": "@mxbritish"
+      }]
+   },
+   "discipline": " ",
+   "theme": ["verbos", "ingles"],
+   "type": "Website",
+   "link": "https://www.britishcouncil.org.mx/blog/irregular-verbs",
+   "linktype": "Webpage",
+   "description": "Los verbos irregulares en inglés representan uno de los retos más importantes para aprender inglés ya que se trata de uno de los elementos gramaticales indispensables para hablar o escribir. En este artículo encontrarás información básica para entenderlos, tales como qué son, su importancia, y sus reglas y patrones, además de una lista con los verbos irregulares más comunes con sus distintas formas de conjugación.",
+   "picture":{
+      "fileName":"https://www.britishcouncil.org.mx/sites/default/files/styles/bc-square-630x630/public/hojas_de_conjugacion_de_tres_verbos_irregulares_read_pay_y_have_0.jpeg?itok=cvC8db4B",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC",
+   "language": "ES"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Verbos irregulares en inglés",
+   "resourceURL": "verbos-irregulares-en-ingles",
+   "promoterId": "6414ae4279f2e5b422a09cc1",
+   "autors":{
+      "autorName":"Brisish Council México",
+      "autorSocial":[{
+         "media":"Twitter",
+         "user": "@mxbritish"
+      }]
+   },
+   "discipline": " ",
+   "theme": ["verbos", "ingles"],
+   "type": "Website",
+   "link": "https://www.britishcouncil.org.mx/blog/irregular-verbs",
+   "linktype": "Webpage",
+   "description": "Los verbos irregulares en inglés representan uno de los retos más importantes para aprender inglés ya que se trata de uno de los elementos gramaticales indispensables para hablar o escribir. En este artículo encontrarás información básica para entenderlos, tales como qué son, su importancia, y sus reglas y patrones, además de una lista con los verbos irregulares más comunes con sus distintas formas de conjugación.",
+   "picture":{
+      "fileName":"https://www.britishcouncil.org.mx/sites/default/files/styles/bc-square-630x630/public/hojas_de_conjugacion_de_tres_verbos_irregulares_read_pay_y_have_0.jpeg?itok=cvC8db4B",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC",
+   "language": "ES"
+}

@@ -330,6 +330,48 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const acceptRejectValoration =(accepted, rejected, edu_id, val_id)=>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+
+        if((!edu_id) || !val_id) return false;
+        try{
+            
+            const edu = await EduSource.findById(edu_id);
+            
+            if (!edu) reject({"status":"error", "message":"No edusource found"})
+
+            var valorations = [... edu.valorations]
+            //console.log(valorations)
+
+            for (let val = 0; val < valorations.length; val++) {
+                
+                if (valorations[val]._id.toString()===val_id){
+                    valorations[val].accepted = accepted,
+                    valorations[val].rejected = rejected
+                    console.log(valorations[val])
+                    
+                    edu.valorations = valorations
+                    edu.save().then((newData)=>{
+                        resolve(newData)
+                    }).catch((error)=>{
+                        console.log("Error en Update", error);
+                        reject(error);
+                    })
+                }
+                
+            }            
+        
+        } catch (error) {
+            console.log("NOT FOUND _ID")
+            reject(error);
+        }
+    });
+ }
+
  const deleteEduById = (edusourceId)=>{
     return new Promise(async (resolve,reject)=>{
 
@@ -445,12 +487,13 @@ const insertEdusource = edusourceObj => {
         const newTerms = replaceUnderscoresWithSpaces(category);
         //const regx = {$regex: newTerms, $options: 'i'}
         
-        
+        var newArr =[]
         catArray = newTerms.split(",");
+        
         
         searchString = {
           
-            discipline:{$in:catArray}
+            discipline:{$in: catArray}
           
             }
         
@@ -486,5 +529,6 @@ const insertEdusource = edusourceObj => {
     searchEdusources,
     includeAccentsInRegx,
     searchCategories,
-    replaceUnderscoresWithSpaces
+    replaceUnderscoresWithSpaces,
+    acceptRejectValoration
  }

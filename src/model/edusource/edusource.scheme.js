@@ -79,7 +79,31 @@ const EdusourceScheme = mongoose.Schema ({
     date: {
         type: Date
     }, 
-    valorations:[]   
+    valorations :[{
+        senderId: {
+            type: String,
+            maxLenght: 500
+        },
+        value:{
+            type: Number
+        },
+        comment:{
+            type: String,
+            maxLenght: 500,
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        accepted: {
+            type: Boolean,
+            default: false
+        },
+        rejected: {
+            type: Boolean,
+            default: false
+        }
+    }]
 });
  
 module.exports ={

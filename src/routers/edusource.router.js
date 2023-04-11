@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -11,7 +11,7 @@ router.all("/", (req, res, next) =>{
 
 //Create new edusource
 router.post("/", async(req, res) => {
-    const {title, resourceURL, promoterId, autors, languaje, discipline, theme, type, link, linktype, description, picture, licence, valorations} = req.body;
+    const {title, resourceURL, promoterId, autors, languaje, discipline, theme, type, link, linktype, description, picture, licence, valorations, language} = req.body;
 
     const eduObj = {
         title: title?title:"",
@@ -33,6 +33,7 @@ router.post("/", async(req, res) => {
         },
         licence: licence?licence:"CC",
         date: Date.now(),
+        language:language,
         valorations: valorations?valorations:[] 
     }
  
@@ -141,6 +142,25 @@ router.post("/", async(req, res) => {
     }
  })
 
+ router.patch("/valorationMod", async(req,res)=>{
+    const {accepted, rejected, edu_id, val_id}= req.body;
+    try {
+        const result = await acceptRejectValoration(accepted, rejected, edu_id, val_id);
+        console.log ("RESULT EN ROUTER",result)
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     
+    } catch (error) {
+        console.log(error)
+        res.json({status:"error", error});
+    }
+    
+ })
+
  router.get("/bylink", async(req, res)=>{
     const resourceURL = req.query.link
     console.log("BY LINK", resourceURL)
@@ -200,10 +220,11 @@ router.post("/", async(req, res) => {
                             value: result[edu].valorations[index].value,
                             date: Date(result[edu].valorations[index].date),
                             accepted: Boolean(result[edu].valorations[index].accepted),
+                            rejected: Boolean(result[edu].valorations[index].rejected)
                         }   
                         if (result[edu].valorations[index].accepted)
                             accepted.push(newObj); 
-                        else 
+                        if (!result[edu].valorations[index].accepted && !result[edu].valorations[index].rejected)
                             noAccepted.push(newObj);
                     }
                 } 

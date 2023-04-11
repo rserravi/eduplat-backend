@@ -61,7 +61,8 @@ All the edusources API follows '/v1/edusource'
 | 19     | '/v1/edusource/valoration       | POST   | DONE     | No         | Create a valoration in a edusource            |
 | 20     | '/v1/edusource/valoration?userId={userId}&edusourceId={edusourceId}       | GET   | DONE     | No         | Get a valoration by userId and edusourceId            |
 | 21     | '/v1/edusource/sortedbypromoterid?promoterId={promoterId}       | GET   | DONE     | No         | Get extended valorations in 2 groups: accepted and noAccepted           |
-| 22     | '/v1/edusource/last       | POST   | DONE     | No         | Get 10 last resources            |
+| 22     | '/v1/edusource/valorationMod      | PATCH   | DONE     | No         | send edu_id, val_id, accepted, rejected - Updates valoration in edusource with accepted rejected            |
+| 23     | '/v1/edusource/last       | POST   | DONE     | No         | Get 10 last resources            |
 
 
 

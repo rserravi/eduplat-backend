@@ -83,7 +83,7 @@ const getAlerts = user =>{
             const edusources = await getEdusourceByPromoterId(user._id);
             for (let edu = 0; edu < edusources.length; edu++) {
                 for (let val = 0; val < edusources[edu].valorations.length; val++) {
-                    if (!edusources[edu].valorations[val].accepted){
+                    if (!edusources[edu].valorations[val].accepted && !edusources[edu].valorations[val].rejected){
                         resourceValorations = resourceValorations+1;
                     }
                 }
@@ -242,14 +242,26 @@ const updateUser = (_id, userObj) =>{
         const User = await db.model("user",UserScheme)
 
         if((!username)) return false;
+        const regex = new RegExp("^" + username + "$", "i")
+        
         try{
-            User.find({"username": username}, (error, data)=>{
+            User.find({"username": regex}, (error, data)=>{
             if(error){
                 reject(error);
             }
             else{
-                console.log(data);
-                resolve(data);
+                console.log("CHECK USER RESULT: ",data);
+                if (data.length>0){
+                    if (data[0].username === username){
+                        resolve(data)
+                    }
+                    else {
+                        reject(data)
+                    }
+                }else{
+                    reject(data)
+                }
+               
             }
             }
         ).lean().clone();
@@ -258,6 +270,51 @@ const updateUser = (_id, userObj) =>{
         }
     })
  }
+
+ const checkEmail = (email) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        if((!email)) return false;
+        const regex = new RegExp("^" + email + "$", "i")
+        
+        try{
+            User.find({"emails.emailUrl":  email}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            else{
+                console.log("CHECK EMAIL RESULT: ",data);
+                if (data.length>0){
+                    var found = false
+                    for (let index = 0; index < data[0].emails.length; index++) {
+                        if (data[0].emails[index].emailUrl===email){
+                            found = true;
+                        }
+                        
+                    }
+                    if (found){
+                        resolve(data)
+                    }
+                    else {
+                        reject(data)
+                    }
+                }else{
+                    reject(data)
+                }
+            }
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
+ 
 
 
  //BODY:  userId, senderId, comment, value, date, accepted.
@@ -528,6 +585,7 @@ module.exports = {
    verifyUser,
    updateUser,
    checkUser,
+   checkEmail,
    searchUsers,
    includeAccents, 
    insertUserValoration,

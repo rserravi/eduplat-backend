@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -77,7 +77,7 @@ router.post("/", newUserValidation, async(req, res) => {
        const result = await insertUser(newUserObj);
        console.log("Insert User Result",result);
        //Send confirmation email
-      // await emailProcessor(email, "", "new user confirmation",verificationLink);
+       //await emailProcessor(email, "", "new user confirmation",verificationLink);
        res.json({status: "success", message: "New user created. Check your email for a verification link", result});
 
    } catch(err){
@@ -342,18 +342,39 @@ router.patch("/verify", async(req,res)=>{
   })
 
 router.get("/checkUser", async(req, res)=>{
-    try {
-        console.log(req.query.username);
-        const user = await checkUser(req.query.username);
-        if (user && user.username===req.query.username){
-            console.log("USER ", req.query.username, " exists")
-            return res.json({status: "success", message: "exists"})
+    if (req.query.username === "" || req.query.username ===null || req.query.username ===undefined){
+        // IS EMAIL CHECK
+        try {
+            console.log(req.query.email);
+            const email = await checkEmail(req.query.email);
+            console.log("Email en check",email)
+            if (email && email.status!=="error"){
+                console.log("EMAIL ", req.query.email, " exists")
+                return res.json({status: "success", message: "exists"})
+            }
+            res.json({status:"error", message:"User don't exists"});
+            console.log("EMAIL ", req.query.email, " dont exists")
+        } catch (error) {
+            console.log(error);
+            return res.json({status: "error", message:"User don't exists"})
         }
-        res.json({status:"error", message:"User don't exists"});
-        console.log("USER ", req.query.username, " dont exists")
-    } catch (error) {
-        console.log(error);
-        return res.json({status: "error", message: error.message})
+    }
+    else{
+        // IS USERNAME CHECK
+        try {
+            console.log(req.query.username);
+            const user = await checkUser(req.query.username);
+            console.log("User en check",user)
+            if (user && user.status!=="error"){
+                console.log("USER ", req.query.username, " exists")
+                return res.json({status: "success", message: "exists"})
+            }
+            res.json({status:"error", message:"User don't exists"});
+            console.log("USER ", req.query.username, " dont exists")
+        } catch (error) {
+            console.log("USER ", req.query.username, " dont exists")
+            return res.json({status: "error", message:"User don't exists"})
+        }
     }
 })
 

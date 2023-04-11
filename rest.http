@@ -185,4 +185,19 @@ GET http://localhost:3001/v1/edusource/sortedbypromoterid?promoterId=63fdb9e80da
 GET http://localhost:3001/v1/edusource/search?terms=todo_sobre_los_binomios&lang=ES
 
 ### SEEACH Categories
-GET http://localhost:3001/v1/edusource/category?category=Math_and_Logic
+GET http://localhost:3001/v1/edusource/category?category=Computer_Science
+
+### Check User
+GET http://localhost:3001/v1/user/checkUser?email=rserravi@gmail.com
+
+### Update accepted/rejected valoration
+PATCH  http://localhost:3001/v1/edusource/valorationMod
+Content-Type: application/json
+
+{
+   "edu_id":"64039ba5736c71f7a09058c7",
+   "val_id":"6404b11ca422c35df7298ce9",
+   "accepted":false,
+   "rejected":true
+}
+
