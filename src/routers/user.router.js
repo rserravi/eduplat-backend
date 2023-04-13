@@ -433,7 +433,7 @@ router.get("/fetchuserbyusername", async(req, res)=>{
 router.get("/search", async(req, res)=>{
     const terms = req.query.terms;
     const lang = req.query.lang;
-    c//onsole.log(req.query);
+    //console.log(req.query);
     try {
         const result = await searchUsers(terms, lang);
         if (result){
