@@ -93,7 +93,7 @@ const createConversation = conversationObj => {
     const messages = conversation.messages;
     for (let message = 0; message < messages.length; message++) {
         //console.log("ITERACION: ",message,". SENDER",sender,".SENDERiD:",messages[message].senderId);
-        if (messages[message].senderId !== sender.toString()){
+        if (messages[message].senderId !== sender.toString() && !messages[message].readed){
             unread++
         }
         
