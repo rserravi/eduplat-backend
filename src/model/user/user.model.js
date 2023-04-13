@@ -1,4 +1,5 @@
 const { addKarma } = require("../../utils/karmaHandler.js");
+const { getConversationByUserId, getUnreadMessageNumber } = require("../conversation/conversation.model.js");
 const { getEdusourceByPromoterId } = require("../edusource/edusource.model.js");
 const {UserScheme} = require("./user.scheme.js");
 const mongoose = require("mongoose")
@@ -50,7 +51,7 @@ const insertUser = userObj => {
 
         if((!userId)) return false;
         try{
-            console.log("TRYING")
+            //console.log("TRYING")
             User.findOne({"_id": userId}, async (error, data)=>{
             if(error){
                 reject(error);
@@ -69,7 +70,7 @@ const insertUser = userObj => {
 const getAlerts = user =>{
     return new Promise(async (resolve, reject)=>{
         var userValorations = 0;
-        console.log("GET ALERTS USER.VALORATIONS", user.valorations);
+       //console.log("GET ALERTS USER.VALORATIONS", user.valorations);
         if (user.valorations.length > 0){
             for (let val = 0; val < user.valorations.length; val++) {
                 if (!user.valorations[val].accepted) {
@@ -92,13 +93,29 @@ const getAlerts = user =>{
         } catch (error) {
             reject(error);
         }
+
+        var messagesUnreaded = 0;
+        try {
+            const conversations = await getConversationByUserId(user._id);
+            console.log("CONVERSATIONS in GETALERTS");
+            for (let convers = 0; convers < conversations.length; convers++) {
+                messagesUnreaded+= getUnreadMessageNumber(conversations[convers], user._id)
+                
+            }
+            
+        } catch (error) {
+            reject(error)
+        }
+
+
+
         const alerts = {
             user: userValorations,
             resource: resourceValorations,
-            message: 0,
+            message: messagesUnreaded,
             promo: 0,
             recomendation: 0,
-            total: userValorations + resourceValorations
+            total: userValorations + resourceValorations + messagesUnreaded
         }
        
         resolve(alerts);
@@ -106,7 +123,7 @@ const getAlerts = user =>{
 };
 
 const getUserbyUserName = username =>{
-    console.log("GET USER BY USERNAME ", username)
+    //console.log("GET USER BY USERNAME ", username)
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -149,7 +166,7 @@ const storeUserRefreshJWT = (_id, token) => {
                         reject(error);
                     }
                     resolve(data);
-                    console.log(data);
+                    //console.log(data);
                     }
             ).clone();
         } catch (error) {
@@ -225,7 +242,7 @@ const updateUser = (_id, userObj) =>{
                         reject(error);
                     }
                     resolve(data);
-                    console.log(data);
+                    //console.log(data);
                     }
             ).clone();
         } catch (error) {
@@ -250,7 +267,7 @@ const updateUser = (_id, userObj) =>{
                 reject(error);
             }
             else{
-                console.log("CHECK USER RESULT: ",data);
+                //console.log("CHECK USER RESULT: ",data);
                 if (data.length>0){
                     if (data[0].username === username){
                         resolve(data)
@@ -287,7 +304,7 @@ const updateUser = (_id, userObj) =>{
                 reject(error);
             }
             else{
-                console.log("CHECK EMAIL RESULT: ",data);
+                //console.log("CHECK EMAIL RESULT: ",data);
                 if (data.length>0){
                     var found = false
                     for (let index = 0; index < data[0].emails.length; index++) {
@@ -325,7 +342,7 @@ const updateUser = (_id, userObj) =>{
         const db = await dbConnection.useDb(mainDataBaseName)
         const User = await db.model("user",UserScheme)
 
-        console.log("OBJETO EN INSERTUSERVALORATION",valObj);
+        //console.log("OBJETO EN INSERTUSERVALORATION",valObj);
 
         if((!valObj.userId)) return false;
         try{
@@ -350,7 +367,7 @@ const updateUser = (_id, userObj) =>{
             }
             else{
                 await addKarma(valObj.senderId, process.env.KARMA_FOR_USER_VALORATION)
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
             }
@@ -412,10 +429,10 @@ const updateUser = (_id, userObj) =>{
 
  const acceptedValorations = (user)=>{
     var count = 0;
-    console.log ("USER recibida en ACCEPTEDVALORATIONS", user)
+    //console.log ("USER recibida en ACCEPTEDVALORATIONS", user)
     if (user.valorations && user.valorations!==undefined && user.valorations!==null){
         for (let val = 0; val < user.valorations.length; val++) {
-            console.log("VALORACION DE USUARIO", user.valorations[val])
+            //console.log("VALORACION DE USUARIO", user.valorations[val])
             if (user.valorations[val].accepted){
                 count++;
             }
@@ -468,7 +485,7 @@ const updateUser = (_id, userObj) =>{
       newString+=newChar;
     }
 
-    console.log(newString)
+    //console.log(newString)
 
     return newString;
 }
@@ -487,7 +504,7 @@ const updateUser = (_id, userObj) =>{
         const newTerms = includeAccents(terms);
 
         const regx = {$regex: newTerms, $options: 'i'}
-        console.log (regx);
+        //console.log (regx);
         if (lang==="any" || lang==="ANY"){
             searchString = {
                 $or: [
@@ -556,7 +573,7 @@ const updateUser = (_id, userObj) =>{
                         valorationsCount: acceptedValorations(data[i])
                     }
 
-                    console.log("USUARIO EN NEWUSER", data[i])
+                    //console.log("USUARIO EN NEWUSER", data[i])
                     newArray.push(newUser);
 
                 }

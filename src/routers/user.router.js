@@ -24,13 +24,13 @@ router.all("/", (req, res, next) =>{
 
 //Get user profile router
 router.get("/", userAuthorization, async (req,res)=>{
-    console.log ("GET '/'")
+    console.log ("USER GET '/'")
     const _id = req.userId; // Comes from middleware userAuthorization
-    console.log("GETTING USER PROFILE OF", _id);
+    //console.log("GETTING USER PROFILE OF", _id);
     if (_id){
      
      let userProf = await getUserbyId(_id);
-     console.log("USER PROFILE OF", _id, "FOUND", userProf)
+     //console.log("USER PROFILE OF", _id, "FOUND", userProf)
     //userProf.isCompleted = profileCompletness(userProf);
      
      res.json ({user: userProf});
@@ -75,7 +75,7 @@ router.post("/", newUserValidation, async(req, res) => {
       }
 
        const result = await insertUser(newUserObj);
-       console.log("Insert User Result",result);
+       //("Insert User Result",result);
        //Send confirmation email
        //await emailProcessor(email, "", "new user confirmation",verificationLink);
        res.json({status: "success", message: "New user created. Check your email for a verification link", result});
@@ -96,12 +96,12 @@ router.patch("/", async(req, res)=>{
     try {
         
         const {_id} = req.body
-        console.log("IN USER PATCH, updating", req.body)
+        ("IN USER PATCH, updating", req.body)
         if (_id){
             await updateUser(_id, req.body)
                 .then((data)=>
                 {
-                    console.log("Result of UpdateUser return in Patch userRouter", data)
+                    //console.log("Result of UpdateUser return in Patch userRouter", data)
                     return res.json({status: "success", message:"User Updated"});
                 })
                 .catch((error)=>{
@@ -129,7 +129,7 @@ router.post("/login", async (req,res) =>{
     //get user with email from db
     try {
         const user = await getUserbyEmail(email);
-        console.log("LOGIN POST: GET USER BY EMAIL: ", user);
+        //console.log("LOGIN POST: GET USER BY EMAIL: ", user);
         const passFromDb = user && user.id ? user.password : null;
        
         if(!passFromDb)
@@ -345,15 +345,15 @@ router.get("/checkUser", async(req, res)=>{
     if (req.query.username === "" || req.query.username ===null || req.query.username ===undefined){
         // IS EMAIL CHECK
         try {
-            console.log(req.query.email);
+            //console.log(req.query.email);
             const email = await checkEmail(req.query.email);
             console.log("Email en check",email)
             if (email && email.status!=="error"){
-                console.log("EMAIL ", req.query.email, " exists")
+                //console.log("EMAIL ", req.query.email, " exists")
                 return res.json({status: "success", message: "exists"})
             }
             res.json({status:"error", message:"User don't exists"});
-            console.log("EMAIL ", req.query.email, " dont exists")
+            //console.log("EMAIL ", req.query.email, " dont exists")
         } catch (error) {
             console.log(error);
             return res.json({status: "error", message:"User don't exists"})
@@ -362,15 +362,15 @@ router.get("/checkUser", async(req, res)=>{
     else{
         // IS USERNAME CHECK
         try {
-            console.log(req.query.username);
+            //(req.query.username);
             const user = await checkUser(req.query.username);
-            console.log("User en check",user)
+            //console.log("User en check",user)
             if (user && user.status!=="error"){
-                console.log("USER ", req.query.username, " exists")
+                //console.log("USER ", req.query.username, " exists")
                 return res.json({status: "success", message: "exists"})
             }
             res.json({status:"error", message:"User don't exists"});
-            console.log("USER ", req.query.username, " dont exists")
+            //console.log("USER ", req.query.username, " dont exists")
         } catch (error) {
             console.log("USER ", req.query.username, " dont exists")
             return res.json({status: "error", message:"User don't exists"})
@@ -388,7 +388,7 @@ router.get("/fetchUser", async(req, res)=>{
     try {
         const result = await getUserbyId(userId);
         if (result){
-            console.log(result)
+            //console.log(result)
             const userToReturn = {
                 "username" : result.username,
                 "firstname": result.firstname,
@@ -415,11 +415,11 @@ router.get("/fetchUser", async(req, res)=>{
 
 router.get("/fetchuserbyusername", async(req, res)=>{
     const userName = req.query.username
-    console.log("BY UNAME", req.query)
+    //console.log("BY UNAME", req.query)
     try {
         const result = await getUserbyUserName(userName);
         if (result){
-            console.log(result)
+           // console.log(result)
             res.json ({status:"success", user: result});
         }
         else {
@@ -433,11 +433,11 @@ router.get("/fetchuserbyusername", async(req, res)=>{
 router.get("/search", async(req, res)=>{
     const terms = req.query.terms;
     const lang = req.query.lang;
-    console.log(req.query);
+    c//onsole.log(req.query);
     try {
         const result = await searchUsers(terms, lang);
         if (result){
-            console.log(result)
+            //console.log(result)
             res.json ({status:"success", result});
         }
         else {
@@ -460,7 +460,7 @@ router.post("/valoration", async(req, res)=>{
     }
     try {
         const result = await insertUserValoration(valObj);
-        console.log("Insert User Valoration",result);
+        //console.log("Insert User Valoration",result);
         res.json({status: "success", message: "New Valoration added", result});
  
     } catch(err){

@@ -17,7 +17,7 @@ const scrapUrl = (url) =>{
             $images = $('img');
             $description = $('p').text()
 
-            console.log($description);
+            //console.log($description);
     
             if ($title) {
                 resObj.title = $title;
@@ -54,7 +54,7 @@ const scrapUrl = (url) =>{
             }
     
             //send the response
-            console.log(resObj)
+            //console.log(resObj)
             resolve(resObj);
             
         } catch (error) {
@@ -94,7 +94,7 @@ const xtractXcharsFromPDFPages = (pdfPages, maxChars) =>{
 
 const scrapPdf = (pdf) => {
     return new Promise(async (resolve, reject)=>{
-        console.log(pdf);
+        //console.log(pdf);
         resObj = {}
         try {
             $title = pdf.meta.info.Subject !== "(anonymous)"? pdf.pages[0].content[0].str:pdf.meta.info.Subject 
@@ -121,7 +121,7 @@ const scrapPdf = (pdf) => {
     
     
             //send the response
-            console.log(resObj)
+            //console.log(resObj)
             resolve(resObj);
             
             
@@ -136,7 +136,7 @@ const scrapPdf = (pdf) => {
 
 //returns: {Website, Youtube, Vimeo, PDF ...}
 const getResourceType = (url) =>{
-    console.log("In get resource type", url)
+    //console.log("In get resource type", url)
     const lowerCaseUrl = url.toLowerCase();
     if (lowerCaseUrl.substr(lowerCaseUrl.length - 3)==="pdf"){
         return ("PDF")

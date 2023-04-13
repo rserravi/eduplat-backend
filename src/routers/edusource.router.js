@@ -39,7 +39,7 @@ router.post("/", async(req, res) => {
  
     try {
         const result = await insertEdusource(eduObj);
-        console.log("Insert Edusource Result",result);
+        //console.log("Insert Edusource Result",result);
         res.json({status: "success", message: "New Edusource created", result});
  
     } catch(err){
@@ -51,7 +51,7 @@ router.post("/", async(req, res) => {
 
  router.delete("/", async(req,res)=>{
     const edusourceId = req.query.edusourceId;
-    console.log("BORRANDO ", edusourceId)
+    //console.log("BORRANDO ", edusourceId)
     try {
         const result = await deleteEduById(edusourceId)
         if (result){
@@ -87,7 +87,7 @@ router.post("/", async(req, res) => {
  
  router.post("/valoration", async(req, res)=>{
     const {edusourceId, senderId, comment, value} = req.body;
-    console.log(req.body);
+    //console.log(req.body);
     const valObj = {
         edusourceId: edusourceId,
         senderId: senderId,
@@ -98,7 +98,7 @@ router.post("/", async(req, res) => {
     }
     try {
         const result = await insertEduValoration(valObj);
-        console.log("Insert Edusource Valoration",result);
+        //console.log("Insert Edusource Valoration",result);
         res.json({status: "success", message: "New Valoration added", result});
  
     } catch(err){
@@ -146,7 +146,7 @@ router.post("/", async(req, res) => {
     const {accepted, rejected, edu_id, val_id}= req.body;
     try {
         const result = await acceptRejectValoration(accepted, rejected, edu_id, val_id);
-        console.log ("RESULT EN ROUTER",result)
+        //console.log ("RESULT EN ROUTER",result)
         if (result){
             res.json({status: "success", result});
         }
@@ -163,7 +163,7 @@ router.post("/", async(req, res) => {
 
  router.get("/bylink", async(req, res)=>{
     const resourceURL = req.query.link
-    console.log("BY LINK", resourceURL)
+    //console.log("BY LINK", resourceURL)
     try {
         const result = await getEdusourceByLink(resourceURL);
         if (result){
@@ -195,7 +195,7 @@ router.post("/", async(req, res) => {
 
  router.get("/sortedbypromoterid", async(req, res)=>{
     const promoterId = req.query.promoterId
-    console.log("SortedByPromoterId", promoterId)
+    //console.log("SortedByPromoterId", promoterId)
      try {
         const result = await getEdusourceByPromoterId(promoterId);
         if (result){
@@ -283,11 +283,11 @@ router.post("/", async(req, res) => {
     const category = req.query.category;
     const level = req.query.level;
     const themes = req.query.themes;
-    console.log(req.query);
+    //console.log(req.query);
     try {
         const result = await searchEdusources(terms, lang, category, level, themes);
         if (result){
-            console.log(result)
+            //console.log(result)
             res.json ({status:"success", result});
         }
         else {
@@ -300,11 +300,11 @@ router.post("/", async(req, res) => {
 
 router.get("/category", async(req, res)=>{
     const category = req.query.category;
-    console.log(req.query);
+    //console.log(req.query);
     try {
         const result = await searchCategories(category);
         if (result){
-            console.log(result)
+            //console.log(result)
             res.json ({status:"success", result});
         }
         else {

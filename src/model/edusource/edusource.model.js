@@ -47,7 +47,7 @@ const includeAccentsInRegx= terms => {
       newString+=newChar;
     }
 
-    console.log(newString)
+    //console.log(newString)
 
     return newString;
 }
@@ -157,7 +157,7 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
             else{
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
             }
@@ -211,7 +211,7 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
             else{
-                console.log("LAST RESOURCES",data);
+                //console.log("LAST RESOURCES",data);
                 resolve(data);
             }
             }
@@ -239,7 +239,7 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
             else{
-                console.log(data); 
+                //console.log(data); 
                 const val= data.valorations;
                 for (let index = 0; index < val.length; index++) {
                     if (val[index].senderId===userId){
@@ -259,7 +259,7 @@ const insertEdusource = edusourceObj => {
  }
 
  const getEdusourcebyId = edusourceId =>{
-    console.log("GET EDUSOURCE BY ID ", edusourceId)
+    //console.log("GET EDUSOURCE BY ID ", edusourceId)
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -268,7 +268,7 @@ const insertEdusource = edusourceObj => {
 
         if((!edusourceId)) return false;
         try{
-            console.log("TRYING")
+            //console.log("TRYING")
             EduSource.findOne({"_id": edusourceId}, async (error, data)=>{
             if(error){
                 reject(error);
@@ -294,7 +294,7 @@ const insertEdusource = edusourceObj => {
         if((!edusourceId)) return false;
 
         const edusource = await getEdusourcebyId(edusourceId);
-        console.log(edusource)
+        //console.log(edusource)
         const valorations = edusource.valorations;
 
         for (let index = 0; index < valorations.length; index++) {
@@ -319,7 +319,7 @@ const insertEdusource = edusourceObj => {
             }
             else{
                // await addKarma(senderId, KARMA_FOR_EDUSOURCE_VALORATION)
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
             }
@@ -352,7 +352,7 @@ const insertEdusource = edusourceObj => {
                 if (valorations[val]._id.toString()===val_id){
                     valorations[val].accepted = accepted,
                     valorations[val].rejected = rejected
-                    console.log(valorations[val])
+                    //console.log(valorations[val])
                     
                     edu.valorations = valorations
                     edu.save().then((newData)=>{
@@ -381,7 +381,7 @@ const insertEdusource = edusourceObj => {
 
         if((!edusourceId)) return false;
         try{
-            console.log("TRYING")
+            //console.log("TRYING")
             EduSource.deleteOne({"_id": edusourceId}, async (error, data)=>{
             if(error){
                 reject(error);
@@ -432,7 +432,7 @@ const insertEdusource = edusourceObj => {
         
         for (let index = 0; index < searchTermsArray.length; index++) {
             const regx = {$regex: searchTermsArray[index], $options: 'i'}
-            console.log (regx);
+            //console.log (regx);
             searchString = {
                 language:language?language.toUpperCase():{$regex:'[A-Za-z0-9]', $options:'i'},
                 discipline:category?{$in:catArray}:{$regex:'[A-Za-z0-9]', $options:'i'},
@@ -465,7 +465,7 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
         }
-        console.log("ESTO ES DATA2", data);
+        //console.log("ESTO ES DATA2", data);
         resolve (data[0]);
         
     })
@@ -497,7 +497,7 @@ const insertEdusource = edusourceObj => {
           
             }
         
-        console.log(searchString);
+        //console.log(searchString);
         try{
             EduSource.find(searchString, async (error, data)=>{
                 if(error){

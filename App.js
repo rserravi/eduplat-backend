@@ -26,11 +26,13 @@ app.use(bodyParser.json());
 const userRouter = require("./src/routers/user.router");
 const edusourceRouter = require("./src/routers/edusource.router")
 const scrapRouter = require("./src/routers/scrap.router")
+const conversationRouter = require("./src/routers/conversation.router")
 
 //USE ROUTERS
 app.use("/v1/user", userRouter);
 app.use("/v1/edusource", edusourceRouter);
 app.use("/v1/scrap", scrapRouter)
+app.use("/v1/conversation", conversationRouter);
 
 
 //Error handler

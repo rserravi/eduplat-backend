@@ -68,7 +68,7 @@ All the edusources API follows '/v1/edusource'
 
 ### Comment API Resources
 
-All the user API router follows '/v1/comment/'
+All the comment API router follows '/v1/comment/'
 
 | #     | Routers                          | Verbs  | Progress | Is Private | Description                                      |
 | ----- | -------------------------------- | ------ | -------- | ---------- | ------------------------------------------------ |
@@ -86,3 +86,12 @@ All the scrap API router follows '/v1/scrap/'
 | ----- | -------------------------------- | ------ | -------- | ---------- | ------------------------------------------------ |
 | 1     | '/v1/scrap?url={url}'                    | GET   | DONE     | No         | Obtain headers from an url 
 
+### Conversation API Resoureces
+
+
+All the conversation API router follows '/v1/conversation/'
+
+| #     | Routers                          | Verbs  | Progress | Is Private | Description                                      |
+| ----- | -------------------------------- | ------ | -------- | ---------- | ------------------------------------------------ |
+| 1     | '/v1/conversation'                    | POST   | TODO     | No         | post a message with sender, reciver, message        |
+| 2     | '/v1/conversation'                    | GET    | TODO     | No         | Get all conversations from specified userId        |

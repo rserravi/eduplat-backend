@@ -23,7 +23,7 @@ const addKarma = (senderId, karma)=>{
             }
             else{
                 resolve(otherData)
-                console.log(otherData);
+                //console.log(otherData);
             }
             }
         ).lean().clone();
@@ -33,4 +33,31 @@ const addKarma = (senderId, karma)=>{
     })
  }
 
- module.exports = {addKarma}
+ const getUserbyIdV2 = userId =>{
+    console.log("GET USER BY ID ", userId)
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        if((!userId)) return false;
+        try{
+            //console.log("TRYING")
+            User.findOne({"_id": userId}, async (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            resolve(data)
+            }
+        ).clone().lean();
+        } catch (error) {
+            reject(error);
+        }
+    });
+ };
+
+ module.exports = {
+    addKarma, 
+    getUserbyIdV2
+}

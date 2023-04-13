@@ -48,7 +48,7 @@ const newUserValidation = (req, res, next) =>{
        })
        
        const value = schema.validate(req.body);
-       console.log(value);
+       //console.log(value);
        if(value.error){
               return res.json({status: "error", message: value.error.message});
        }

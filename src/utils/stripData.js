@@ -1,5 +1,5 @@
 const stripPrivateData = user => {
-    console.log("EN STRIP DATA", user);
+    //console.log("EN STRIP DATA", user);
     const newUser= {
         "userName" : user.userName,
         "firstname": user.firstname,
@@ -11,7 +11,7 @@ const stripPrivateData = user => {
         "valorations": user.valorations
     }
 
-    console.log(newUser)
+    //console.log(newUser)
 
     return newUser;
 }

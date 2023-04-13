@@ -14,7 +14,7 @@ router.all("/", (req, res, next) =>{
 router.get("/", async (req, res)=>{
     const url = req.query.url;
     const resourceType = getResourceType(url);
-    console.log("RESOURCE TYPE",resourceType)
+    //console.log("RESOURCE TYPE",resourceType)
     const lngDetector = new LanguageDetect();
     lngDetector.setLanguageType("iso2");
     switch (resourceType) {
@@ -28,7 +28,7 @@ router.get("/", async (req, res)=>{
 
                     pdfExtract.extract('file.pdf', options, async (err, data) => {
                         if (err)  return res.json ({status:"error", err});
-                        console.log(data);
+                        //console.log(data);
                         await scrapPdf (data).then((result)=>{
                             result.linktype = "PDF"
                             result.language = lngDetector.detect(result.description, 1)[0][0].toUpperCase()

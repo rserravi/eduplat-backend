@@ -201,3 +201,19 @@ Content-Type: application/json
    "rejected":true
 }
 
+
+### Conversation test
+GET http://localhost:3001/v1/conversation
+
+### Conversation initializer
+POST http://localhost:3001/v1/conversation
+Content-Type: application/json
+
+{
+   "senderId":"63fdb9e80daaa0ce85983c3a",
+   "receiverId": "64133fa635c7ff0df2a385a6",
+   "message":"Siii, dime!"
+}
+
+### Conversation find by userId
+GET http://localhost:3001/v1/conversation?userid=64133fa635c7ff0df2a385a6
