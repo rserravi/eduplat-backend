@@ -70,7 +70,7 @@ router.get("/", async (req, res)=>{
     const {userid} = req.query;
     try {
         await getConversationByUserId(userid).then((conversation)=>{
-            res.json({status: "success", unread:getUnreadMessageNumber(conversation, userid), conversation, });
+            res.json({status: "success", conversation });
         }).catch((err)=>{
             res.json({status:"error", err});
         })

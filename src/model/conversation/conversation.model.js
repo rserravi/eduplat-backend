@@ -1,5 +1,5 @@
 const {ConversationScheme} = require("./conversation.scheme");
-const mongoose = require("mongoose")
+//const mongoose = require("mongoose")
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
 const findConversation = (user1, user2, theMessage) =>{
@@ -16,11 +16,11 @@ const findConversation = (user1, user2, theMessage) =>{
 
         try {
             ConversationSource.findOneAndUpdate({
-                $match: {
-                    "members": {
-                      "$all": [user1,user2]
+                
+                    "members.userId": {
+                      $all: [user1,user2]
                     }
-                  }
+                  
                 },
                 {$push: {messages:message}}, {new: true}, async (error, data)=>{
                         if(error){
