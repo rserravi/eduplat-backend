@@ -92,10 +92,9 @@ router.post("/", newUserValidation, async(req, res) => {
 });
 
 router.patch("/", async(req, res)=>{
-    
-    try {
+    try {  
+        const _id = req.body._id;
         
-        const {_id} = req.body
         ("IN USER PATCH, updating", req.body)
         if (_id){
             await updateUser(_id, req.body)
@@ -107,7 +106,6 @@ router.patch("/", async(req, res)=>{
                 .catch((error)=>{
                     return res.json({status:"error", error});
                 })
-           
         }        
     } catch (err) {
         console.log(err)

@@ -30,7 +30,7 @@ router.post("/", async (req, res)=>{
                         "username": sender.username,
                         "picture": {
                             "fileName": sender.picture.fileName,
-                            "file": Buffer.from(sender.picture.file, 'base64'),
+                            "file": sender.picture.file,
                             "type": sender.picture.type
                         }
                     },
@@ -39,7 +39,7 @@ router.post("/", async (req, res)=>{
                         "username": receiver.username,
                         "picture": {
                             "fileName": receiver.picture.fileName,
-                            "file":Buffer.from(receiver.picture.file, 'base64').toJSON(),
+                            "file":receiver.picture.file,
                             "type": receiver.picture.type
                         }
                     },

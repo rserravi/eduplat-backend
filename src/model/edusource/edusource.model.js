@@ -47,7 +47,7 @@ const includeAccentsInRegx= terms => {
       newString+=newChar;
     }
 
-    //console.log(newString)
+    console.log(newString)
 
     return newString;
 }

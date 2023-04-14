@@ -19,7 +19,7 @@ const ConversationScheme = mongoose.Schema ({
                 required: false,
             },
             file: {
-                data: Buffer,
+                type: Buffer,
                 contentType: String,
             },
             uploadTime: {
