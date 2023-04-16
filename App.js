@@ -13,9 +13,7 @@ const {initClientDbConnection} = require("./src/helpers/dbConnection")
 //app.use(helmet());
 
 //HANDLE CORS ERROR
-app.use(cors({
-   origin: 'http://localhost:3000'
-}));
+app.use(cors());
 
 //LOGGER
 app.use(morgan("tiny"));   
