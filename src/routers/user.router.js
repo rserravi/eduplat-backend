@@ -301,6 +301,20 @@ router.patch("/reset-password", async (req, res)=>{
     res.json({status: "error", message:"Unable to update your password. Please, try again later."});
  });
 
+ router.patch("/create-password", async (req, res)=>{
+    const {email, newPassword} = req.body;
+    
+    const hashedPass = await hashPassword(newPassword);
+    console.log( newPassword, + " "+ hashedPass);
+    const user = await updatePassword(email,hashedPass);
+    if (user._id) {
+        return res.json({status: "success", message:"Your password has been updated. You can log-in now"})
+    }else{
+    
+        res.json({status: "error", message:"Unable to update your password. Please, try again later."});
+    }
+ });
+
 //Log out and clear tokens
 router.delete("/logout", userAuthorization, async(req,res)=>{
     //1 - get jwt and verify // DONE by Middleware

@@ -217,3 +217,12 @@ Content-Type: application/json
 
 ### Conversation find by userId
 GET http://13.39.99.41/api/v1/conversation?userid=64133fa635c7ff0df2a385a6
+
+### NEW PASSWORD
+PATCH http://localhost:3001/v1/user/create-password
+Content-Type: application/json
+
+{
+   "email": "rserravi@gmail.com",
+   "newPassword": "Nocereb0"
+}
