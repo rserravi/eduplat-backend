@@ -28,14 +28,14 @@ const setJWT = (key, value) =>{
         try {    
             await checkRedis(); 
             // BUG ALERT:!!!! Aqui peta
-            //console.log("REDIS ESTA FUNCIONANDO")
+            console.log("REDIS ESTA FUNCIONANDO")
             client.set(key, value, (err, res)=>{
                 if(err){ 
-                    //console.log("ERROR EN EL SETJWT DE REDIS.HELPERS")
+                    console.log("ERROR EN EL SETJWT DE REDIS.HELPERS")
                     reject(err)
                 }
                 else {
-                    //console.log("SE HA CREADO KEY=",key, "CON VALUE", value, " Y RESPUESTA", res)
+                    console.log("SE HA CREADO KEY=",key, "CON VALUE", value, " Y RESPUESTA", res)
                     resolve(res)
                 }
             });
