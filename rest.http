@@ -235,3 +235,11 @@ Content-Type: application/json
     "email": "rserravi@gmail.com", 
     "password": "Nocereb0" 
 }
+
+### MARK CONVERSATION AS READED
+PATCH http://localhost:3001/v1/conversation
+Content-Type: application/json
+
+{
+   "conversationId":"643665161fcb5667d7f3c396"
+}

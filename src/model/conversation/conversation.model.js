@@ -100,12 +100,66 @@ const createConversation = conversationObj => {
     }
 
     return unread;
-    
+ }
+
+ const getConversationById = (conversationId) => {
+    return new Promise(async(resolve, reject)=>{
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const ConversationSource = await db.model("conversation",ConversationScheme)
+
+        try {
+            ConversationSource.find({"_id": conversationId}, async (error, data)=>{
+                if(error){
+                    reject(error);
+                }
+                resolve(data)
+                }
+            ).clone().lean();
+            
+        } catch (error) {
+            console.error(error);
+            reject(error)
+        }
+    })
+ }
+
+ const markConversationAsReaded = (conversationId) =>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const ConversationSource = await db.model("conversation",ConversationScheme)
+
+        const conversation = await getConversationById(conversationId)
+        //console.log(conversation);
+        var newMessages = conversation[0].messages.map((x)=>x)
+        for (let i = 0; i < newMessages.length; i++) {
+            newMessages[i].readed = true;
+        }
+           
+ 
+        try {
+            ConversationSource.findOneAndUpdate({"_id": conversationId}, {"messages": newMessages}, async (error, data)=>{
+                if(error){
+                    reject(error);
+                }
+                resolve(data)
+                }
+            ).clone().lean();
+            
+        } catch (error) {
+            console.error(error);
+            reject(error)
+        }
+    })
  }
 
  module.exports = {
     findConversation,
     createConversation,
     getConversationByUserId,
-    getUnreadMessageNumber
+    getUnreadMessageNumber,
+    getConversationById,
+    markConversationAsReaded
  }

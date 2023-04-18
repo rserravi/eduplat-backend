@@ -1,5 +1,5 @@
 const express = require("express");
-const { createConversation, findConversation, getConversationByUserId, getUnreadMessageNumber } = require("../model/conversation/conversation.model");
+const { createConversation, findConversation, getConversationByUserId, getUnreadMessageNumber, markConversationAsReaded } = require("../model/conversation/conversation.model");
 const { getUserbyIdV2 } = require("../utils/karmaHandler");
 
 const router = express.Router();
@@ -77,6 +77,20 @@ router.get("/", async (req, res)=>{
 
     } catch (error) {
         res.json({status:"error", error});
+    }
+})
+
+router.patch("/", async (req, res)=>{
+    const {conversationId} = req.body;
+    try {
+        await markConversationAsReaded(conversationId).then((data)=>{
+            res.json({status: "succes", message:"Conversation updated"})
+        }).catch((err)=>{
+            res.json({status:"error", err})
+        })
+        
+    } catch (error) {
+        res.json({status:"error", error})
     }
 })
 
