@@ -82,8 +82,10 @@ router.get("/", async (req, res)=>{
 
 router.patch("/", async (req, res)=>{
     const {conversationId} = req.body;
+    const {userId}= req.body;
+    console.log("USER ID ES", userId)
     try {
-        await markConversationAsReaded(conversationId).then((data)=>{
+        await markConversationAsReaded(conversationId, userId).then((data)=>{
             res.json({status: "succes", message:"Conversation updated"})
         }).catch((err)=>{
             res.json({status:"error", err})

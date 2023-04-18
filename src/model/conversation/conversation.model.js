@@ -124,7 +124,7 @@ const createConversation = conversationObj => {
     })
  }
 
- const markConversationAsReaded = (conversationId) =>{
+ const markConversationAsReaded = (conversationId, userId) =>{
     return new Promise(async (resolve, reject)=>{ 
  
         const dbConnection = await global.clientConnection
@@ -132,10 +132,12 @@ const createConversation = conversationObj => {
         const ConversationSource = await db.model("conversation",ConversationScheme)
 
         const conversation = await getConversationById(conversationId)
-        //console.log(conversation);
         var newMessages = conversation[0].messages.map((x)=>x)
         for (let i = 0; i < newMessages.length; i++) {
-            newMessages[i].readed = true;
+            console.log("SENDERID", newMessages[i].senderId, "UserId", userId)
+            if (newMessages[i].senderId!==userId){
+                newMessages[i].readed = true;
+            }
         }
            
  
