@@ -301,3 +301,18 @@ Content-Type: application/json
    "licence": "CC",
    "language": "ES"
 }
+
+### PATCH A Edusource
+PATCH http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "_id": "64039ba5736c71f7a09058c7",
+   "discipline": "Natural Sciences",
+   "level":"ISCED2",
+   "theme": [
+      "Physics",
+      "Newton"
+   ],
+   "language": "ES"
+}

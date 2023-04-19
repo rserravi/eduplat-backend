@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -498,6 +498,21 @@ router.patch("/valoration", async(req, res)=>{
     } catch (error) {
         res.json({status:"error", error});
     }
+})
+
+router.get("/all", async(req,res)=>{
+    try {
+        const result = await getAllUsers();
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
 })
 
 

@@ -33,6 +33,10 @@ const EdusourceScheme = mongoose.Schema ({
         type: String,
         maxLenght: 10,
     },
+    level: {
+        type: String,
+        maxLenght:10,
+    },
     discipline: {
         type: String,
         maxLenght: 50,

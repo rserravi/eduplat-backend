@@ -590,6 +590,29 @@ const updateUser = (_id, userObj) =>{
         }
     })
  }
+
+ const getAllUsers = () =>{
+    
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        try{
+            User.find({}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            
+            resolve(data);
+            }
+        ).clone();
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
  
  
 module.exports = {
@@ -607,5 +630,5 @@ module.exports = {
    includeAccents, 
    insertUserValoration,
    updateUserValoration,
-   
+   getAllUsers
 };

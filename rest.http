@@ -243,3 +243,17 @@ Content-Type: application/json
 {
    "conversationId":"643665161fcb5667d7f3c396"
 }
+### GET ALL RESOURCES
+GET http://localhost:3001/v1/edusource/all
+
+### GET ALL USERS
+GET http://localhost:3001/v1/user/all
+
+### GET THEMES
+GET http://localhost:3001/v1/edusource/theme?theme=Big_Data
+
+### GET LEVELS
+GET http://localhost:3001/v1/edusource/level?level=ISCED2
+
+### SCRAP TEST
+GET http://localhost:3001/v1/scrap?url=https://publicacions.iec.cat/repository/pdf/00000173%5C00000072.pdf

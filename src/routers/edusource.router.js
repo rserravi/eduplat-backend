@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -11,7 +11,7 @@ router.all("/", (req, res, next) =>{
 
 //Create new edusource
 router.post("/", async(req, res) => {
-    const {title, resourceURL, promoterId, autors, languaje, discipline, theme, type, link, linktype, description, picture, licence, valorations, language} = req.body;
+    const {title, resourceURL, promoterId, autors, languaje, discipline, theme, type, link, linktype, description, picture, licence, valorations, language, level} = req.body;
 
     const eduObj = {
         title: title?title:"",
@@ -19,6 +19,7 @@ router.post("/", async(req, res) => {
         promoterId: promoterId?promoterId:"",
         autors: autors?autors:{},
         discipline: discipline?discipline:"other",
+        level: level?level:"OTHER",
         languaje: languaje?languaje:"EN",
         theme: theme?theme:{"label":"other"},
         type: type?type:"lesson",
@@ -303,6 +304,56 @@ router.get("/category", async(req, res)=>{
     //console.log(req.query);
     try {
         const result = await searchCategories(category);
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.get("/theme", async(req, res)=>{
+    const theme = req.query.theme;
+    //console.log(req.query);
+    try {
+        const result = await searchThemes(theme);
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.get("/level", async(req, res)=>{
+    const level = req.query.level;
+    //console.log(req.query);
+    try {
+        const result = await searchLevels(level);
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+
+router.get("/all", async(req,res)=>{
+    try {
+        const result = await getAllResources();
         if (result){
             //console.log(result)
             res.json ({status:"success", result});

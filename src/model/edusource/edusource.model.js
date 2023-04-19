@@ -437,6 +437,7 @@ const insertEdusource = edusourceObj => {
                 language:language?language.toUpperCase():{$regex:'[A-Za-z0-9]', $options:'i'},
                 discipline:category?{$in:catArray}:{$regex:'[A-Za-z0-9]', $options:'i'},
                 themes: themes?{ $in:themeArray}:{$regex:'[A-Za-z0-9]', $options:'i'},
+                level: level?level:{$regex:'[A-Za-z0-9]', $options:'i'},
                 $and: [
                 {$or: [
                     {title: regx},
@@ -515,6 +516,83 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const searchThemes = (theme) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+        
+        const theTheme = replaceUnderscoresWithSpaces(theme)
+        try{
+            EduSource.find({"theme":theTheme}, async (error, data)=>{
+                if(error){
+                    console.log(error)
+                    reject(error);
+                }
+                else{
+                    resolve(data);
+                }
+            }
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
+ const searchLevels = (level) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+        
+        try{
+            EduSource.find({"level":level}, async (error, data)=>{
+                if(error){
+                    console.log(error)
+                    reject(error);
+                }
+                else{
+                    resolve(data);
+                }
+            }
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
+
+ const getAllResources = ()=>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        try{
+            EduSource.find({}, async (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                //console.log("LAST RESOURCES",data);
+                resolve(data);
+            }
+            }
+        ).lean().clone().sort({_id: -1 })
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+ 
+
 
  module.exports = {
     insertEdusource,
@@ -530,5 +608,8 @@ const insertEdusource = edusourceObj => {
     includeAccentsInRegx,
     searchCategories,
     replaceUnderscoresWithSpaces,
-    acceptRejectValoration
+    acceptRejectValoration,
+    getAllResources,
+    searchThemes,
+    searchLevels
  }

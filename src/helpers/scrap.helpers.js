@@ -141,7 +141,7 @@ const getResourceType = (url) =>{
     if (lowerCaseUrl.substr(lowerCaseUrl.length - 3)==="pdf"){
         return ("PDF")
     }
-    if (lowerCaseUrl.search("youtube")!==-1 && lowerCaseUrl.search("youtu.be" !==-1)){
+    if (lowerCaseUrl.search("youtube")!==-1 || lowerCaseUrl.search("youtu.be")!==-1){
         return ("Youtube")
     }
 
