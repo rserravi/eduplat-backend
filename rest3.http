@@ -303,16 +303,18 @@ Content-Type: application/json
 }
 
 ### PATCH A Edusource
-PATCH http://localhost:3001/v1/edusource
+PATCH http://13.39.99.41/api/v1/edusource
 Content-Type: application/json
 
 {
-   "_id": "64039ba5736c71f7a09058c7",
-   "discipline": "Natural Sciences",
-   "level":"ISCED2",
+   "_id": "6404e721a422c35df7298d99",
+   "discipline": "ICT",
+   "level":"ISCED4",
    "theme": [
-      "Physics",
-      "Newton"
+      "Computer Graphics",
+      "UE4",
+      "Unreal Engine",
+      "Videogames"
    ],
-   "language": "ES"
+   "language": "EN"
 }

@@ -244,7 +244,7 @@ Content-Type: application/json
    "conversationId":"643665161fcb5667d7f3c396"
 }
 ### GET ALL RESOURCES
-GET http://localhost:3001/v1/edusource/all
+GET http://13.39.99.41/api/v1/edusource/all
 
 ### GET ALL USERS
 GET http://localhost:3001/v1/user/all
@@ -257,3 +257,14 @@ GET http://localhost:3001/v1/edusource/level?level=ISCED2
 
 ### SCRAP TEST
 GET http://localhost:3001/v1/scrap?url=https://publicacions.iec.cat/repository/pdf/00000173%5C00000072.pdf
+
+### ACCEPT REJECT VALORATIONS
+PATCH http://localhost:3001/v1/user/valorationMod
+Content-Type: application/json
+
+{
+   "user_id":"63fdb9e80daaa0ce85983c3a",
+   "val_id":"641b500b9c8aebea1fd48e69",
+   "accepted":true,
+   "rejected":false
+}

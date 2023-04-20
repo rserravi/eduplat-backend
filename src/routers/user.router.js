@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -499,6 +499,27 @@ router.patch("/valoration", async(req, res)=>{
         res.json({status:"error", error});
     }
 })
+
+router.patch("/valorationMod", async(req,res)=>{
+    console.log("VALORATION MOD")
+    const {accepted, rejected, user_id, val_id}= req.body;
+    console.log(req.body);
+    try {
+        const result = await acceptRejectUserValoration(accepted, rejected, user_id, val_id);
+        //console.log ("RESULT EN ROUTER",result)
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     
+    } catch (error) {
+        console.log(error)
+        res.json({status:"error", error});
+    }
+})
+    
 
 router.get("/all", async(req,res)=>{
     try {

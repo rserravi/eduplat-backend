@@ -427,6 +427,52 @@ const updateUser = (_id, userObj) =>{
 
  }
 
+ const acceptRejectUserValoration =(accepted, rejected, user_id, val_id)=>{
+    console.log("ACCEPT REJECT")
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        if((!user_id) || !val_id) return false;
+       
+        console.log(user_id);
+        //try{
+            
+            const usor = await User.findById(user_id);
+            
+            if (!usor) reject({"status":"error", "message":"No user found"})
+
+            var valorations = [... usor.valorations]
+            console.log("VALORACIONES DEL USUARIO",valorations)
+
+            for (let val = 0; val < valorations.length; val++) {
+                console.log(valorations[val]._id.toString(), val_id)
+                if (valorations[val]._id.toString()===val_id){
+                    valorations[val].accepted = accepted,
+                    valorations[val].rejected = rejected
+                    console.log("VALORACIONES CAMBIADAS",valorations[val])
+                    
+                    usor.valorations = valorations
+                    usor.save().then((newData)=>{
+                        resolve(newData)
+                    }).catch((error)=>{
+                        console.log("Error en Update", error);
+                        reject(error);
+                    })
+                }
+                
+            }            
+        
+       /*  } catch (error) {
+            console.log("NOT FOUND _ID")
+            reject(error);
+        } */
+    });
+ }
+
+
  const acceptedValorations = (user)=>{
     var count = 0;
     //console.log ("USER recibida en ACCEPTEDVALORATIONS", user)
@@ -630,5 +676,6 @@ module.exports = {
    includeAccents, 
    insertUserValoration,
    updateUserValoration,
+   acceptRejectUserValoration,
    getAllUsers
 };
