@@ -8,6 +8,7 @@ const LanguageDetect = require('languagedetect');
 
 router.all("/", (req, res, next) =>{
    //res.json({message: "return form scrap router"});
+   res.header('Access-Control-Allow-Origin', '*');
    next();
 });
 

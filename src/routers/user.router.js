@@ -19,6 +19,7 @@ const router = express.Router();
 
 router.all("/", (req, res, next) =>{
    //res.json({message: "return form user router"});
+   res.header('Access-Control-Allow-Origin', '*');
    next();
 });
 
