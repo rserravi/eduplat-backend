@@ -142,10 +142,10 @@ router.post("/login", async (req,res) =>{
             return res.json({status: "error", message: "Incorrect Password"});
         }
         const accessJWT = await createAccessJWT(user.email, `${user._id}`)
-        //console.log("CREANDO ACCESSJWT DESDE LOGIN", accessJWT)
+        console.log("CREANDO ACCESSJWT DESDE LOGIN", accessJWT)
         const refreshJWT = await createRefreshJWT(user.email, `${user._id}`);
         await addKarma(user._id, process.env.KARMA_FOR_LOGIN)
-        console.log("KARMA ADDED");
+        console.log("KARMA ADDED, ready to send json");
 
         return res.json({
             status:"success",
