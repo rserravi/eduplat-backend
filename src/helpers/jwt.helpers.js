@@ -28,8 +28,10 @@ const createRefreshJWT = async (payload, _id) =>{
           );
       
        await storeUserRefreshJWT(_id, refreshJWT);
+       console.log("REFRESH CREADO")
        return Promise.resolve(refreshJWT);
        } catch (error) {
+            console.log("JWT error")
            return Promise.reject(error);
        }
 }
