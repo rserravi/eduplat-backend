@@ -136,7 +136,7 @@ router.post("/login", async (req,res) =>{
         });
       
         const result = await comparePassword(password, passFromDb);
-       // console.log("COMPARE PASSWORD", result);
+       console.log("COMPARE PASSWORD", result);
        
         if (!result) {
             return res.json({status: "error", message: "Incorrect Password"});
@@ -145,6 +145,7 @@ router.post("/login", async (req,res) =>{
         //console.log("CREANDO ACCESSJWT DESDE LOGIN", accessJWT)
         const refreshJWT = await createRefreshJWT(user.email, `${user._id}`);
         await addKarma(user._id, process.env.KARMA_FOR_LOGIN)
+        console.log("KARMA ADDED");
 
         return res.json({
             status:"success",
