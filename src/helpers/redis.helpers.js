@@ -32,7 +32,7 @@ const setJWT = (key, value) =>{
             client.set(key, value, (err, res)=>{
                 
                 if(err){ 
-                    //console.log("ERROR EN EL SETJWT DE REDIS.HELPERS")
+                    console.log("ERROR EN EL SETJWT DE REDIS.HELPERS")
                     reject(err)
                 }
                 else {
