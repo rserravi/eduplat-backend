@@ -9,7 +9,7 @@ try {
         {expiresIn:"15m"}
     );
 
-    //console.log("ACCESSJWT",accessJWT)
+    console.log("ACCESSJWT",accessJWT)
     
     await setJWT(accessJWT, _id).then((data)=>{console.log("DATA RETORNADA DE SETJWT",data)}).catch((err)=>{console.log("ERROR EN DATA DE SETJWT",err)})
     return Promise.resolve(accessJWT);

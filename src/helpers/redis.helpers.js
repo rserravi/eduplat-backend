@@ -25,7 +25,7 @@ const setJWT = (key, value) =>{
     console.log("CREANDO ACCESSJWT EN REDIS", key, value)
     return new Promise(async(resolve, reject)=>{
   
-     //   try {    
+        try {    
             await checkRedis(); 
             // BUG ALERT:!!!! Aqui peta
             console.log("REDIS ESTA FUNCIONANDO")
@@ -41,10 +41,10 @@ const setJWT = (key, value) =>{
                 }
             });
             
-      //  } catch (error) {
-       //     console.log(error);
-      //      reject(error);
-      //  }
+        } catch (error) {
+           console.log(error);
+           reject(error);
+       }
     })
  }
  
