@@ -30,7 +30,7 @@ const setJWT = (key, value) =>{
             // BUG ALERT:!!!! Aqui peta
             console.log("REDIS ESTA FUNCIONANDO EN SETJWT")
             client.set(key, value, (err, res)=>{
-                
+                console.log("Client set en setJWT")
                 if(err){ 
                     console.log("ERROR EN EL SETJWT DE REDIS.HELPERS")
                     reject(err)
