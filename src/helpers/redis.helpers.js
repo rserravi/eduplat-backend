@@ -28,7 +28,7 @@ const setJWT = (key, value) =>{
         try {    
             await checkRedis(); 
             // BUG ALERT:!!!! Aqui peta
-            console.log("REDIS ESTA FUNCIONANDO")
+            console.log("REDIS ESTA FUNCIONANDO EN SETJWT")
             client.set(key, value, (err, res)=>{
                 
                 if(err){ 
@@ -42,7 +42,7 @@ const setJWT = (key, value) =>{
             });
             
         } catch (error) {
-           console.log(error);
+           console.log("ERROR EN SETJWT",error);
            reject(error);
        }
     })
