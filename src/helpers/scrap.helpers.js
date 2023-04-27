@@ -136,7 +136,7 @@ const scrapPdf = (pdf) => {
 
 //returns: {Website, Youtube, Vimeo, PDF ...}
 const getResourceType = (url) =>{
-    //console.log("In get resource type", url)
+    console.log("In get resource type", url)
     const lowerCaseUrl = url.toLowerCase();
     if (lowerCaseUrl.substr(lowerCaseUrl.length - 3)==="pdf"){
         return ("PDF")
@@ -154,6 +154,10 @@ const getResourceType = (url) =>{
 
     if (lowerCaseUrl.search("docs.google") !== -1){
         return ("Google Docs")
+    }
+
+    if (lowerCaseUrl.search("drive.google") !== -1){
+        return ("Google Drive")
     }
 
     if (lowerCaseUrl.search("wordwall") !== -1){
@@ -178,6 +182,7 @@ const cleanGoogleDocsUrl = (url)=>{
     }
     return cleanUrl;
 }
+
 
 const cleanKahootUrl = (url)=>{
     const urlParts = url.split("/");

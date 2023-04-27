@@ -624,6 +624,7 @@ const insertEdusource = edusourceObj => {
         const dbConnection = await global.clientConnection
         const db = await dbConnection.useDb(mainDataBaseName)
         const EduSource = await db.model("edusource",EdusourceScheme)
+        var data =[]
         try{
             EduSource.find().exec((error, documents)=>{
                 if (error) {
@@ -633,14 +634,15 @@ const insertEdusource = edusourceObj => {
                     for (let i = 0; i < documents.length; i++) {
                         let document =documents[i];
                         console.log('BEFORE SET -', document)
-                        
-                        document.$set('linktype', getResourceType(document.link));
-                        document.$set('type', getResourceType(document.link));
+                        const newType =getResourceType(document.link)
+                        document.$set('linktype', newType);
+                        document.$set('type', newType);
                         document.save().then(result => {
                             console.log('AFTER SET -', result);
                         });
+                        data.push({title: document.link, newType: newType});
                     }
-                    resolve({status:"success"})
+                    resolve({status:"success", data})
                 }
             })
         } catch (error) {

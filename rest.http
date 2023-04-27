@@ -182,7 +182,7 @@ GET http://localhost:3001/v1/scrap?url=https://www.youtube.com/watch?v=oNUJpzhqe
 GET http://localhost:3001/v1/edusource/sortedbypromoterid?promoterId=63fdb9e80daaa0ce85983c3a
 
 ### SEEACH Edusources
-GET http://13.39.99.41//api/v1/edusource/search?terms=Kahoot&lang=ANY
+GET http://13.39.99.41//api/v1/edusource/search?terms=dobble&lang=ANY
 
 ### SEEACH Categories
 GET http://localhost:3001/v1/edusource/category?category=Computer_Science
@@ -285,3 +285,6 @@ Content-Type: application/json
 
 ### FIX TYPES
 PATCH http://13.39.99.41/api/v1/edusource/fixTypes
+
+### FIX TYPES
+PATCH http://localhost:3001/v1/edusource/fixTypes
