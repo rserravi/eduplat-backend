@@ -601,8 +601,10 @@ const insertEdusource = edusourceObj => {
         const EduSource = await db.model("edusource",EdusourceScheme)
         const UserSource = await db.model("user", UserScheme)
         
+        const theType = replaceUnderscoresWithSpaces(types)
+
         try{
-            EduSource.find({"type":types}, async (error, data)=>{
+            EduSource.find({"type":theType}, async (error, data)=>{
                 if(error){
                     console.log(error)
                     reject(error);

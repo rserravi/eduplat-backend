@@ -96,6 +96,37 @@ router.get("/", async (req, res)=>{
                 res.json({status:"error", error});
             }   
             break;
+        
+        case "Google Drive":
+            const driveUrl = (url);
+            try {
+                await axios.get(driveUrl).then(async (response)=>{
+                                
+                    await scrapUrl(response.data).then((result)=>{
+                        console.log(result)
+                        result.linktype = "Google Drive"
+                        result.link = driveUrl
+                        try {
+                            result.language = lngDetector.detect(result.description, 1)[0][0].toUpperCase()    
+                        } catch (error) {
+                            result.language = "EN"
+                        }
+                        
+                        res.json ({status:"success", result});
+                    }).catch((error)=>{
+                        console.log("ERROR EN SCRAPURL",error)
+                        res.json({status: "error", result, message:"Nothing Found"})
+                    })
+                }).catch((error)=>{
+                    console.log("ERROR EN AXIOS")
+                    res.json({status:"error", error});
+                })
+                
+            } catch (error) {
+                console.log("ERROR IN TRY", error)
+                res.json({status:"error", error});
+            }   
+            break;
         case "Kahoot":
             const kurl = cleanKahootUrl(url);
             //console.log("KAHOOT URL", kurl)
