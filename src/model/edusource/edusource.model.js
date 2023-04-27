@@ -635,6 +635,7 @@ const insertEdusource = edusourceObj => {
                         console.log('BEFORE SET -', document)
                         
                         document.$set('linktype', getResourceType(document.link));
+                        document.$set('type', getResourceType(document.link));
                         document.save().then(result => {
                             console.log('AFTER SET -', result);
                         });
