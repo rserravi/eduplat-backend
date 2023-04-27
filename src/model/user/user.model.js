@@ -145,6 +145,31 @@ const getUserbyUserName = username =>{
         }
     });
 };
+
+const getIdByEmail = email =>{
+    //console.log("GET USER BY USERNAME ", username)
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        if((!email)) return false;
+        try{
+            const val2 = `\"${email}\"`
+            User.findOne({"emails.emailUrl":email}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            
+            resolve(data._id);
+            }
+        ).clone();
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
  
  
 
@@ -184,7 +209,7 @@ const updatePassword = (email, newHashedPass) =>{
 
         try {
             User.findOneAndUpdate(
-                {email},
+                {'emails.emailUrl':email},
                 {$set:{"password": newHashedPass}},
                 {new: true}, (error, data) =>{
                     if(error){
@@ -220,7 +245,7 @@ const verifyUser = (randomURL,email) =>{
                         reject(error);
                     })
         } catch (error) {
-            console.log(error);
+            console.log("ERROR EN FINDOINEANDUPDATE", error);
             reject(error);       
         }
     })
@@ -242,7 +267,7 @@ const updateUser = (_id, userObj) =>{
                         reject(error);
                     }
                     resolve(data);
-                    //console.log(data);
+                    console.log("DATA EN UPDATE USER",data);
                     }
             ).clone();
         } catch (error) {
@@ -659,6 +684,53 @@ const updateUser = (_id, userObj) =>{
         }
     });
 };
+
+const setAllVerifiedTrue = ()=>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        try{
+            User.updateMany({},{isVerified:true}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            
+            resolve(data);
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+const setBoss = (username)=>{
+    return new Promise(async (resolve, reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        try {
+            User.findOneAndUpdate(
+                {username : username},
+                {$set: {"isBoss": true}},
+                {new: true}, (error, data) =>{
+                    if(error){
+                        reject(error);
+                    }
+                    resolve(data);
+                    //console.log(data);
+                    }
+            ).clone();
+        } catch (error) {
+            reject(error);       
+        }
+    })
+}
  
  
 module.exports = {
@@ -677,5 +749,8 @@ module.exports = {
    insertUserValoration,
    updateUserValoration,
    acceptRejectUserValoration,
-   getAllUsers
+   getAllUsers,
+   getIdByEmail,
+   setAllVerifiedTrue,
+   setBoss
 };

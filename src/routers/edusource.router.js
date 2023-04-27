@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -351,6 +351,24 @@ router.get("/level", async(req, res)=>{
     }   
 })
 
+router.get("/language", async(req, res)=>{
+    const language = req.query.language
+    //console.log(req.query);
+    try {
+        const result = await searchLangs(language);
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+
 
 router.get("/all", async(req,res)=>{
     try {
@@ -367,5 +385,19 @@ router.get("/all", async(req,res)=>{
     }   
 })
 
+router.patch("/fixTypes", async(req, res)=>{
+    try {
+        const result = await fixTypes();
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+     } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
 
 module.exports = router;

@@ -249,6 +249,9 @@ GET http://13.39.99.41/api/v1/edusource/all
 ### GET ALL USERS
 GET http://localhost:3001/v1/user/all
 
+### GET ALL USERS
+GET http://13.39.99.41/api/v1/user/all
+
 ### GET THEMES
 GET http://localhost:3001/v1/edusource/theme?theme=Big_Data
 
@@ -256,7 +259,7 @@ GET http://localhost:3001/v1/edusource/theme?theme=Big_Data
 GET http://localhost:3001/v1/edusource/level?level=ISCED2
 
 ### SCRAP TEST
-GET http://localhost:3001/v1/scrap?url=https://publicacions.iec.cat/repository/pdf/00000173%5C00000072.pdf
+GET http://localhost:3001/v1/scrap?url=https://create.kahoot.it/share/horror-films/778e87d8-8826-41a9-a014-28158d93f1a2
 
 ### ACCEPT REJECT VALORATIONS
 PATCH http://localhost:3001/v1/user/valorationMod
@@ -268,3 +271,17 @@ Content-Type: application/json
    "accepted":true,
    "rejected":false
 }
+
+### ALL VERIFIED
+PATCH http://localhost:3001/v1/user/allverified
+
+### SET BOSS
+PATCH http://localhost:3001/v1/user/setboss
+Content-Type: application/json
+
+{
+   "username":"rserravi"
+}
+
+### FIX TYPES
+PATCH http://localhost:3001/v1/edusource/fixTypes

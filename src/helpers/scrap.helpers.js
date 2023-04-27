@@ -148,10 +148,76 @@ const getResourceType = (url) =>{
     if (lowerCaseUrl.search("vimeo") !== -1){
         return ("Vimeo")
     }
+    if (lowerCaseUrl.search("kahoot")!== -1){
+        return ("Kahoot")
+    }
+
+    if (lowerCaseUrl.search("docs.google") !== -1){
+        return ("Google Docs")
+    }
+
+    if (lowerCaseUrl.search("wordwall") !== -1){
+        return ("Wordwall")
+    }
 
     return ("Website")
 
 }
 
+const cleanGoogleDocsUrl = (url)=>{
+    // Use regular expression to extract the document ID
+    const regex = /\/d\/(.+?)\//;
+    const match = url.match(regex);
+    var cleanUrl = url;
 
-module.exports = {scrapUrl, getResourceType, scrapPdf}
+    if (match) {
+        const docId = match[1];
+        const baseUrl = "https://docs.google.com/document/d/";
+        cleanUrl = baseUrl + docId;
+        console.log(cleanUrl);
+    }
+    return cleanUrl;
+}
+
+const cleanKahootUrl = (url)=>{
+    const urlParts = url.split("/");
+    const kahootID = urlParts[urlParts.length - 1]; 
+    const cleanUrl= "https://play.kahoot.it/rest/kahoots/"+kahootID
+    
+    return cleanUrl;
+
+}
+
+const languageCleanerInKahoot = (language) =>{
+    const lowerCaseUrl = language.toLowerCase();
+
+    if (lowerCaseUrl.search("portu") !== -1){
+        return ("PT")
+    }
+    if (lowerCaseUrl.search("espa") !== -1 || lowerCaseUrl.search("spani") !== -1){
+        return ("ES")
+    }
+    if (lowerCaseUrl.search("ngl") !== -1) {
+        return ("EN")
+    }
+    if (lowerCaseUrl.search("ital") !== -1) {
+        return ("IT")
+    }
+    if (lowerCaseUrl.search("cat") !== -1) {
+        return ("CA")
+    }
+    if (lowerCaseUrl.search("fren") !== -1 || lowerCaseUrl.search("fran") !== -1) {
+        return ("FR")
+    }
+
+    return ("OTHER")
+}
+
+module.exports = {
+    scrapUrl, 
+    getResourceType, 
+    scrapPdf, 
+    cleanGoogleDocsUrl, 
+    cleanKahootUrl,
+    languageCleanerInKahoot
+}

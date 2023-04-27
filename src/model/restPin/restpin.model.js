@@ -1,6 +1,6 @@
 const randomGenerator = require("../../utils/randomGenerator");
 const { ResetPinScheme } = require("./restpin.scheme");
-
+const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
 const setPasswordResetPin = (email) =>{
    const randPin = randomGenerator(6);

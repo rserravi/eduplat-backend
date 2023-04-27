@@ -30,6 +30,7 @@ const send = async (message) =>{
  
 const emailProcessor = (email, pin, type, verificationLink)=>{
     let info = ""
+    console.log ("EN EMAIL PROCESSOR");
     switch (type) {
         case "request new password":
             info = {
@@ -47,7 +48,7 @@ const emailProcessor = (email, pin, type, verificationLink)=>{
             }
       
             retorno = send(info);
-            return retorno;
+           
             break;
        
         case "password update success":
@@ -62,7 +63,6 @@ const emailProcessor = (email, pin, type, verificationLink)=>{
                     `, //html body
             }
             retorno = send(info);
-            return retorno;
             break;
 
         case "new user confirmation":
@@ -77,12 +77,14 @@ const emailProcessor = (email, pin, type, verificationLink)=>{
                     `, //html body
             }
             retorno = send(info);
-            return retorno;
             break;
      
         default:
+            console.log("NO SE HA DEFINIDO 'TYPE' CORRECTAMENTE EN emailProcessor")
             break;
     }
+
+    return retorno;
  }
  
  

@@ -131,6 +131,11 @@ const UserScheme = mongoose.Schema ({
         required: true,
         default: false,
     },
+    verificationLink: {
+        type: String,
+        maxLenght:500,
+        default: ''
+    },
     signInOrigin: {
         type: String,
         maxLenght: 20,
@@ -160,6 +165,10 @@ const UserScheme = mongoose.Schema ({
         default:"ES"
     },
     isLogged:{
+        type: Boolean,
+        default:false
+    },
+    isBoss:{
         type: Boolean,
         default:false
     },

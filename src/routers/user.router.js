@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration, getIdByEmail, setAllVerifiedTrue, setBoss } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -64,6 +64,7 @@ router.post("/", newUserValidation, async(req, res) => {
                 type: "link"
             },
             isVerified: false,
+            verificationLink : verificationLink,
             emails: [{emailUrl: email, emailDescription:"Home"}],
             phones: [{phoneNumber: "", phoneDescription:"Home"}],
             social: [{media: "Facebook", user:"@"}],
@@ -78,7 +79,7 @@ router.post("/", newUserValidation, async(req, res) => {
        const result = await insertUser(newUserObj);
        //("Insert User Result",result);
        //Send confirmation email
-       //await emailProcessor(email, "", "new user confirmation",verificationLink);
+       await emailProcessor(email, "", "new user confirmation",verificationLink);
        res.json({status: "success", message: "New user created. Check your email for a verification link", result});
 
    } catch(err){
@@ -115,6 +116,39 @@ router.patch("/", async(req, res)=>{
     }
  })
 
+ //RESEND user verification link
+ router.patch("/resendVerificationLink", async(req, res)=>{
+    try {  
+        const email = req.body.email;
+        const verificationURL = process.env.VERIFICATION_URL;
+        const randomUrl = randomCrypto()
+        const verificationLink = verificationURL + "/" + randomUrl + "/" + email
+        const _id = await getIdByEmail (email)
+        console.log("ID SACADO DE GEIDBYEMAIL",_id);
+        const newData = 
+        {
+            verificationLink: verificationLink,
+            randomURL: randomUrl
+        }
+        if (email){
+            
+            await updateUser(_id.toString(), newData)
+                .then(async (data)=>
+                {
+                    await emailProcessor(email, "", "new user confirmation",verificationLink);
+                    res.json({status: "success", message: "Sended again. Check your email for a verification link", result});
+                })
+                .catch((error)=>{
+                    return res.json({status:"error", error});
+                })
+        }        
+    } catch (err) {
+        console.log(err)
+        return res.json({status:"error", err});
+        
+    }
+ })
+
  //User sign in Router
 router.post("/login", async (req,res) =>{
 
@@ -129,6 +163,11 @@ router.post("/login", async (req,res) =>{
     try {
         const user = await getUserbyEmail(email);
         console.log("LOGIN POST: GET USER BY EMAIL: ", user);
+
+        if (!user.isVerified)
+            return res.json({status: "Not Verified", message: "Waiting for user to validate email address"
+        })
+
         const passFromDb = user && user.id ? user.password : null;
        
         if(!passFromDb)
@@ -136,7 +175,7 @@ router.post("/login", async (req,res) =>{
         });
       
         const result = await comparePassword(password, passFromDb);
-       console.log("COMPARE PASSWORD", result);
+        console.log("COMPARE PASSWORD", result);
        
         if (!result) {
             return res.json({status: "error", message: "Incorrect Password"});
@@ -339,13 +378,14 @@ router.patch("/verify", async(req,res)=>{
     try {
         randomURL = req.body.randomUrl;
         email = req.body.email;
+        console.log("VERIFING", randomURL, email)
         //update user database
         const result =  await verifyUser(randomURL,email);
         if (!result){
             return res.json({status: "error", message: "Invalid request"})
         }
         if(result._id) {
-            return res.json({status: "success", message: "Your account has been activated. You may sing in now"})
+            return res.json({status: "success", message: "Your account has been activated. You may sign in now"})
         }
         return res.json({status: "error", message: "Invalid request"})
     } catch (error) {
@@ -526,6 +566,37 @@ router.patch("/valorationMod", async(req,res)=>{
 router.get("/all", async(req,res)=>{
     try {
         const result = await getAllUsers();
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.patch("/allverified", async(req, res)=>{
+    try {
+        const result = await setAllVerifiedTrue();
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.patch("/setboss", async(req, res)=>{
+    const {username} = req.body;
+    try {
+        const result = await setBoss(username);
         if (result){
             //console.log(result)
             res.json ({status:"success", result});

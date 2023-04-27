@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { getUserbyId } = require("../user/user.model");
 const { UserScheme } = require("../user/user.scheme");
 const { addKarma } = require("../../utils/karmaHandler");
+const { getResourceType } = require("../../helpers/scrap.helpers");
 
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 
@@ -567,6 +568,31 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const searchLangs = (lang) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+        
+        try{
+            EduSource.find({"language":lang}, async (error, data)=>{
+                if(error){
+                    console.log(error)
+                    reject(error);
+                }
+                else{
+                    resolve(data);
+                }
+            }
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
 
  const getAllResources = ()=>{
     return new Promise(async (resolve, reject)=>{ 
@@ -592,6 +618,35 @@ const insertEdusource = edusourceObj => {
     })
  }
  
+ const fixTypes = ()=>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        try{
+            EduSource.find().exec((error, documents)=>{
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("ESTAMOS EN EL ELSE")
+                    for (let i = 0; i < documents.length; i++) {
+                        let document =documents[i];
+                        console.log('BEFORE SET -', document)
+                        
+                        document.$set('linktype', getResourceType(document.link));
+                        document.save().then(result => {
+                            console.log('AFTER SET -', result);
+                        });
+                    }
+                    resolve({status:"success"})
+                }
+            })
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
 
 
  module.exports = {
@@ -611,5 +666,7 @@ const insertEdusource = edusourceObj => {
     acceptRejectValoration,
     getAllResources,
     searchThemes,
-    searchLevels
+    searchLevels,
+    searchLangs,
+    fixTypes
  }
