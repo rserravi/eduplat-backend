@@ -593,6 +593,31 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const searchTypes = (types) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+        
+        try{
+            EduSource.find({"type":types}, async (error, data)=>{
+                if(error){
+                    console.log(error)
+                    reject(error);
+                }
+                else{
+                    resolve(data);
+                }
+            }
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
 
  const getAllResources = ()=>{
     return new Promise(async (resolve, reject)=>{ 
@@ -671,5 +696,6 @@ const insertEdusource = edusourceObj => {
     searchThemes,
     searchLevels,
     searchLangs,
+    searchTypes,
     fixTypes
  }

@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes, searchTypes} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -356,6 +356,23 @@ router.get("/language", async(req, res)=>{
     //console.log(req.query);
     try {
         const result = await searchLangs(language);
+        if (result){
+            //console.log(result)
+            res.json ({status:"success", result});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.get("/type", async(req, res)=>{
+    const type = req.query.type
+    //console.log(req.query);
+    try {
+        const result = await searchTypes(type);
         if (result){
             //console.log(result)
             res.json ({status:"success", result});
