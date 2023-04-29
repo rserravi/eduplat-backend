@@ -1,0 +1,78 @@
+const searchEdusources = (terms, lang,  category, level, themes) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+       
+        var searchString="";
+
+        if((!terms)) return false;
+        
+        var newTerms = replaceUnderscoresWithSpaces(terms)
+        
+        newTerms = includeAccentsInRegx(newTerms);
+       
+        var language = lang;
+        if (lang === "ANY" || lang==="any") language="";
+
+        var catArray=""
+        if(category){
+        catArray = category.split(",");
+        }
+        var themeArray
+        if (themes){ 
+        themeArray = themes.split(",");
+        }
+
+        var searchTermsArray = newTerms.split(" ");
+        searchTermsArray = [... searchTermsArray, newTerms]
+        console.log("SEARCH TERMS ARRAY",searchTermsArray);
+
+        var data =[];
+        
+        for (let index = 0; index < searchTermsArray.length; index++) {
+            const regx = {$regex: searchTermsArray[index], $options: 'i'}
+            //console.log (regx);
+            searchString = {
+                language:language?language.toUpperCase():{$regex:'[A-Za-z0-9]', $options:'i'},
+                discipline:category?{$in:catArray}:{$regex:'[A-Za-z0-9]', $options:'i'},
+                themes: themes?{ $in:themeArray}:{$regex:'[A-Za-z0-9]', $options:'i'},
+                level: level?level:{$regex:'[A-Za-z0-9]', $options:'i'},
+                $and: [
+                {$or: [
+                    {title: regx},
+                    {discipline: regx},
+                    {type: regx},
+                    {link: regx},
+                    {theme:{ $elemMatch:{regx}}},
+                    {autors:{ $elemMatch:{ autorName: regx}}},
+                    {description: regx},
+                    ]}]
+                }
+            try{
+                console.log("ESTO ES searchString", searchString)
+                await EduSource.find(searchString, async (error, ndata)=>{
+                    if(error){
+                        console.log(error)
+                        reject(error);
+                    }
+                    else{
+                        //console.log("ESTO ES NDATA",ndata)
+                        data = [...data, ndata]
+                        //console.log("ESTO ES DATA1", data);
+                       
+                    }
+                }
+                ).populate({path:"promoterId", select:'username firstname lastname picture'}).sort({_id: -1 }).lean().clone()
+            } catch (error) {
+                console.log("ERROR EN FIND",error)
+                reject(error);
+            }
+        }
+        console.log("ESTO ES DATA2", data);
+        resolve (data[0]);
+        
+    })
+ }

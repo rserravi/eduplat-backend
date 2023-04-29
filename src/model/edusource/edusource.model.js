@@ -206,17 +206,18 @@ const insertEdusource = edusourceObj => {
         const UserSource = await db.model("user", UserScheme)
          
         try{
-            EduSource.find({}, async (error, data)=>{
-            if(error){
-                console.log(error);
-                reject(error);
-            }
-            else{
-                //console.log("LAST RESOURCES",data);
-                resolve(data);
-            }
-            }
-        ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 }).limit(10)
+            EduSource.find({}).populate({path:"promoterId", select:'username firstname lastname picture'}).sort({_id: -1 }).limit(10).exec(
+                async (error, data)=>{
+                    if(error){
+                        console.log(error);
+                        reject(error);
+                    }
+                    else{
+                        //console.log("LAST RESOURCES",data);
+                        resolve(data);
+                    }
+                    }
+            )
         } catch (error) {
             reject(error);
         }
@@ -396,7 +397,7 @@ const insertEdusource = edusourceObj => {
     });
  }
 
- const searchEdusources = (terms, lang,  category, level, themes) =>{
+ const searchEdusources = (terms, lang,  category, level, themes, page) =>{
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -412,17 +413,16 @@ const insertEdusource = edusourceObj => {
         
         newTerms = includeAccentsInRegx(newTerms);
        
-
         var language = lang;
         if (lang === "ANY" || lang==="any") language="";
 
         var catArray=""
         if(category){
-        catArray = category.split(",");
+            catArray = category.split(",");
         }
-        var themeArray
+        var themeArray=""
         if (themes){ 
-        themeArray = themes.split(",");
+            themeArray = themes.split(",");
         }
 
         var searchTermsArray = newTerms.split(" ");
@@ -443,12 +443,15 @@ const insertEdusource = edusourceObj => {
                 {$or: [
                     {title: regx},
                     {discipline: regx},
+                    {type: regx},
+                    {link: regx},
                     {theme:{ $elemMatch:{regx}}},
                     {autors:{ $elemMatch:{ autorName: regx}}},
                     {description: regx},
                     ]}]
                 }
             try{
+                console.log("ESTO ES searchString en ITERATION",index, searchString, "con REGX", regx)
                 await EduSource.find(searchString, async (error, ndata)=>{
                     if(error){
                         console.log(error)
@@ -457,23 +460,40 @@ const insertEdusource = edusourceObj => {
                     else{
                         //console.log("ESTO ES NDATA",ndata)
                         data = [...data, ndata]
-                        console.log("ESTO ES DATA1", data);
+                        //console.log("ESTO ES DATA1", data);
                        
                     }
                 }
-                ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+                ).populate({path:"promoterId", select:'username firstname lastname picture'}).sort({_id: -1 }).lean().clone()
             } catch (error) {
                 console.log("ERROR EN FIND",error)
                 reject(error);
             }
         }
-        //console.log("ESTO ES DATA2", data);
-        resolve (data[0]);
+        console.log("ESTO ES DATA2", data);
+        //resolve (data[0]);
+
+        var newData = [];
+                   //const start = (page-1)*20;
+                   const start = data[0].length-1 - ((page -1)*20)
+                   var end = start-20;
+                   if (end<0){
+                       end=0;
+                   }
+   
+                   //console.log("START AND END",start, end);
+                   for (let i = start; i >= end; i--) {
+                       //console.log(data[1]);
+                       newData.push(data[0][i]);
+                       
+                   }
+                   resolve({data:newData, total:data[0].length});
+
         
     })
  }
 
- const searchCategories = (category) =>{
+ const searchCategories = (category, page) =>{
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -499,21 +519,37 @@ const insertEdusource = edusourceObj => {
           
             }
         
-        //console.log(searchString);
-        try{
+        console.log("SEARCH CATEGORIES STRING",searchString, "PAGE",page);
+     //   try{
             EduSource.find(searchString, async (error, data)=>{
                 if(error){
-                    console.log(error)
+                    console.log("ERROR EN EDUSOURCE.FIND",error)
                     reject(error);
                 }
                 else{
-                    resolve(data);
+                  // console.log("DATA IN SEARCH CAT", category, data);
+                   var newData = [];
+                   //const start = (page-1)*20;
+                   const start = data.length-1 - ((page -1)*20)
+                   var end = start-20;
+                   if (end<0){
+                       end=0;
+                   }
+   
+                   //console.log("START AND END",start, end);
+                   for (let i = start; i >= end; i--) {
+                       //console.log(data[1]);
+                       newData.push(data[i]);
+                       
+                   }
+                   resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
-        } catch (error) {
-            reject(error);
-        }
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
+       // } catch (error) {
+       //     console.log("ERROR EN TRY")
+       //     reject(error);
+       // }
     })
  }
 
@@ -536,14 +572,14 @@ const insertEdusource = edusourceObj => {
                     resolve(data);
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
         } catch (error) {
             reject(error);
         }
     })
  }
 
- const searchLevels = (level) =>{
+ const searchLevels = (level, page) =>{
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -558,17 +594,32 @@ const insertEdusource = edusourceObj => {
                     reject(error);
                 }
                 else{
-                    resolve(data);
+                    console.log("DATA IN SEARCH LEVELS", level, data);
+                   var newData = [];
+                   //const start = (page-1)*20;
+                   const start = data.length-1 - ((page -1)*20)
+                   var end = start-20;
+                   if (end<0){
+                       end=0;
+                   }
+   
+                   console.log("START AND END",start, end);
+                   for (let i = start; i >= end; i--) {
+                       //console.log(data[1]);
+                       newData.push(data[i]);
+                       
+                   }
+                   resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
         } catch (error) {
             reject(error);
         }
     })
  }
 
- const searchLangs = (lang) =>{
+ const searchLangs = (lang, page) =>{
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -583,17 +634,32 @@ const insertEdusource = edusourceObj => {
                     reject(error);
                 }
                 else{
-                    resolve(data);
+                    console.log("DATA IN SEARCH LANGS", lang, data);
+                   var newData = [];
+                   //const start = (page-1)*20;
+                   const start = data.length-1 - ((page -1)*20)
+                   var end = start-20;
+                   if (end<0){
+                       end=0;
+                   }
+   
+                   console.log("START AND END",start, end);
+                   for (let i = start; i >= end; i--) {
+                       //console.log(data[1]);
+                       newData.push(data[i]);
+                       
+                   }
+                   resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
         } catch (error) {
             reject(error);
         }
     })
  }
 
- const searchTypes = (types) =>{
+ const searchTypes = (types, page) =>{
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -610,10 +676,25 @@ const insertEdusource = edusourceObj => {
                     reject(error);
                 }
                 else{
-                    resolve(data);
+                console.log("DATA IN SEARCH TYPES",theType, data);
+                   var newData = [];
+                   //const start = (page-1)*20;
+                   const start = data.length-1 - ((page -1)*20)
+                   var end = start-20;
+                   if (end<0){
+                       end=0;
+                   }
+   
+                   console.log("START AND END",start, end);
+                   for (let i = start; i >= end; i--) {
+                       //console.log(data[1]);
+                       newData.push(data[i]);
+                       
+                   }
+                   resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
+            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
         } catch (error) {
             reject(error);
         }
@@ -621,12 +702,14 @@ const insertEdusource = edusourceObj => {
  }
 
 
- const getAllResources = ()=>{
+ const getAllResources = (page)=>{
     return new Promise(async (resolve, reject)=>{ 
  
         const dbConnection = await global.clientConnection
         const db = await dbConnection.useDb(mainDataBaseName)
         const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
+
         try{
             EduSource.find({}, async (error, data)=>{
             if(error){
@@ -634,11 +717,25 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
             else{
-                //console.log("LAST RESOURCES",data);
-                resolve(data);
+                //console.log("ALL DATA",data);
+                var newData = [];
+                //const start = (page-1)*20;
+                const start = data.length-1 - ((page -1)*20)
+                var end = start-20;
+                if (end<0){
+                    end=0;
+                }
+
+                console.log(start, end);
+                for (let i = start; i > end; i--) {
+                    //console.log(data[1]);
+                    newData.push(data[i]);
+                    
+                }
+                resolve({data:newData, total:data.length});
             }
             }
-        ).lean().clone().sort({_id: -1 })
+        ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 })
         } catch (error) {
             reject(error);
         }
@@ -678,6 +775,31 @@ const insertEdusource = edusourceObj => {
     })
  }
 
+ const checkLink = (link)=>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+        const escapedLink = link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        const regex = new RegExp(`^${escapedLink}`, 'i')
+       
+        try{
+            EduSource.find({ resourceURL:regex }, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            else{
+                resolve(data)
+            }
+        }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
 
  module.exports = {
     insertEdusource,
@@ -699,5 +821,6 @@ const insertEdusource = edusourceObj => {
     searchLevels,
     searchLangs,
     searchTypes,
-    fixTypes
+    fixTypes,
+    checkLink
  }

@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes, searchTypes} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes, searchTypes, checkLink} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -37,6 +37,14 @@ router.post("/", async(req, res) => {
         date: Date.now(),
         language:language,
         valorations: valorations?valorations:[] 
+    }
+
+    //Check link
+    const checkedLink =  await checkLink(eduObj.resourceURL);
+    console.log(checkedLink.length, eduObj.resourceURL)
+    if (checkedLink.length > 0){
+
+        eduObj.resourceURL = eduObj.resourceURL + "-" + (checkedLink.length +1).toString();
     }
  
     try {
@@ -266,10 +274,11 @@ router.post("/", async(req, res) => {
 
 
  router.get("/last", async(req, res)=>{
+    const page = req.query.page
     try {
-        const result = await getLastResources();
+        const result = await getAllResources(page);
         if (result){
-            res.json({status: "success", result});
+            res.json({status: "success", data: result.data, total: result.total});
         }
         else {
             res.json({status: "error", message:"URI doesnt exist"})
@@ -285,12 +294,13 @@ router.post("/", async(req, res) => {
     const category = req.query.category;
     const level = req.query.level;
     const themes = req.query.themes;
+    const page = req.query.page
     //console.log(req.query);
     try {
-        const result = await searchEdusources(terms, lang, category, level, themes);
+        const result = await searchEdusources(terms, lang, category, level, themes, page);
         if (result){
             //console.log(result)
-            res.json ({status:"success", result});
+            res.json ({status:"success", data: result.data, total: result.total});
         }
         else {
             res.json({status: "success", result, message:"Nothing Found"})
@@ -302,12 +312,13 @@ router.post("/", async(req, res) => {
 
 router.get("/category", async(req, res)=>{
     const category = req.query.category;
+    const page = req.query.page;
     //console.log(req.query);
     try {
-        const result = await searchCategories(category);
+        const result = await searchCategories(category, page);
         if (result){
-            //console.log(result)
-            res.json ({status:"success", result});
+            console.log("IN ROUTER /CATEGORY",result)
+            res.json ({status:"success", data: result.data, total: result.total});
         }
         else {
             res.json({status: "success", result, message:"Nothing Found"})
@@ -336,12 +347,14 @@ router.get("/theme", async(req, res)=>{
 
 router.get("/level", async(req, res)=>{
     const level = req.query.level;
+    const page = req.query.page;
     //console.log(req.query);
     try {
-        const result = await searchLevels(level);
+        const result = await searchLevels(level, page);
         if (result){
             //console.log(result)
-            res.json ({status:"success", result});
+            res.json ({status:"success", data: result.data, total: result.total});
+            
         }
         else {
             res.json({status: "success", result, message:"Nothing Found"})
@@ -353,12 +366,13 @@ router.get("/level", async(req, res)=>{
 
 router.get("/language", async(req, res)=>{
     const language = req.query.language
+    const page = req.query.page;
     //console.log(req.query);
     try {
-        const result = await searchLangs(language);
+        const result = await searchLangs(language,page);
         if (result){
             //console.log(result)
-            res.json ({status:"success", result});
+            res.json ({status:"success", data: result.data, total: result.total});
         }
         else {
             res.json({status: "success", result, message:"Nothing Found"})
@@ -370,12 +384,13 @@ router.get("/language", async(req, res)=>{
 
 router.get("/type", async(req, res)=>{
     const type = req.query.type
+    const page = req.query.page;
     //console.log(req.query);
     try {
-        const result = await searchTypes(type);
+        const result = await searchTypes(type,page);
         if (result){
             //console.log(result)
-            res.json ({status:"success", result});
+            res.json ({status:"success", data: result.data, total: result.total});
         }
         else {
             res.json({status: "success", result, message:"Nothing Found"})
@@ -389,10 +404,11 @@ router.get("/type", async(req, res)=>{
 
 router.get("/all", async(req,res)=>{
     try {
-        const result = await getAllResources();
+        const page = req.query.page;
+        const result = await getAllResources(page);
         if (result){
             //console.log(result)
-            res.json ({status:"success", result});
+            res.json ({status:"success", result:result.data, total: result.total});
         }
         else {
             res.json({status: "success", result, message:"Nothing Found"})

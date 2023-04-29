@@ -143,6 +143,38 @@ Content-Type: application/json
    "licence": "CC"
 }
 
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "MuseScore in Minutes: The Basics of Score Writing",
+   "resourceURL": "musescore-in-minutes--the-basics-of-score-writing",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Musescore",
+      "autorSocial":{
+         "media":"instagram",
+         "user": "@rubotic"
+      }
+   },
+   "discipline": "Arts",
+   "theme": ["musescore", "tutorial"],
+   "type": "Youtube",
+   "link": "https://www.youtube.com/watch?v=0X8G59wJcXc",
+   "linktype": "Vimeo",
+   "description": "In this MuseScore 4 tutorial, we cover the basics of score writing, including how to enter notes, articulations, and text items. We also learn some essential...",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/0X8G59wJcXc/maxresdefault.jpg",
+      "file":"",
+      "uploadTime": "22/10/12",
+      "type":"link"
+   },
+   "licence": "CC",
+   "language": "EN",
+   "level": "ISCED2"
+}
+
 ### Get a Edusource by link
 GET http://localhost:3001/v1/edusource/bylink?link=descubriendo-la-gravedad-con-imanes
 
@@ -173,7 +205,7 @@ GET http://localhost:3001/v1/edusource/bypromoter?promoterId=63fdb9e80daaa0ce859
 GET http://localhost:3001/v1/user/search?terms=rub&lang=any
 
 ### Find last 10 resources
-GET http://localhost:3001/v1/edusource/last
+GET http://localhost:3001/v1/edusource/last?page=1
 
 ### Testing scrap
 GET http://localhost:3001/v1/scrap?url=https://www.youtube.com/watch?v=oNUJpzhqeDQ
@@ -182,10 +214,10 @@ GET http://localhost:3001/v1/scrap?url=https://www.youtube.com/watch?v=oNUJpzhqe
 GET http://localhost:3001/v1/edusource/sortedbypromoterid?promoterId=63fdb9e80daaa0ce85983c3a
 
 ### SEEACH Edusources
-GET http://13.39.99.41//api/v1/edusource/search?terms=dobble&lang=ANY
+GET http://localhost:3001/v1/edusource/search?terms=mus&lang=ANY
 
 ### SEEACH Categories
-GET http://localhost:3001/v1/edusource/category?category=Computer_Science
+GET http://localhost:3001/v1/edusource/category?category=ITC&page=1
 
 ### Check User
 GET http://localhost:3001/v1/user/checkUser?email=rserravi@gmail.com
@@ -244,7 +276,7 @@ Content-Type: application/json
    "conversationId":"643665161fcb5667d7f3c396"
 }
 ### GET ALL RESOURCES
-GET http://13.39.99.41/api/v1/edusource/all
+GET http://localhost:3001/v1/edusource/all?page=1
 
 ### GET ALL USERS
 GET http://localhost:3001/v1/user/all
@@ -256,9 +288,8 @@ GET http://13.39.99.41/api/v1/user/all
 GET http://localhost:3001/v1/edusource/theme?theme=Big_Data
 
 ### GET LEVELS
-GET http://localhost:3001/v1/edusource/level?level=ISCED2
+GET http://localhost:3001/v1/edusource/level?level=ISCED2&page=1
 
-### SCRAP TEST
 GET http://localhost:3001/v1/scrap?url=https://create.kahoot.it/share/horror-films/778e87d8-8826-41a9-a014-28158d93f1a2
 
 ### ACCEPT REJECT VALORATIONS
