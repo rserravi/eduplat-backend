@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes, searchTypes, checkLink} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes, searchTypes, checkLink, getEdusourcebyId} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -82,6 +82,24 @@ router.post("/", async(req, res) => {
     try {
        
         const result = await updateResource(frmData);
+        if (result){
+            res.json({status: "success", result});
+        }
+        else {
+            res.json({status: "error", message:"URI doesnt exist"})
+        }
+     
+    } catch (error) {
+        console.log(error)
+        res.json({status:"error", error});
+    }
+ })
+
+ router.get ("/", async(req, res)=>{
+    const id = req.query.id;
+    try {
+       
+        const result = await getEdusourcebyId(id);
         if (result){
             res.json({status: "success", result});
         }
@@ -385,7 +403,7 @@ router.get("/language", async(req, res)=>{
 router.get("/type", async(req, res)=>{
     const type = req.query.type
     const page = req.query.page;
-    //console.log(req.query);
+    console.log(req.query);
     try {
         const result = await searchTypes(type,page);
         if (result){

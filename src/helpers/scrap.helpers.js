@@ -1,4 +1,5 @@
 const cheerio = require('cheerio');
+//const { createCanvas, loadImage } = require('canvas');
 
 const scrapUrl = (url) =>{
     return new Promise(async (resolve, reject)=>{
@@ -36,6 +37,7 @@ const scrapUrl = (url) =>{
             if ($ogImage && $ogImage.length){
                 resObj.ogImage = $ogImage;
             }
+            
     
             if ($ogTitle && $ogTitle.length){
                 resObj.ogTitle = $ogTitle;
@@ -218,11 +220,35 @@ const languageCleanerInKahoot = (language) =>{
     return ("OTHER")
 }
 
+/* const CreateImagesFromTitle = async (title) => {
+    const canvas = createCanvas(400, 200);
+    const ctx = canvas.getContext('2d');
+  
+    // Set background color
+    ctx.fillStyle = '#f2f2f2';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+    // Load font
+    ctx.font = 'bold 32px Arial';
+    ctx.fillStyle = '#333';
+  
+    // Draw title text on image
+    
+    const x = canvas.width / 2 - ctx.measureText(title).width / 2;
+    const y = canvas.height / 2 + 10;
+    ctx.fillText(title, x, y);
+  
+    // Encode canvas to base64 and return it as data URL
+    const dataUrl = canvas.toDataURL();
+  
+    return dataUrl;
+  };
+   */
 module.exports = {
     scrapUrl, 
     getResourceType, 
     scrapPdf, 
     cleanGoogleDocsUrl, 
     cleanKahootUrl,
-    languageCleanerInKahoot
+    languageCleanerInKahoot,
 }

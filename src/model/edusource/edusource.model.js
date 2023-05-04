@@ -267,6 +267,7 @@ const insertEdusource = edusourceObj => {
         const dbConnection = await global.clientConnection
         const db = await dbConnection.useDb(mainDataBaseName)
         const EduSource = await db.model("edusource",EdusourceScheme)
+        const UserSource = await db.model("user", UserScheme)
 
         if((!edusourceId)) return false;
         try{
@@ -277,7 +278,7 @@ const insertEdusource = edusourceObj => {
             }
                 resolve(data)
             }
-        ).clone().lean();
+        ).populate({path:"promoterId", select:'username firstname lastname picture'}).clone().lean();
         } catch (error) {
             reject(error);
         }
@@ -806,6 +807,7 @@ const insertEdusource = edusourceObj => {
     insertEduValoration,
     getEdusourceByLink,
     getEdusourceByPromoterId,
+    getEdusourcebyId,
     getLastResources,
     getValoration,
     updateValoration,

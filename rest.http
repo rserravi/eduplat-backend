@@ -319,3 +319,97 @@ PATCH http://13.39.99.41/api/v1/edusource/fixTypes
 
 ### FIX TYPES
 PATCH http://localhost:3001/v1/edusource/fixTypes
+
+### POST COLLECTION
+POST http://localhost:3001/v1/collection
+Content-Type: application/json
+
+{
+   "title": "Colección de prueba 1",
+   "collectionURL": "coleccion-de-prueba-1",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "description": "Esto es una colección de prueba destina a ver como hacemos las colecciones. Como es la primera, seguro que el esquema se tiene que retocar luego. Por otra parte, estoy seguro que hay un complot internacional de los camellos. Parece que están rumiando, comiendo hierba...Pero están pensando",
+   "content":[
+      {
+         "type": "header",
+         "contentId":"",
+         "description":"Este es el primer header"
+      },
+      {
+         "type": "edusource",
+         "contentId":"6404e1eba422c35df7298d85",
+         "description":"Introducción a matPlotLib"
+      },
+      {
+         "type": "edusource",
+         "contentId":"6426940a9bc29e1c6461fe2b",
+         "description":"Teoría de grafos"
+      },
+      {
+         "type": "edusource",
+         "contentId":"6426968a9bc29e1c6461fe55",
+         "description":"Binomios"
+      },
+       {
+         "type": "header",
+         "contentId":"",
+         "description":"Este es el segundo header"
+      },
+      {
+         "type": "edusource",
+         "contentId":"64354b447f4181e39bbba926",
+         "description":"La Tabla periodica"
+      }
+   ],
+   "picture": {
+      "fileName":"https://i.ytimg.com/vi/oNUJpzhqeDQ/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AHUBoAC4AOKAgwIABABGH8gEygbMA8=&rs=AOn4CLBS2eljx51ChGMt1vofVR6Ecp1AYw",
+      "file":"",
+      "type": "link"
+   }
+}
+
+### GET COLLECTION
+GET http://localhost:3001/v1/collection?id=644e1f022f20d5bf9e538232
+
+### GET EDU BY ID
+GET http://localhost:3001/v1/edusource?id=6426940a9bc29e1c6461fe2b
+
+### MARK AS READED
+POST http://localhost:3001/v1/collection/mark
+Content-Type: application/json
+
+{
+   "collectionId": "644e5f672dcc658d86e366d3",
+   "contentId": "644e5f672dcc658d86e366d5",
+   "userId": "63fdb9e80daaa0ce85983c3a"
+}
+
+### CHECK IF MARKED
+GET http://localhost:3001/v1/collection/mark?collectionId=644e5f672dcc658d86e366d3&contentId=644e5f672dcc658d86e366d5&userId=63fdb9e80daaa0ce85983c3a
+
+### ADD COLLECTION VALORATION
+POST http://localhost:3001/v1/collection/valoration
+Content-Type: application/json
+
+{
+   "collectionId": "644e5f672dcc658d86e366d3",
+   "senderId":"63fdb9e80daaa0ce85983c3a",
+   "comment":"Gran colección de recursos",
+   "value":4
+}
+
+### GET COLLECTION VALORATION WITH USER ID && COLLECTION
+GET http://localhost:3001/v1/collection/valoration?userId=63fdb9e80daaa0ce85983c3a&collectionId=644e5f672dcc658d86e366d3
+
+
+### UPDATE VALORATION
+PATCH  http://localhost:3001/v1/collection/valoration
+Content-Type: application/json
+
+{
+   "collectionId":"644e5f672dcc658d86e366d3",
+   "_id":"6452093a1618989b2a06d4c0",
+   "senderId":"63fdb9e80daaa0ce85983c3a",
+   "value":5,
+   "comment":"Gran comentario"
+}
