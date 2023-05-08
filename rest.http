@@ -202,7 +202,10 @@ GET http://localhost:3001/v1/edusource/valoration?userId=63fdb9e80daaa0ce85983c3
 GET http://localhost:3001/v1/edusource/bypromoter?promoterId=63fdb9e80daaa0ce85983c3a
 
 ### Search for users
-GET http://localhost:3001/v1/user/search?terms=rub&lang=any
+GET http://eduplat.org.es/api/v1/user/search?terms=Superma&lang=any
+
+### Fetch user by UserName
+GET http://eduplat.org.es/api/v1/user/fetchuserbyusername?username=Supermamades
 
 ### Find last 10 resources
 GET http://localhost:3001/v1/edusource/last?page=1
@@ -412,4 +415,39 @@ Content-Type: application/json
    "senderId":"63fdb9e80daaa0ce85983c3a",
    "value":5,
    "comment":"Gran comentario"
+}
+
+### UPDATE USER
+PATCH http://eduplat.org.es/api/v1/user/
+Content-Type: application/json
+
+{
+   "_id": "644e1b94f0d84c5906455bd2",
+   "username": "Supermamades"
+   
+}
+
+### GET MINIMAL RESOURCES
+GET http://localhost:3001/v1/edusource/minsearch?terms=tabla
+
+### GET LAST 10 COLLECTIONS
+GET http://localhost:3001/v1/collection?page=1
+
+### GET COLLECTIO BY TERM
+GET http://localhost:3001/v1/collection?page=1&terms=iot
+
+### GET RESOURCES BY USER AND PAGE
+GET http://localhost:3001/v1/edusource/bypromoter?promoterId=63fdb9e80daaa0ce85983c3a&page=2
+
+### GET COLLECTION BY PROMOTER ID
+GET http://localhost:3001/v1/collection/bypromoter?promoterId=63fdb9e80daaa0ce85983c3a&page=1
+
+### SEND SUPPORT EMAIL TEST
+POST http://localhost:3001/v1/emails/support
+Content-Type: application/json
+
+{
+   "sender":"rserravi",
+   "subject":"emailTest",
+   "message":"Just testing this shit"
 }

@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { getUserbyUserName } = require("../model/user/user.model");
  
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -11,21 +12,23 @@ let transporter = nodemailer.createTransport({
 });
  
 const send = async (message) =>{
-    await transporter.sendMail(message, (error, info) => {
-        if (error) {
-            console.log('Error occurred');
-            console.log(error.message);
-            return process.exit(1);
-        }
-  
-        console.log('Message sent successfully!');
-        console.log(nodemailer.getTestMessageUrl(info));
-  
-        // only needed when using pooled connections
-        //transporter.close();
-        console.log(info);
-        return info;
-    });
+    return new Promise(async (resolve, reject)=>{ 
+        await transporter.sendMail(message, (error, info) => {
+            if (error) {
+                console.log('Error occurred');
+                console.log(error.message);
+                reject (process.exit(1));
+            }
+    
+            console.log('Message sent successfully!');
+            console.log(nodemailer.getTestMessageUrl(info));
+    
+            // only needed when using pooled connections
+            //transporter.close();
+            console.log("THIS IS INFO IN SEND",info);
+            resolve(info);
+        });
+    }) 
 }
  
 const emailProcessor = (email, pin, type, verificationLink)=>{
@@ -86,9 +89,47 @@ const emailProcessor = (email, pin, type, verificationLink)=>{
 
     return retorno;
  }
+
+const customMail = (toEmail, subject, html)=>{
+    console.log("EN CUSTOM MAIL")
+
+}
+
+const supportMail = async (sender, subject, message) =>{
+    const user = await getUserbyUserName(sender)
+    console.log("USER EN SUPPORT MAIL")
+    if (user){
+        info = {
+            from: process.env.EMAIL_SENDER_ADDRESS, // sender address
+            to: process.env.EMAIL_SENDER_ADDRESS, // sender address
+            subject: "Support mail sended by "+sender,
+            text: message,
+            html: `<h2>Support Request Email sended from: `+sender+` to SupportTeam</h2>
+                <p><strong>Subject</strong>: `+ subject+`</p>
+                <p><strong>Date</strong>:`+ Date.now().toLocaleString('ES')+`</p>
+                <p><strong>Message</strong>:`+ message+`.</p>
+                <p><strong>Sender Data</strong>:</p>
+                <ul>
+                <li><strong>User name</strong>: `+ sender+`</li>
+                <li><strong>Real name</strong>: `+ user.firstname+` `+ user.lastname+`</li>
+                <li><strong>Email</strong>: `+ user.emails[0].emailUrl +`</li>
+                </ul>
+                <p>Remember to answer as soon as possible.</p>
+        <p>&nbsp;</p>
+            
+            `, //html body
+        }
+        const retorno= await send(info);
+        console.log("THIS IS RETORNO", retorno)
+        return retorno;
+    }
+
+   
+}
  
  
 module.exports = {
     emailProcessor,
+    supportMail
  }
  

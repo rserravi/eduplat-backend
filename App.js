@@ -19,8 +19,8 @@ app.use(cors());
 app.use(morgan("tiny"));   
 
 // SET BODY PARSER
-app.use(bodyParser.urlencoded({ extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '5mb',extended: true}));
+app.use(bodyParser.json({limit: '5mb'}));
 
 //Load Routers
 const userRouter = require("./src/routers/user.router");
@@ -28,6 +28,7 @@ const edusourceRouter = require("./src/routers/edusource.router")
 const scrapRouter = require("./src/routers/scrap.router")
 const conversationRouter = require("./src/routers/conversation.router")
 const collectionRouter = require("./src/routers/collection.router")
+const emailRouter = require("./src/routers/emails.router")
 
 //USE ROUTERS
 app.use("/v1/user", userRouter);
@@ -35,6 +36,7 @@ app.use("/v1/edusource", edusourceRouter);
 app.use("/v1/scrap", scrapRouter)
 app.use("/v1/conversation", conversationRouter);
 app.use("/v1/collection", collectionRouter)
+app.use("/v1/emails", emailRouter)
 
 
 //Error handler

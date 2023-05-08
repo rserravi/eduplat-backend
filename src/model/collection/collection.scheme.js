@@ -41,8 +41,8 @@ const CollectionScheme = mongoose.Schema ({
             required: false,
         },
         file: {
-            data: Buffer,
-            contentType: String,
+            type: String,
+            
         },
         uploadTime: {
             type: Date,

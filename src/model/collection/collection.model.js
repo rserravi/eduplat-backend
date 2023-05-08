@@ -3,7 +3,7 @@ const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 const { UserScheme } = require("../user/user.scheme");
 const mongoose = require("mongoose");
 const { addKarma } = require("../../utils/karmaHandler");
-
+const { replaceUnderscoresWithSpaces, includeAccentsInRegx } = require("../edusource/edusource.model");
 
 
 const insertCollection = collectionObj => { 
@@ -51,6 +51,57 @@ const insertCollection = collectionObj => {
     })
  }
 
+ const getCollectionByPromoterId = (promoterId, page) =>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const Collection = await db.model("collection",CollectionScheme)
+        const UserSource = await db.model("user", UserScheme)
+ 
+        //console.log("EN GET RESOURCES", promoterId)
+        if((!promoterId)) return false;
+
+        try{
+            Collection.find({"promoterId": promoterId}, (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                
+                if (page && page!==null && page!==undefined){
+                    console.log("HAY PAGE!!!!");
+                    
+                    var newData = [];
+                   //const start = (page-1)*20;
+                   const start = data.length-1 - ((page -1)*20)
+                   var end = start-20;
+                   if (end<0){
+                       end=0;
+                   }
+   
+                   console.log("START AND END",start, end);
+                   for (let i = start; i >= end; i--) {
+                       //console.log(data[1]);
+                       newData.push(data[i]);
+                       
+                   }
+                   resolve({data:newData, total:data.length});
+
+                }else{
+                resolve(data);
+                }
+            }
+            }
+        ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone()
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
+
  const getCollectionByUrl = url =>{
     return new Promise(async (resolve, reject)=>{ 
  
@@ -79,6 +130,68 @@ const insertCollection = collectionObj => {
         }
     })
  }
+
+ const getCollection = (terms, page) =>{
+    return new Promise(async (resolve, reject)=>{ 
+ 
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const Collection = await db.model("collection",CollectionScheme)
+        const UserSource = await db.model("user", UserScheme)
+
+        var newTerms = ''
+        var searchString={}
+        
+        if(terms) {
+
+            newTerms = replaceUnderscoresWithSpaces(terms)
+            //newTerms = includeAccentsInRegx(newTerms);
+            const regx = new RegExp(terms, 'i');
+            console.log(regx)
+            searchString = {
+               $or: [
+                    {title: regx},
+                    {description: regx},
+                    {collectionURL: regx},
+                    {'content.description':regx}
+                    ]
+                }
+            
+        }
+ 
+        try{
+            console.log("SEARCH STRING", searchString)
+            Collection.find(searchString, async (error, data)=>{
+            if(error){
+                console.log(error);
+                reject(error);
+            }
+            else{
+                console.log("Data Length",data.length, page);
+                var newData = [];
+                //const start = (page-1)*20;
+                const start = data.length-1 - ((page -1)*20)
+                var end = start-20;
+                if (end<0){
+                    end=0;
+                }
+
+                console.log("START END",start, end);
+                for (let i = start; i >= end; i--) {
+                   // console.log(data[1].title);
+                    newData.push(data[i]);
+                    
+                }
+                resolve({data:newData, total:data.length});
+            }
+            }
+        ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone()
+        } catch (error) {
+            reject(error);
+        }
+    })
+ }
+
 
   const markAsSeen = (collectionId, contentId, userId) =>{
     return new Promise(async (resolve, reject)=>{ 
@@ -272,6 +385,8 @@ const insertCollection = collectionObj => {
    insertCollection,
    getCollectionById,
    getCollectionByUrl,
+   getCollectionByPromoterId,
+   getCollection,
    markAsSeen,
    checkedMark,
    getCollecionValoration,

@@ -1,0 +1,825 @@
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python2: Instalación",
+   "resourceURL": "python2--instalacion",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/Swmc7H7Fw_s",
+   "linktype": "Youtube",
+   "description": "Como instalar python para comenzar a aprender, perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/Swmc7H7Fw_s/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-DoACuAiKAgwIABABGH8gEygbMA8=&rs=AOn4CLBehdzB_XLkYArfztQOcXadUsGc4w",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python3: IDE",
+   "resourceURL": "python2-ide",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/nDehjDcDXJU",
+   "linktype": "Youtube",
+   "description": "Que IDES son mejores para python y como instalarlos: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/nDehjDcDXJU/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-DoACuAiKAgwIABABGH8gEygaMA8=&rs=AOn4CLBc5hIRMVb97Stc0zw4724a0KdNCw",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python4: Variables",
+   "resourceURL": "python4-variables",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/doYKUJ3pn9I",
+   "linktype": "Youtube",
+   "description": "Uso de las variables en Python: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/nDehjDcDXJU/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-DoACuAiKAgwIABABGH8gEygaMA8=&rs=AOn4CLBc5hIRMVb97Stc0zw4724a0KdNCw",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python5: Strings",
+   "resourceURL": "python5-strings",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/P37GSZytScs",
+   "linktype": "Youtube",
+   "description": "Cómo funcionan las cadenas de texto (strings): perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/P37GSZytScs/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python6: Números",
+   "resourceURL": "python6-numeros",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/DUo3R6jXoiw",
+   "linktype": "Youtube",
+   "description": "Cómo funcionan los numeros int float etc: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/DUo3R6jXoiw/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python7: Booleanos",
+   "resourceURL": "python7-booleanos",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python", "logic", "booleanos", "álgrebra de boole"],
+   "type": "Youtube",
+   "link": "https://youtu.be/RI02ZWRKBcU",
+   "linktype": "Youtube",
+   "description": "Cómo funcionan los numeros int float etc: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/RI02ZWRKBcU/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python8: Comentarios y Anotaciones",
+   "resourceURL": "python8-comentarios-y-anotaciones",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python", "logic", "booleanos", "álgrebra de boole"],
+   "type": "Youtube",
+   "link": "https://youtu.be/39LWZnt155g",
+   "linktype": "Youtube",
+   "description": "Los comentarios son una utilidad de documentación y aclaración de códgio. Aprende cómo usarlos en python: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/39LWZnt155g/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python9: El Zen",
+   "resourceURL": "python9-el-zen",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python", "zen", "el zen de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/LmFVivqSJHk",
+   "linktype": "Youtube",
+   "description": "¿Sabes lo que ocurre cuando escribes 'import this'? Pues que aparece el Zen de Python : perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/LmFVivqSJHk/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python10: ¿Qué son las listas?",
+   "resourceURL": "python10-que-son-las-listas",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/a4PY_lOkTmw",
+   "linktype": "Youtube",
+   "description": "Uso de las listas en python: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/a4PY_lOkTmw/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python11: Ordenando, Cambiando, Quitando",
+   "resourceURL": "python11-ordenando-cambiando-quitando",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/0di8GsNqdVU",
+   "linktype": "Youtube",
+   "description": "Ordena cambia y quita elementos de las listas: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/0di8GsNqdVU/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python12: Ordenando con sort y sorted",
+   "resourceURL": "python12-ordenando-con-sort",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/017Y-c8RtNU",
+   "linktype": "Youtube",
+   "description": "Sort y Sortded, dos maneras de ordenar: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/017Y-c8RtNU/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python14: Listas numéricas",
+   "resourceURL": "python14-listas-numericas",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/ZLSZRwTHO_M",
+   "linktype": "Youtube",
+   "description": "Listas numéricas en python: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/ZLSZRwTHO_M/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python15: Partes de una lista",
+   "resourceURL": "python15-partes-de-una-lista",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/BGILPvj14gk",
+   "linktype": "Youtube",
+   "description": "Partes de una lista: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/BGILPvj14gk/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python16: Los Tuples",
+   "resourceURL": "python16-los-tuples",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python","tuple"],
+   "type": "Youtube",
+   "link": "https://youtu.be/_hE_uBFlUEIk",
+   "linktype": "Youtube",
+   "description": "Las tuplas o tuples son colecciones de datos clasificados con un índice y que no pueden ser modificados: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/_hE_uBFlUEIk/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python17: Comprobando Igualdades",
+   "resourceURL": "python17-comprobando-igualdades",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python","algebra booleana"],
+   "type": "Youtube",
+   "link": "https://youtu.be/TDEL8Y-M2CM",
+   "linktype": "Youtube",
+   "description": "Cómo comprobar igualdades en python: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/TDEL8Y-M2CM/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python18: Igualdades numéricas",
+   "resourceURL": "python18-igualdades-numericas",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python","algebra booleana"],
+   "type": "Youtube",
+   "link": "https://youtu.be/xf0kR08KU9k",
+   "linktype": "Youtube",
+   "description": "Cómo comprobar igualdades numéricas en python: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/xf0kR08KU9/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python19: Booleanos concatenados",
+   "resourceURL": "python19-booleanos-concatenados",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python","algebra booleana"],
+   "type": "Youtube",
+   "link": "https://youtu.be/ORtcsBrdNPc",
+   "linktype": "Youtube",
+   "description": "Cómo juntar varios booleanos en python: perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/ORtcsBrdNPc/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python20: In Listas",
+   "resourceURL": "python20-in-listas",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/yD5R0J5lSA0",
+   "linktype": "Youtube",
+   "description": "Usa en método in en listas perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/yD5R0J5lSA0/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python21: If, Elif, Else",
+   "resourceURL": "python21-elif",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "discipline": "ICT",
+   "level": "ISCED6",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/i_TXH920xXY",
+   "linktype": "Youtube",
+   "description": "La sentencia «Elif» se utiliza para comprobar múltiples condiciones si una condición es falsa. Perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/i_TXH920xXY/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python23: Diccionarios Básicos",
+   "resourceURL": "python23-diccionarios-basicos",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "level": "ISCED6",
+   "discipline": "ICT",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/KQZdJh7T4Ig",
+   "linktype": "Youtube",
+   "description": "Uso de diccionarios en Python. Perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/KQZdJh7T4Ig/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python24: Looping dentro de diccionarios",
+   "resourceURL": "python24-looping-en-diccionarios",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "level": "ISCED6",
+   "discipline": "ICT",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/Lq_STl1MiLw",
+   "linktype": "Youtube",
+   "description": "Recorre los diccionarios. Perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/Lq_STl1MiLw/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python25: Anidado",
+   "resourceURL": "python25-anidado",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "level": "ISCED6",
+   "discipline": "ICT",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/3EG6J91M2O0",
+   "linktype": "Youtube",
+   "description": "Anidado en Python. Perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/3EG6J91M2O0/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python26: Input",
+   "resourceURL": "python25-anidado",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "level": "ISCED6",
+   "discipline": "ICT",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/XL5-pwpcIrw",
+   "linktype": "Youtube",
+   "description": "Input en Python. Perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/XL5-pwpcIrw/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python27: Bucle While",
+   "resourceURL": "python26-bucle-while",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "level": "ISCED6",
+   "discipline": "ICT",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/QgT_QtUpT9k",
+   "linktype": "Youtube",
+   "description": "Bucle While en Python. Perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/QgT_QtUpT9k/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}
+
+### Inserta Edusource
+POST http://localhost:3001/v1/edusource
+Content-Type: application/json
+
+{
+   "title": "Python28: While en listas",
+   "resourceURL": "python28-while-en-listas",
+   "promoterId": "63fdb9e80daaa0ce85983c3a",
+   "autors":{
+      "autorName":"Rubotic",
+      "autorSocial":{
+         "media":"Instagram",
+         "user": "@rubotic"
+      }
+   },
+   "language":"ES",
+   "level": "ISCED6",
+   "discipline": "ICT",
+   "theme": ["Computer Science", "Python", "curso de python"],
+   "type": "Youtube",
+   "link": "https://youtu.be/1u1upbLUTXM",
+   "linktype": "Youtube",
+   "description": "Bucle While para recorrer listas en Python. Perteneciente al curso 'Domina Python' de @rubotic",
+   "picture":{
+      "fileName":"https://i.ytimg.com/vi/1u1upbLUTXM/hqdefault.jpg",
+      "file":"",
+      "uploadTime": "2023-05-07T15:50:13.000+00:00",
+      "type":"link"
+   },
+   "licence": "CC",
+   "date":"2021-03-04T19:27:33.633+00:00"
+}

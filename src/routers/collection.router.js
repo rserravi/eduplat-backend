@@ -1,5 +1,5 @@
 const express = require("express");
-const { insertCollection, getCollectionById, markAsSeen, checkedMark, getCollectionByUrl, getCollecionValoration, insertCollectionValoration, updateCollectionValoration } = require("../model/collection/collection.model");
+const { insertCollection, getCollectionById, markAsSeen, checkedMark, getCollectionByUrl, getCollecionValoration, insertCollectionValoration, updateCollectionValoration, getCollection, getCollectionByPromoterId } = require("../model/collection/collection.model");
 const router = express.Router();
 
 router.all("/", (req, res, next) =>{
@@ -14,6 +14,7 @@ router.post("/", async (req, res)=>{
 
     const {title, collectionURL, promoterId, description, content, picture, valorations} = req.body;
 
+    
     const collObj = {
         title: title?title:"",
         collectionURL: collectionURL?collectionURL:"",
@@ -29,6 +30,8 @@ router.post("/", async (req, res)=>{
         date: Date.now(),
         valorations: valorations?valorations:[] 
     }
+
+    
 
     try {
         const result = await insertCollection(collObj);
@@ -47,6 +50,7 @@ router.get("/", async (req, res)=>{
     const url = req.query.url
     const id = req.query.id
     const page = req.query.page;
+    const terms = req.query.terms;
     if (url && url!==null && url!==undefined){
         await getCollectionByUrl(url, page?page:1).then((result)=>{
             console.log ("GETTING RESULT",result)
@@ -66,7 +70,28 @@ router.get("/", async (req, res)=>{
     }
 
     else if (!id && !url){
-        res.json({status:"error", message:"Bad Request: speficy url or id"});
+       await getCollection(terms,page?page:1).then((result)=>{
+            console.log ("GETTING RESULT",result)
+            res.json({status:"success", result})
+        }).catch((err)=>{
+            res.json({status:"error", message: err.message})
+        })
+    }
+})
+
+router.get("/bypromoter", async (req,res)=>{
+    const promoterId = req.query.promoterId;
+    const page = req.query.page;
+
+    try {
+        await getCollectionByPromoterId(promoterId, page).then((result)=>{
+            res.json({status: "success", result: result.data, total: result.total})
+        }).catch((err)=>{
+            res.json({status:"error", message: err.message})
+        })
+        
+    } catch (error) {
+        res.json({status:"error", message:error.message});
     }
 })
 

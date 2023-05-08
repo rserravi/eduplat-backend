@@ -169,7 +169,7 @@ const insertEdusource = edusourceObj => {
     })
  };
 
- const getEdusourceByPromoterId = promoterId =>{
+ const getEdusourceByPromoterId = (promoterId, page) =>{
     return new Promise(async (resolve, reject)=>{ 
  
         const dbConnection = await global.clientConnection
@@ -179,6 +179,7 @@ const insertEdusource = edusourceObj => {
  
         //console.log("EN GET RESOURCES", promoterId)
         if((!promoterId)) return false;
+
         try{
             EduSource.find({"promoterId": promoterId}, (error, data)=>{
             if(error){
@@ -186,11 +187,32 @@ const insertEdusource = edusourceObj => {
                 reject(error);
             }
             else{
-                //console.log(data);
+                
+                if (page && page!==null && page!==undefined){
+                    console.log("HAY PAGE!!!!");
+                    
+                    var newData = [];
+                   //const start = (page-1)*20;
+                   const start = data.length-1 - ((page -1)*20)
+                   var end = start-20;
+                   if (end<0){
+                       end=0;
+                   }
+   
+                   console.log("START AND END",start, end);
+                   for (let i = start; i >= end; i--) {
+                       //console.log(data[1]);
+                       newData.push(data[i]);
+                       
+                   }
+                   resolve(newData);
+
+                }else{
                 resolve(data);
+                }
             }
             }
-        ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 })
+        ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone()
         } catch (error) {
             reject(error);
         }
@@ -206,7 +228,7 @@ const insertEdusource = edusourceObj => {
         const UserSource = await db.model("user", UserScheme)
          
         try{
-            EduSource.find({}).populate({path:"promoterId", select:'username firstname lastname picture'}).sort({_id: -1 }).limit(10).exec(
+            EduSource.find({}).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).limit(10).exec(
                 async (error, data)=>{
                     if(error){
                         console.log(error);
@@ -465,7 +487,7 @@ const insertEdusource = edusourceObj => {
                        
                     }
                 }
-                ).populate({path:"promoterId", select:'username firstname lastname picture'}).sort({_id: -1 }).lean().clone()
+                ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone()
             } catch (error) {
                 console.log("ERROR EN FIND",error)
                 reject(error);
@@ -493,6 +515,68 @@ const insertEdusource = edusourceObj => {
         
     })
  }
+
+const searchEdusourcesMinReturn = (terms) =>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const EduSource = await db.model("edusource",EdusourceScheme)
+       
+        var searchString="";
+
+        if((!terms)) return false;
+        
+        var newTerms = replaceUnderscoresWithSpaces(terms)
+        
+        newTerms = includeAccentsInRegx(newTerms);
+        var resultObj = []
+        
+       
+            const regx = {$regex: newTerms, $options: 'i'}
+            console.log (regx);
+            searchString = {
+                $or: [
+                    {title: regx},
+                    {discipline: regx},
+                    {type: regx},
+                    {link: regx},
+                    {theme:{ $elemMatch:{regx}}},
+                    {autors:{ $elemMatch:{ autorName: regx}}},
+                    {description: regx},
+                    ]
+                }
+            try{
+                await EduSource.find(searchString, async (error, ndata)=>{
+                    if(error){
+                        console.log(error)
+                        reject(error);
+                    }
+                    else{
+                        for (let i = 0; i < ndata.length; i++) {
+                            var toPush = {
+                                "_id": ndata[i]._id,
+                                "title": ndata[i].title,
+                                "resourceURL": ndata[i].resourceURL,
+                                "description": ndata[i].description
+                            }
+                            resultObj.push(toPush)
+                            
+                        }
+
+                        console.log(ndata);
+                        resolve(resultObj)
+                       
+                    }
+                }
+                ).sort('date').lean().clone()
+            } catch (error) {
+                console.log("ERROR EN FIND",error)
+                reject(error);
+            }
+        
+    })
+}
 
  const searchCategories = (category, page) =>{
     return new Promise(async (resolve,reject)=>{
@@ -546,7 +630,7 @@ const insertEdusource = edusourceObj => {
                    resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
+            ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
        // } catch (error) {
        //     console.log("ERROR EN TRY")
        //     reject(error);
@@ -573,7 +657,7 @@ const insertEdusource = edusourceObj => {
                     resolve(data);
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
+            ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
         } catch (error) {
             reject(error);
         }
@@ -613,7 +697,7 @@ const insertEdusource = edusourceObj => {
                    resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
+            ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
         } catch (error) {
             reject(error);
         }
@@ -653,7 +737,7 @@ const insertEdusource = edusourceObj => {
                    resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
+            ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
         } catch (error) {
             reject(error);
         }
@@ -695,7 +779,7 @@ const insertEdusource = edusourceObj => {
                    resolve({data:newData, total:data.length});
                 }
             }
-            ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 });
+            ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
         } catch (error) {
             reject(error);
         }
@@ -728,7 +812,7 @@ const insertEdusource = edusourceObj => {
                 }
 
                 console.log(start, end);
-                for (let i = start; i > end; i--) {
+                for (let i = start; i >= end; i--) {
                     //console.log(data[1]);
                     newData.push(data[i]);
                     
@@ -736,7 +820,7 @@ const insertEdusource = edusourceObj => {
                 resolve({data:newData, total:data.length});
             }
             }
-        ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone().sort({_id: -1 })
+        ).sort('date').populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone()
         } catch (error) {
             reject(error);
         }
@@ -814,6 +898,7 @@ const insertEdusource = edusourceObj => {
     deleteEduById,
     updateResource,
     searchEdusources,
+    searchEdusourcesMinReturn,
     includeAccentsInRegx,
     searchCategories,
     replaceUnderscoresWithSpaces,

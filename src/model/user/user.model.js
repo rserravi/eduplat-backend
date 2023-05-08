@@ -123,7 +123,7 @@ const getAlerts = user =>{
 };
 
 const getUserbyUserName = username =>{
-    //console.log("GET USER BY USERNAME ", username)
+    console.log("GET USER BY USERNAME ", username)
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection

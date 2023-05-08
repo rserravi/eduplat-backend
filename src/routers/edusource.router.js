@@ -1,5 +1,5 @@
 const express = require("express");
-const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes, searchTypes, checkLink, getEdusourcebyId} = require('../model/edusource/edusource.model');
+const {insertEdusource, getEdusourceByLink, insertEduValoration, getEdusourceByPromoterId, getLastResources, getValoration, updateValoration, deleteEduById, updateResource, searchEdusources, searchCategories, acceptRejectValoration, getAllResources, searchThemes, searchLevels, searchLangs, fixTypes, searchTypes, checkLink, getEdusourcebyId, searchEdusourcesMinReturn} = require('../model/edusource/edusource.model');
 const { getUserbyId } = require("../model/user/user.model");
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.all("/", (req, res, next) =>{
 
 //Create new edusource
 router.post("/", async(req, res) => {
-    const {title, resourceURL, promoterId, autors, languaje, discipline, theme, type, link, linktype, description, picture, licence, valorations, language, level} = req.body;
+    const {title, resourceURL, promoterId, autors, languaje, discipline, theme, type, link, linktype, description, picture, licence, valorations, language, level, date} = req.body;
 
     const eduObj = {
         title: title?title:"",
@@ -34,7 +34,7 @@ router.post("/", async(req, res) => {
             type: picture.type?picture.type:"link"
         },
         licence: licence?licence:"CC",
-        date: Date.now(),
+        date: date?date:Date.now(),
         language:language,
         valorations: valorations?valorations:[] 
     }
@@ -112,6 +112,8 @@ router.post("/", async(req, res) => {
         res.json({status:"error", error});
     }
  })
+
+
  
  router.post("/valoration", async(req, res)=>{
     const {edusourceId, senderId, comment, value} = req.body;
@@ -223,9 +225,10 @@ router.post("/", async(req, res) => {
 
  router.get("/sortedbypromoterid", async(req, res)=>{
     const promoterId = req.query.promoterId
+    const page = req.query.page;
     //console.log("SortedByPromoterId", promoterId)
      try {
-        const result = await getEdusourceByPromoterId(promoterId);
+        const result = await getEdusourceByPromoterId(promoterId,page);
         if (result){
             var accepted = []
             var noAccepted = []
@@ -275,9 +278,10 @@ router.post("/", async(req, res) => {
 
  router.get("/bypromoter", async(req, res)=>{
     const promoterId = req.query.promoterId
+    const page = req.query.page;
    // console.log("BY PROMOTER", promoterId)
     try {
-        const result = await getEdusourceByPromoterId(promoterId);
+        const result = await getEdusourceByPromoterId(promoterId, page);
         if (result){
             res.json({status: "success", result});
         }
@@ -319,6 +323,24 @@ router.post("/", async(req, res) => {
         if (result){
             //console.log(result)
             res.json ({status:"success", data: result.data, total: result.total});
+        }
+        else {
+            res.json({status: "success", result, message:"Nothing Found"})
+        }
+    } catch (error) {
+        res.json({status:"error", error});
+    }   
+})
+
+router.get("/minsearch", async(req, res)=>{
+    const terms = req.query.terms;
+  
+    //console.log(req.query);
+    try {
+        const result = await searchEdusourcesMinReturn(terms);
+        if (result){
+            
+            res.json ({status:"success", data: result});
         }
         else {
             res.json({status: "success", result, message:"Nothing Found"})
