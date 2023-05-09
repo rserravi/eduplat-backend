@@ -3,8 +3,58 @@ const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
 const { UserScheme } = require("../user/user.scheme");
 const mongoose = require("mongoose");
 const { addKarma } = require("../../utils/karmaHandler");
-const { replaceUnderscoresWithSpaces, includeAccentsInRegx } = require("../edusource/edusource.model");
+const { replaceUnderscoresWithSpaces, includeAccentsInRegx, getEdusourcebyId } = require("../edusource/edusource.model");
 
+const extractContentStats = async collection => {
+    return new Promise(async (resolve, reject)=>{
+        var stats = {
+            languages : [],
+            autors :[],
+            disciplines:[],
+            themes:[],
+            levels:[]
+        }
+
+        try {
+            //console.log(collection.content)
+            if (collection.content && collection.content.length >0){
+                for (let i = 0; i < collection.content.length; i++) {
+                    if (collection.content[i].type==="edusource"){
+                        const edu = await getEdusourcebyId(collection.content[i].contentId)
+                        if (!stats.languages.includes(edu.language)) {
+                            stats.languages.push(edu.language);
+                        }
+                        if (edu.autors && Array.isArray(edu.autors)) {
+                            for (let j = 0; j < edu.autors.length; j++) {
+                            const autorName = edu.autors[j].autorName;
+                            if (!stats.autors.includes(autorName)) {
+                                stats.autors.push(autorName);
+                            }
+                            }
+                        }
+                        if (!stats.disciplines.includes(edu.discipline)) {
+                            stats.disciplines.push(edu.discipline);
+                        }
+                        if (edu.theme && Array.isArray(edu.theme)) {
+                            for (let j = 0; j < edu.theme.length; j++) {
+                            const theme = edu.theme[j];
+                            if (!stats.themes.includes(theme)) {
+                                stats.themes.push(theme);
+                            }
+                            }
+                        }
+                        if (!stats.levels.includes(edu.levels)) {
+                            stats.levels.push(edu.levels);
+                        }
+                    }
+                }
+            }
+            resolve(stats);
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 
 const insertCollection = collectionObj => { 
     return new Promise(async (resolve, reject)=>{ 
@@ -32,14 +82,19 @@ const insertCollection = collectionObj => {
 
  
         try {
-            Collection.findById(id, async (error, data)=>{
+            Collection.findById(id, async (error, ndata)=>{
                     if(error){
                         console.log("ERROR EN getCollectionById - 1",error);
                         reject(error);
                     }
                     else{
                         //console.log("DATOS EN getCollectionById-1",data);
-                        resolve(data);
+                        const stats = await extractContentStats(ndata)
+                        const data = {
+                            ...ndata,
+                            stats
+                        };
+                    resolve(data);
                     }
                 }
             ).populate({path:"promoterId", select:'username firstname lastname picture'}).lean().clone();
@@ -63,7 +118,7 @@ const insertCollection = collectionObj => {
         if((!promoterId)) return false;
 
         try{
-            Collection.find({"promoterId": promoterId}, (error, data)=>{
+            Collection.find({"promoterId": promoterId}, async (error, data)=>{
             if(error){
                 console.log(error);
                 reject(error);
@@ -83,10 +138,15 @@ const insertCollection = collectionObj => {
    
                    console.log("START AND END",start, end);
                    for (let i = start; i >= end; i--) {
-                       //console.log(data[1]);
-                       newData.push(data[i]);
+                       const stats = await extractContentStats(data[i])
+                       const toPush = {
+                        ...data[i],
+                        stats
+                      };
+                       newData.push(toPush);
                        
-                   }
+                   }                  
+
                    resolve({data:newData, total:data.length});
 
                 }else{
@@ -112,13 +172,18 @@ const insertCollection = collectionObj => {
 
  
         try {
-            Collection.findOne({"collectionURL":url}, async (error, data)=>{
+            Collection.findOne({"collectionURL":url}, async (error, ndata)=>{
                     if(error){
                         console.log("ERROR EN getCollectionByUrl",error);
                         reject(error);
                     }
                     else{
-                        console.log("DATOS EN getCollectionByUrl",data);
+                        //console.log("DATOS EN getCollectionByUrl",data);
+                        const stats = await extractContentStats(ndata)
+                        const data = {
+                            ...ndata,
+                            stats
+                        };
                         resolve(data);
                     }
                 }
@@ -178,10 +243,15 @@ const insertCollection = collectionObj => {
 
                 console.log("START END",start, end);
                 for (let i = start; i >= end; i--) {
-                   // console.log(data[1].title);
-                    newData.push(data[i]);
+                    const stats = await extractContentStats(data[i])
+                    const toPush = {
+                     ...data[i],
+                     stats
+                   };
+                    newData.push(toPush);
                     
-                }
+                }                  
+
                 resolve({data:newData, total:data.length});
             }
             }
