@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration, getIdByEmail, setAllVerifiedTrue, setBoss } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration, getIdByEmail, setAllVerifiedTrue, setBoss, setInFavorites, getFavorites } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -73,7 +73,8 @@ router.post("/", newUserValidation, async(req, res) => {
                     state: "",
                     postalCode: "",
                     country: ""},
-            randomURL: randomUrl,          
+            randomURL: randomUrl,   
+            favorites: [],       
       }
 
        const result = await insertUser(newUserObj);
@@ -455,7 +456,8 @@ router.get("/fetchUser", async(req, res)=>{
                 "editingLevel": result.editingLevel,
                 "karma": result.karma,
                 "tagline": result.tagline,
-                "valorations": result.valorations
+                "valorations": result.valorations,
+                "favorites": result.favorites,
             }
             res.json ({user: userToReturn});
         }
@@ -607,6 +609,48 @@ router.patch("/setboss", async(req, res)=>{
     } catch (error) {
         res.json({status:"error", error});
     }   
+})
+
+router.patch("/favorites", async(req, res)=>{
+    const {userid, edusourceid, value} = req.body;
+    console.log("USERID EN PATCHFAV", userid, typeof(userid))
+    try {
+       await setInFavorites(userid, edusourceid, value).then((result)=>{
+        if (result._id!==""){
+            res.json ({status:"success", message:"Changed favorite"});
+        }
+        else {
+            console.log("SE HA PRODUCIDO ERROR?")
+            res.json({status:"error", result});
+        }
+       })
+
+        
+    } catch (error) {
+        res.json({status:"error", error});
+    }
+})
+
+router.get("/favorites", async(req, res)=>{
+    const {userid} = req.query;
+    console.log("USER ID EN GETFAVS", userid, typeof(userid))
+    try {
+       await getFavorites(userid).then((result)=>{
+        console.log("RESULT EN GET FAVS", result)
+        if (result){
+            
+            res.json ({status:"success", data: result});
+        }
+        else {
+            console.log("SE HA PRODUCIDO ERROR?")
+            res.json({status:"error", result});
+        }
+       })
+
+        
+    } catch (error) {
+        res.json({status:"error", error});
+    }
 })
 
 

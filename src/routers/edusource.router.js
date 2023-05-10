@@ -202,7 +202,7 @@ router.post("/", async(req, res) => {
                     const user = await getUserbyId(result.valorations[index].senderId)
                     const newObj = {
                         _id: result.valorations[index]._id,
-                        senderAvatar: user.picture.fileName,
+                        senderAvatar: user.picture,
                         senderUser: user.username,
                         comment: result.valorations[index].comment,
                         value: result.valorations[index].value,

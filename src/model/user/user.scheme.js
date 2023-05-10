@@ -196,7 +196,8 @@ const UserScheme = mongoose.Schema ({
             type: Boolean,
             default: false
         }
-    }]
+    }],
+    favorites:[],
 });
 
 UserScheme.index({'$**': 'text'}); 

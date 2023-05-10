@@ -1,6 +1,6 @@
 const { addKarma } = require("../../utils/karmaHandler.js");
 const { getConversationByUserId, getUnreadMessageNumber } = require("../conversation/conversation.model.js");
-const { getEdusourceByPromoterId } = require("../edusource/edusource.model.js");
+const { getEdusourceByPromoterId, getEdusourcebyId } = require("../edusource/edusource.model.js");
 const {UserScheme} = require("./user.scheme.js");
 const mongoose = require("mongoose")
 const mainDataBaseName = process.env.MAIN_DATABASE_NAME;
@@ -51,7 +51,7 @@ const insertUser = userObj => {
 
         if((!userId)) return false;
         try{
-            //console.log("TRYING")
+            console.log("TRYING")
             User.findOne({"_id": userId}, async (error, data)=>{
             if(error){
                 reject(error);
@@ -641,7 +641,8 @@ const updateUser = (_id, userObj) =>{
                         language: data[i].language,
                         resourcesCount: resourcesCount,
                         collectionsCount: 0,
-                        valorationsCount: acceptedValorations(data[i])
+                        valorationsCount: acceptedValorations(data[i]),
+                        favorites: data[i].favorites
                     }
 
                     //console.log("USUARIO EN NEWUSER", data[i])
@@ -731,6 +732,84 @@ const setBoss = (username)=>{
         }
     })
 }
+
+const setInFavorites = (userid, edusourceid, value) =>{
+    return new Promise (async(resolve, reject)=>{ 
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        const user = await getUserbyId(userid);
+        //console.log("Tenemos user y favs", user.favorites,)
+        if (user.favorites && user.favorites.includes(edusourceid) && !value){
+            console.log("INCLUYE EL FAV")
+            const index = user.favorites.indexOf(edusourceid);
+            if (index > -1){
+                user.favorites.splice(index,1);
+            }
+        }
+
+        if (user.favorites && (!user.favorites.includes(edusourceid) && value)){
+            console.log("NO INCLUYE EL FAV Y ES TRUE")
+            user.favorites.push(edusourceid)
+            console.log(user.favorites)
+        }
+
+        if (!user.favorites) {
+            user.favorites = {edusourceid};
+        }
+
+        try {
+            const favorites = {
+                "favorites": user.favorites
+            }
+            console.log("USER ID:", userid," FAVORITOS:", favorites)
+            User.findByIdAndUpdate(userid, favorites, (error, data)=>{
+                if (data) {
+                    console.log("ESTO ES DATA", data)
+                    resolve(data)
+                }
+                else {
+                    console.log("Error", error),
+                    reject(error)
+                }
+            }).clone()
+        } catch (error) {
+            console.log("ERROR", error)
+            //TODO: BUSCAR ERROR!
+            reject(error)
+        }
+
+    })
+}
+
+const getFavorites = userid =>{
+    return new Promise (async(resolve, reject)=>{
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        const data =[]
+        const user = await getUserbyId(userid);
+        if (!user.favorites || user.favorites==={} || user.favorites===undefined || user.favorites===null){
+            resolve (data);
+        }
+        else {
+            try {
+                for (let i = 0; i < user.favorites.length; i++) {
+                    const edu = await getEdusourcebyId(user.favorites[i]);
+                    data.push(edu);
+                }
+                resolve(data);
+                
+            } catch (error) {
+                reject(error)
+            }
+            
+        }
+    })
+}
  
  
 module.exports = {
@@ -752,5 +831,7 @@ module.exports = {
    getAllUsers,
    getIdByEmail,
    setAllVerifiedTrue,
-   setBoss
+   setBoss,
+   setInFavorites,
+   getFavorites
 };

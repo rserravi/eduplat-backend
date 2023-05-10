@@ -451,3 +451,16 @@ Content-Type: application/json
    "subject":"emailTest",
    "message":"Just testing this shit"
 }
+
+### SET FAVORITE FOR USER
+PATCH http://localhost:3001/v1/user/favorites
+Content-Type: application/json
+
+{
+   "userid":"63fdb9e80daaa0ce85983c3a",
+   "edusourceid":"6404e1eba422c35df7298d85",
+   "value":true
+}
+
+### GET FAVORITES OF USER
+GET http://localhost:3001/v1/user/favorites?userid=63fdb9e80daaa0ce85983c3a
