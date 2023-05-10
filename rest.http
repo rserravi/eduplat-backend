@@ -422,8 +422,8 @@ PATCH http://eduplat.org.es/api/v1/user/
 Content-Type: application/json
 
 {
-   "_id": "644e1b94f0d84c5906455bd2",
-   "username": "Supermamades"
+   "_id": "64352373dac684f8e10b33c8",
+   "favorites": []
    
 }
 
@@ -464,3 +464,6 @@ Content-Type: application/json
 
 ### GET FAVORITES OF USER
 GET http://localhost:3001/v1/user/favorites?userid=63fdb9e80daaa0ce85983c3a
+
+### POST FAVORITES
+POST http://localhost:3001/v1/user/favoritesfix

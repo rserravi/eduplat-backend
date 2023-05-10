@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration, getIdByEmail, setAllVerifiedTrue, setBoss, setInFavorites, getFavorites } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration, getIdByEmail, setAllVerifiedTrue, setBoss, setInFavorites, getFavorites, fixAllFavorites } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -652,6 +652,27 @@ router.get("/favorites", async(req, res)=>{
         res.json({status:"error", error});
     }
 })
+
+router.post("/favoritesfix", async(req, res)=>{
+  
+    try {
+       await fixAllFavorites().then((result)=>{
+        if (result){
+            
+            res.json ({status:"success", data: result});
+        }
+        else {
+            console.log("SE HA PRODUCIDO ERROR?")
+            res.json({status:"error", result});
+        }
+       })
+
+        
+    } catch (error) {
+        res.json({status:"error", error});
+    }
+})
+
 
 
 module.exports = router;

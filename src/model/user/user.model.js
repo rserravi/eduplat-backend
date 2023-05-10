@@ -708,6 +708,28 @@ const setAllVerifiedTrue = ()=>{
     });
 }
 
+const fixAllFavorites = ()=>{
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        try{
+            User.updateMany({},{favorites:[]}, (error, data)=>{
+            if(error){
+                reject(error);
+            }
+            
+            resolve(data);
+            }
+        ).lean().clone();
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 const setBoss = (username)=>{
     return new Promise(async (resolve, reject)=>{
 
@@ -833,5 +855,6 @@ module.exports = {
    setAllVerifiedTrue,
    setBoss,
    setInFavorites,
-   getFavorites
+   getFavorites,
+   fixAllFavorites
 };
