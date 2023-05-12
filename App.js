@@ -29,6 +29,7 @@ const scrapRouter = require("./src/routers/scrap.router")
 const conversationRouter = require("./src/routers/conversation.router")
 const collectionRouter = require("./src/routers/collection.router")
 const emailRouter = require("./src/routers/emails.router")
+const tokensRouter = require("./src/routers/tokens.router")
 
 //USE ROUTERS
 app.use("/v1/user", userRouter);
@@ -37,6 +38,7 @@ app.use("/v1/scrap", scrapRouter)
 app.use("/v1/conversation", conversationRouter);
 app.use("/v1/collection", collectionRouter)
 app.use("/v1/emails", emailRouter)
+app.use("/v1/tokens", tokensRouter)
 
 
 //Error handler

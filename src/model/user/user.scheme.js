@@ -126,6 +126,18 @@ const UserScheme = mongoose.Schema ({
                 default: Date.now()
             },
         },
+    access: {
+        token:{
+            type: String,
+            maxLenght:500,
+            default: ''
+        },
+        addedAt: {
+            type: Date,
+            required: true,
+            default: Date.now()
+        },
+    },
     isVerified: {
         type: Boolean,
         required: true,

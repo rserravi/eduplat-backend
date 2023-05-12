@@ -73,7 +73,7 @@ const createConversation = conversationObj => {
                         reject(error);
                     }
                     else{
-                        console.log("DATOS EN getConversationByUserId -1",data);
+                        //console.log("DATOS EN getConversationByUserId -1",data);
                         resolve(data);
                     }
                 }

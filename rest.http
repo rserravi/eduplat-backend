@@ -466,4 +466,12 @@ Content-Type: application/json
 GET http://localhost:3001/v1/user/favorites?userid=63fdb9e80daaa0ce85983c3a
 
 ### POST FAVORITES
-POST http://localhost:3001/v1/user/favoritesfix
+POST http://eduplat.org.es/api/v1/user/favoritesfix
+
+### FETCH NEW ACCESS JWT
+GET http://localhost:3001/v1/tokens
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODM4NzY1MzIsImV4cCI6MTY4NjQ2ODUzMn0.X3sT78v1ZRnbhx8et64zDGWP5QK7Vou3TmHH5q6XyFU
+
+### FETCH NEW ACCESS JWT
+GET http://localhost:3001/v1/user/connected
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODM4ODQ1NTgsImV4cCI6MTY4Mzg4NTQ1OH0.NPiDcLKBaG2U-WguaKusqFF1AyxTuS8GQ2F9a6VjYEI

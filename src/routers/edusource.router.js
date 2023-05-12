@@ -41,7 +41,7 @@ router.post("/", async(req, res) => {
 
     //Check link
     const checkedLink =  await checkLink(eduObj.resourceURL);
-    console.log(checkedLink.length, eduObj.resourceURL)
+    //console.log(checkedLink.length, eduObj.resourceURL)
     if (checkedLink.length > 0){
 
         eduObj.resourceURL = eduObj.resourceURL + "-" + (checkedLink.length +1).toString();
@@ -234,7 +234,7 @@ router.post("/", async(req, res) => {
             var noAccepted = []
             //RECORREMOS EDUSOURCES
             for (let edu = 0; edu < result.length; edu++) {
-                console.log(result[edu].valorations)
+                //console.log(result[edu].valorations)
                  if (result[edu].valorations.length>0){
 
                     for (let index = 0; index < result[edu].valorations.length; index++) {

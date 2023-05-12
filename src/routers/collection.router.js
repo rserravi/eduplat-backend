@@ -53,7 +53,7 @@ router.get("/", async (req, res)=>{
     const terms = req.query.terms;
     if (url && url!==null && url!==undefined){
         await getCollectionByUrl(url, page?page:1).then((result)=>{
-            console.log ("GETTING RESULT",result)
+            //console.log ("GETTING RESULT",result)
             res.json({status:"success", result})
         }).catch((err)=>{
             res.json({status:"error", message: err.message})
@@ -62,7 +62,7 @@ router.get("/", async (req, res)=>{
     }
     else if (id && id!==null && id!==undefined){
         await getCollectionById(id, page?page:1).then((result)=>{
-            console.log ("GETTING RESULT",result)
+            //console.log ("GETTING RESULT",result)
             res.json({status:"success", result})
         }).catch((err)=>{
             res.json({status:"error", message: err.message})
@@ -71,7 +71,7 @@ router.get("/", async (req, res)=>{
 
     else if (!id && !url){
        await getCollection(terms,page?page:1).then((result)=>{
-            console.log ("GETTING RESULT",result)
+            //console.log ("GETTING RESULT",result)
             res.json({status:"success", result})
         }).catch((err)=>{
             res.json({status:"error", message: err.message})
@@ -167,7 +167,7 @@ router.post("/valoration", async(req, res)=>{
  
  router.patch("/valoration", async(req, res)=>{
     const {_id, senderId, value, comment, collectionId} = req.body;
-    console.log("BODY EN PATCH",req.body);
+    //console.log("BODY EN PATCH",req.body);
     try {
         const result = await updateCollectionValoration(_id, senderId, value, comment, collectionId);
         if (result){

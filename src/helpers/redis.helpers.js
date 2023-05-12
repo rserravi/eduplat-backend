@@ -1,4 +1,5 @@
 const redis = require("redis");
+const { storeUserLastAccess, getUserLastAccess } = require("../model/user/user.model");
 const client = redis.createClient({legacyMode: true},process.env.REDIS_URL);
 
 const checkRedis = async() => {
@@ -28,7 +29,25 @@ const setJWT = (key, value) =>{
         try {    
             await checkRedis(); 
             // BUG ALERT:!!!! Aqui peta
-            console.log("REDIS ESTA FUNCIONANDO EN SETJWT")
+            console.log("REDIS ESTA FUNCIONANDO EN SETJWT", key, value)
+            const lastAccess =  await getUserLastAccess(value)
+            console.log("LASTACCESS", lastAccess)
+            if (lastAccess){
+                console.log("VAMOS A BORRAR LASTACCESS". lastAccess)
+                try {
+                    client.del(lastAccess, (err, res)=>{
+                        if(err) reject(err)
+                        else console.log("BORRADO ", lastAccess)
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            else {
+                console.log("NO HABIA LAST ACCESS????????")
+            }
+            console.log("Y AHORA CREAMO UNO NUEVO")
+            await storeUserLastAccess(value, key)
             client.set(key, value, (err, res)=>{
                 console.log("Client set en setJWT")
                 if(err){ 
@@ -54,10 +73,18 @@ const setJWT = (key, value) =>{
         try {
             await checkRedis()
             client.get(key, (err, res)=>{
-                if(err) {reject(err);console.log("NO EXISTE LA CLAVE ", key, "EN REDIS. ERROR:", err)}
+                if(err) {reject(err);console.log("NO EXISTE LA CLAVE ", key, "EN REDIS.")}
                 else{
-                    resolve(res)
-                    //console.log("DATOS EN GETJWT", res)
+                    if (res && res!==null){
+                        resolve(res)
+                        console.log("DATOS EN GETJWT", res)
+                    }
+                    else {
+                        console.log("2. NO EXISTE LA CLAVE ", key, "EN REDIS.")
+                        //reject();
+                        resolve(res)
+                        
+                    }
                 }
             });
         } catch (error) {
@@ -80,6 +107,8 @@ const setJWT = (key, value) =>{
          }
      })
   }
+
+  
  
 module.exports = {
    setJWT,

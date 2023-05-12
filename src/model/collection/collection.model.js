@@ -73,7 +73,7 @@ const insertCollection = collectionObj => {
  const getCollectionById = id =>{
     return new Promise(async (resolve, reject)=>{ 
 
-        console.log("ID EN GETCOLLECTION BY ID",id)
+        //console.log("ID EN GETCOLLECTION BY ID",id)
  
         const dbConnection = await global.clientConnection
         const db = await dbConnection.useDb(mainDataBaseName)
@@ -126,7 +126,7 @@ const insertCollection = collectionObj => {
             else{
                 
                 if (page && page!==null && page!==undefined){
-                    console.log("HAY PAGE!!!!");
+                    //console.log("HAY PAGE!!!!");
                     
                     var newData = [];
                    //const start = (page-1)*20;
@@ -136,7 +136,7 @@ const insertCollection = collectionObj => {
                        end=0;
                    }
    
-                   console.log("START AND END",start, end);
+                   //console.log("START AND END",start, end);
                    for (let i = start; i >= end; i--) {
                        const stats = await extractContentStats(data[i])
                        const toPush = {
@@ -212,7 +212,7 @@ const insertCollection = collectionObj => {
             newTerms = replaceUnderscoresWithSpaces(terms)
             //newTerms = includeAccentsInRegx(newTerms);
             const regx = new RegExp(terms, 'i');
-            console.log(regx)
+            //console.log(regx)
             searchString = {
                $or: [
                     {title: regx},
@@ -225,14 +225,14 @@ const insertCollection = collectionObj => {
         }
  
         try{
-            console.log("SEARCH STRING", searchString)
+            //console.log("SEARCH STRING", searchString)
             Collection.find(searchString, async (error, data)=>{
             if(error){
                 console.log(error);
                 reject(error);
             }
             else{
-                console.log("Data Length",data.length, page);
+               // console.log("Data Length",data.length, page);
                 var newData = [];
                 //const start = (page-1)*20;
                 const start = data.length-1 - ((page -1)*20)
@@ -241,7 +241,7 @@ const insertCollection = collectionObj => {
                     end=0;
                 }
 
-                console.log("START END",start, end);
+                //console.log("START END",start, end);
                 for (let i = start; i >= end; i--) {
                     const stats = await extractContentStats(data[i])
                     const toPush = {
@@ -270,7 +270,7 @@ const insertCollection = collectionObj => {
         const db = await dbConnection.useDb(mainDataBaseName)
         const Collection = await db.model("collection",CollectionScheme)
  
-        console.log(collectionId, contentId, userId);
+        //console.log(collectionId, contentId, userId);
         try {
             const doc = await Collection.findById(collectionId);
             for (let i = 0; i < doc.content.length; i++) {
@@ -305,7 +305,7 @@ const insertCollection = collectionObj => {
         const db = await dbConnection.useDb(mainDataBaseName)
         const Collection = await db.model("collection",CollectionScheme)
  
-        console.log(collectionId, contentId, userId);
+        //console.log(collectionId, contentId, userId);
         try {
             const doc = await Collection.findById(collectionId);
             for (let i = 0; i < doc.content.length; i++) {
@@ -343,11 +343,11 @@ const insertCollection = collectionObj => {
                 reject(error);
             }
             else{
-                console.log("DATA EN GETCOLLECTIONVALORATION",data);
+                //console.log("DATA EN GETCOLLECTIONVALORATION",data);
                 const val= data.valorations;
                 for (let index = 0; index < val.length; index++) {
                     if (val[index].senderId===userId){
-                        console.log(val[index])
+                        //console.log(val[index])
                         resolve(val[index])
                     }
                     
@@ -392,7 +392,7 @@ const insertCollection = collectionObj => {
             }
             else{
                 await addKarma(valObj.senderId, process.env.KARMA_FOR_COLLECTION_VALORATION)
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
             }

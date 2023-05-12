@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration, getIdByEmail, setAllVerifiedTrue, setBoss, setInFavorites, getFavorites, fixAllFavorites } = require("../model/user/user.model");
+const { insertUser, getUserbyEmail, getUserbyId, updatePassword, storeUserRefreshJWT, verifyUser, updateUser, checkUser, getUserbyUserName, searchUsers, insertUserValoration, updateUserValoration, checkEmail, getAllUsers, acceptRejectUserValoration, getIdByEmail, setAllVerifiedTrue, setBoss, setInFavorites, getFavorites, fixAllFavorites, getConnectedUsers } = require("../model/user/user.model");
 const { hashPassword, comparePassword} = require("../helpers/bcrypt.helpers")
 const { createAccessJWT, createRefreshJWT, decodeGoogleJWT}= require("../helpers/jwt.helpers")
 const { userAuthorization} = require("../middleware/authorization.middleware");
@@ -125,7 +125,7 @@ router.patch("/", async(req, res)=>{
         const randomUrl = randomCrypto()
         const verificationLink = verificationURL + "/" + randomUrl + "/" + email
         const _id = await getIdByEmail (email)
-        console.log("ID SACADO DE GEIDBYEMAIL",_id);
+        //console.log("ID SACADO DE GEIDBYEMAIL",_id);
         const newData = 
         {
             verificationLink: verificationLink,
@@ -163,7 +163,7 @@ router.post("/login", async (req,res) =>{
     //get user with email from db
     try {
         const user = await getUserbyEmail(email);
-        console.log("LOGIN POST: GET USER BY EMAIL: ", user);
+        //console.log("LOGIN POST: GET USER BY EMAIL: ", user);
 
         if (!user.isVerified)
             return res.json({status: "Not Verified", message: "Waiting for user to validate email address"
@@ -176,16 +176,16 @@ router.post("/login", async (req,res) =>{
         });
       
         const result = await comparePassword(password, passFromDb);
-        console.log("COMPARE PASSWORD", result);
+        //console.log("COMPARE PASSWORD", result);
        
         if (!result) {
             return res.json({status: "error", message: "Incorrect Password"});
         }
         const accessJWT = await createAccessJWT(user.email, `${user._id}`)
-        console.log("CREANDO ACCESSJWT DESDE LOGIN", accessJWT)
+        //console.log("CREANDO ACCESSJWT DESDE LOGIN", accessJWT)
         const refreshJWT = await createRefreshJWT(user.email, `${user._id}`);
         await addKarma(user._id, process.env.KARMA_FOR_LOGIN)
-        console.log("KARMA ADDED, ready to send json");
+        //console.log("KARMA ADDED, ready to send json");
 
         return res.json({
             status:"success",
@@ -227,7 +227,7 @@ router.post("/google-registration", async (req, res)=>{
                 
             }
             const result = await insertUser(newUserObj);
-            console.log("Insert User Result",result);
+            //console.log("Insert User Result",result);
             res.json({status: "success", message: "New user created from Google Accounts", result});
         }
         
@@ -326,7 +326,7 @@ router.patch("/reset-password", async (req, res)=>{
   
         //3- encrypt new password
         const hashedPass = await hashPassword(newPassword);
-        console.log( newPassword, + " "+ hashedPass);
+        //console.log( newPassword, + " "+ hashedPass);
         //4- update password in DB
         const user = await updatePassword(email,hashedPass);
         if (user._id) {
@@ -347,7 +347,7 @@ router.patch("/reset-password", async (req, res)=>{
     const {email, newPassword} = req.body;
     
     const hashedPass = await hashPassword(newPassword);
-    console.log( newPassword, + " "+ hashedPass);
+    //console.log( newPassword, + " "+ hashedPass);
     const user = await updatePassword(email,hashedPass);
     if (user._id) {
         return res.json({status: "success", message:"Your password has been updated. You can log-in now"})
@@ -379,7 +379,7 @@ router.patch("/verify", async(req,res)=>{
     try {
         randomURL = req.body.randomUrl;
         email = req.body.email;
-        console.log("VERIFING", randomURL, email)
+        //console.log("VERIFING", randomURL, email)
         //update user database
         const result =  await verifyUser(randomURL,email);
         if (!result){
@@ -402,7 +402,7 @@ router.get("/checkUser", async(req, res)=>{
         try {
             //console.log(req.query.email);
             const email = await checkEmail(req.query.email);
-            console.log("Email en check",email)
+            //console.log("Email en check",email)
             if (email && email.status!=="error"){
                 //console.log("EMAIL ", req.query.email, " exists")
                 return res.json({status: "success", message: "exists"})
@@ -545,9 +545,9 @@ router.patch("/valoration", async(req, res)=>{
 })
 
 router.patch("/valorationMod", async(req,res)=>{
-    console.log("VALORATION MOD")
+    //console.log("VALORATION MOD")
     const {accepted, rejected, user_id, val_id}= req.body;
-    console.log(req.body);
+    //console.log(req.body);
     try {
         const result = await acceptRejectUserValoration(accepted, rejected, user_id, val_id);
         //console.log ("RESULT EN ROUTER",result)
@@ -633,10 +633,10 @@ router.patch("/favorites", async(req, res)=>{
 
 router.get("/favorites", async(req, res)=>{
     const {userid} = req.query;
-    console.log("USER ID EN GETFAVS", userid, typeof(userid))
+    //console.log("USER ID EN GETFAVS", userid, typeof(userid))
     try {
        await getFavorites(userid).then((result)=>{
-        console.log("RESULT EN GET FAVS", result)
+        //console.log("RESULT EN GET FAVS", result)
         if (result){
             
             res.json ({status:"success", data: result});
@@ -673,6 +673,18 @@ router.post("/favoritesfix", async(req, res)=>{
     }
 })
 
+router.get("/connected", userAuthorization, async(req, res)=>{
+    const _id = req.userId; // Comes from middleware userAuthorization
+    if (_id){
+        try {
+            const users =  await getConnectedUsers();
+            res.json ({status:"success", users})
+            
+        } catch (error) {
+            res.json({status: "error",error})
+        }
+    }
+})
 
 
 module.exports = router;

@@ -51,8 +51,35 @@ const insertUser = userObj => {
 
         if((!userId)) return false;
         try{
-            console.log("TRYING")
+            //console.log("TRYING")
             User.findOne({"_id": userId}, async (error, data)=>{
+            if(error){
+                console.log ("ERROR EN FIND ONE de GetUserById", error)
+                reject(error);
+            }
+            const alerts = await getAlerts(data);
+            const user = {...data, alerts}
+            resolve(user)
+            }
+        ).clone().lean();
+        } catch (error) {
+            reject(error);
+        }
+    });
+ };
+
+ const getUserbyRefreshJWT = jwt =>{
+    console.log("GET USER BY REFRESH ", jwt)
+    return new Promise(async (resolve,reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        if((!jwt)) return false;
+        try{
+            //console.log("TRYING")
+            User.findOne({"refreshJWT.token": jwt}, async (error, data)=>{
             if(error){
                 reject(error);
             }
@@ -66,6 +93,7 @@ const insertUser = userObj => {
         }
     });
  };
+
 
 const getAlerts = user =>{
     return new Promise(async (resolve, reject)=>{
@@ -97,7 +125,7 @@ const getAlerts = user =>{
         var messagesUnreaded = 0;
         try {
             const conversations = await getConversationByUserId(user._id);
-            console.log("CONVERSATIONS in GETALERTS");
+            //console.log("CONVERSATIONS in GETALERTS");
             for (let convers = 0; convers < conversations.length; convers++) {
                 messagesUnreaded+= getUnreadMessageNumber(conversations[convers], user._id)
                 
@@ -123,7 +151,7 @@ const getAlerts = user =>{
 };
 
 const getUserbyUserName = username =>{
-    console.log("GET USER BY USERNAME ", username)
+    //console.log("GET USER BY USERNAME ", username)
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -175,7 +203,7 @@ const getIdByEmail = email =>{
 
 const storeUserRefreshJWT = (_id, token) => {
 
-    console.log("ID y TOKEN EN STORE REFRESH EN MONGO",_id, token);
+    //console.log("ID y TOKEN EN STORE REFRESH EN MONGO",_id, token);
     return new Promise(async (resolve, reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -199,6 +227,62 @@ const storeUserRefreshJWT = (_id, token) => {
         }
     })
 }
+
+const storeUserLastAccess = (_id, token)=>{
+    return new Promise(async (resolve, reject)=>{
+
+        const dbConnection = await global.clientConnection
+        const db = await dbConnection.useDb(mainDataBaseName)
+        const User = await db.model("user",UserScheme)
+
+        try {
+            User.findOneAndUpdate(
+                {_id},
+                {$set: {"access.token": token, "access.addedAt": Date.now()}},
+                {new: true}, (error, data) =>{
+                    if(error){
+                        reject(error);
+                    }
+                    resolve(data.access.token);
+                    //console.log(data);
+                    }
+            ).clone();
+        } catch (error) {
+            reject(error);       
+        }
+    })
+}
+
+const getUserLastAccess = (_id) =>{
+    console.log("GET USER LAST ACCESS ", _id)
+    return new Promise(async (resolve,reject)=>{
+
+        if((!_id)) return false;
+        try{
+            //console.log("TRYING")
+            const theUser = await getUserbyId(_id);
+            if (!theUser || theUser===undefined) 
+                { reject();}
+            else {
+                console.log("THE USER", theUser.access)
+                // if(error){
+                //     console.log("ERROR IN GETUSERLASTACCESS-GETUSERBYID", error)
+                //     reject(error);
+                // }
+                if (theUser.access && theUser.access.token){
+                    console.log("THE USER LAST ACCESS TOKEN", theUser.access.token)
+                    resolve(theUser.access.token)
+                }else {
+                    console.log("NOT FOUND USER LAST ACCESS TOKEN")
+                    resolve("");
+                }
+            }
+            
+       } catch (error) {
+            reject(error);
+       }
+    });
+}
  
 const updatePassword = (email, newHashedPass) =>{
     return new Promise(async (resolve,reject)=>{
@@ -216,7 +300,7 @@ const updatePassword = (email, newHashedPass) =>{
                         reject(error);
                     }
                     resolve(data);
-                    console.log(data);
+                    //console.log(data);
                     }
             ).clone();
         } catch (error) {
@@ -267,7 +351,7 @@ const updateUser = (_id, userObj) =>{
                         reject(error);
                     }
                     resolve(data);
-                    console.log("DATA EN UPDATE USER",data);
+                   //console.log("DATA EN UPDATE USER",data);
                     }
             ).clone();
         } catch (error) {
@@ -440,7 +524,7 @@ const updateUser = (_id, userObj) =>{
                 reject(error);
             }
             else{
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
             }
@@ -453,7 +537,7 @@ const updateUser = (_id, userObj) =>{
  }
 
  const acceptRejectUserValoration =(accepted, rejected, user_id, val_id)=>{
-    console.log("ACCEPT REJECT")
+    //console.log("ACCEPT REJECT")
     return new Promise(async (resolve,reject)=>{
 
         const dbConnection = await global.clientConnection
@@ -462,7 +546,7 @@ const updateUser = (_id, userObj) =>{
 
         if((!user_id) || !val_id) return false;
        
-        console.log(user_id);
+        //console.log(user_id);
         //try{
             
             const usor = await User.findById(user_id);
@@ -470,14 +554,14 @@ const updateUser = (_id, userObj) =>{
             if (!usor) reject({"status":"error", "message":"No user found"})
 
             var valorations = [... usor.valorations]
-            console.log("VALORACIONES DEL USUARIO",valorations)
+            //console.log("VALORACIONES DEL USUARIO",valorations)
 
             for (let val = 0; val < valorations.length; val++) {
-                console.log(valorations[val]._id.toString(), val_id)
+                //console.log(valorations[val]._id.toString(), val_id)
                 if (valorations[val]._id.toString()===val_id){
                     valorations[val].accepted = accepted,
                     valorations[val].rejected = rejected
-                    console.log("VALORACIONES CAMBIADAS",valorations[val])
+                    //console.log("VALORACIONES CAMBIADAS",valorations[val])
                     
                     usor.valorations = valorations
                     usor.save().then((newData)=>{
@@ -765,7 +849,7 @@ const setInFavorites = (userid, edusourceid, value) =>{
         const user = await getUserbyId(userid);
         //console.log("Tenemos user y favs", user.favorites,)
         if (user.favorites && user.favorites.includes(edusourceid) && !value){
-            console.log("INCLUYE EL FAV")
+            //console.log("INCLUYE EL FAV")
             const index = user.favorites.indexOf(edusourceid);
             if (index > -1){
                 user.favorites.splice(index,1);
@@ -773,9 +857,9 @@ const setInFavorites = (userid, edusourceid, value) =>{
         }
 
         if (user.favorites && (!user.favorites.includes(edusourceid) && value)){
-            console.log("NO INCLUYE EL FAV Y ES TRUE")
+            //console.log("NO INCLUYE EL FAV Y ES TRUE")
             user.favorites.push(edusourceid)
-            console.log(user.favorites)
+            //console.log(user.favorites)
         }
 
         if (!user.favorites) {
@@ -786,10 +870,10 @@ const setInFavorites = (userid, edusourceid, value) =>{
             const favorites = {
                 "favorites": user.favorites
             }
-            console.log("USER ID:", userid," FAVORITOS:", favorites)
+            //console.log("USER ID:", userid," FAVORITOS:", favorites)
             User.findByIdAndUpdate(userid, favorites, (error, data)=>{
                 if (data) {
-                    console.log("ESTO ES DATA", data)
+                    //console.log("ESTO ES DATA", data)
                     resolve(data)
                 }
                 else {
@@ -832,6 +916,27 @@ const getFavorites = userid =>{
         }
     })
 }
+
+
+const getConnectedUsers = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const dbConnection = await global.clientConnection;
+        const db = await dbConnection.useDb(mainDataBaseName);
+        const User = await db.model("user", UserScheme);
+  
+        const minutesConnected = 60;
+        const referenceDate = new Date(Date.now() - 60000 * minutesConnected);
+        const users = await User.find({
+          "access.addedAt": { $gte: referenceDate },
+        }).exec();
+        console.log("USERS EN GET CONNECTED", users)
+        resolve(users);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  };
  
  
 module.exports = {
@@ -840,6 +945,9 @@ module.exports = {
    getUserbyId,
    getUserbyUserName,
    storeUserRefreshJWT,
+   getUserbyRefreshJWT,
+   storeUserLastAccess,
+   getUserLastAccess,
    updatePassword,
    verifyUser,
    updateUser,
@@ -856,5 +964,6 @@ module.exports = {
    setBoss,
    setInFavorites,
    getFavorites,
-   fixAllFavorites
+   fixAllFavorites,
+   getConnectedUsers
 };
